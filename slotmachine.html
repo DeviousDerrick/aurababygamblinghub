@@ -1,1 +1,1119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aurababy Casino Empire</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --purple-deep: #1a0d2e;
+        --purple-mid: #2d1b4e;
+        --purple-bright: #7b2cbf;
+        --blue-bright: #00b4d8;
+        --pink-neon: #f72585;
+        --gold-bright: #ffd700;
+        --white: #ffffff;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html, body {
+        height: 100%;
+        font-family: "Poppins", sans-serif;
+        font-weight: 800;
+        color: var(--white);
+        overflow-x: hidden;
+      }
+
+      body {
+        background: linear-gradient(125deg, #1a0d2e 0%, #2d1b4e 25%, #3e1f5c 50%, #2d1b4e 75%, #1a0d2e 100%);
+        background-size: 400% 400%;
+        animation: gradientFlow 20s ease infinite;
+        position: relative;
+        padding: 20px;
+      }
+
+      @keyframes gradientFlow {
+        0%, 100% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+      }
+
+      .orb {
+        position: fixed;
+        border-radius: 50%;
+        filter: blur(80px);
+        opacity: 0.3;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      .orb1 {
+        width: 500px;
+        height: 500px;
+        background: var(--purple-bright);
+        top: -250px;
+        left: -250px;
+        animation: float 25s ease-in-out infinite;
+      }
+
+      .orb2 {
+        width: 400px;
+        height: 400px;
+        background: var(--blue-bright);
+        bottom: -200px;
+        right: -200px;
+        animation: float 30s ease-in-out infinite reverse;
+      }
+
+      .orb3 {
+        width: 350px;
+        height: 350px;
+        background: var(--pink-neon);
+        top: 50%;
+        left: 50%;
+        animation: float 35s ease-in-out infinite;
+      }
+
+      @keyframes float {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        33% { transform: translate(100px, -100px) scale(1.1); }
+        66% { transform: translate(-100px, 100px) scale(0.9); }
+      }
+
+      .container {
+        position: relative;
+        z-index: 1;
+        max-width: 1600px;
+        margin: 0 auto;
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      .main-title {
+        font-size: 2.5em;
+        background: linear-gradient(135deg, var(--gold-bright), var(--pink-neon), var(--blue-bright));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: titleGlow 3s ease-in-out infinite;
+        letter-spacing: 3px;
+        margin-bottom: 15px;
+      }
+
+      @keyframes titleGlow {
+        0%, 100% { filter: drop-shadow(0 0 20px rgba(255,215,0,0.8)); }
+        50% { filter: drop-shadow(0 0 40px rgba(247,37,133,0.8)); }
+      }
+
+      .stats-row {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        flex-wrap: wrap;
+      }
+
+      .stat-display {
+        font-size: 1.5em;
+        padding: 10px 20px;
+        background: rgba(255,255,255,0.05);
+        border: 2px solid rgba(255,255,255,0.2);
+        border-radius: 12px;
+      }
+
+      .money-header {
+        color: var(--gold-bright);
+        text-shadow: 0 0 20px rgba(255,215,0,0.8);
+      }
+
+      .profit-display {
+        color: var(--white);
+      }
+
+      .profit-display.positive {
+        color: #00ff00;
+        text-shadow: 0 0 20px rgba(0,255,0,0.8);
+      }
+
+      .profit-display.negative {
+        color: #ff4444;
+        text-shadow: 0 0 20px rgba(255,68,68,0.8);
+      }
+
+      .main-content {
+        display: grid;
+        grid-template-columns: 1fr 400px;
+        gap: 30px;
+        margin-bottom: 30px;
+      }
+
+      /* Slot Machines Grid */
+      .machines-container {
+        background: rgba(255,255,255,0.05);
+        backdrop-filter: blur(20px);
+        border: 2px solid rgba(255,255,255,0.1);
+        border-radius: 28px;
+        padding: 30px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      }
+
+      .machines-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .machines-title {
+        font-size: 1.5em;
+        background: linear-gradient(135deg, var(--white), var(--blue-bright));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .spin-all-btn {
+        padding: 10px 20px;
+        font-size: 1em;
+        font-family: "Poppins", sans-serif;
+        font-weight: 800;
+        background: linear-gradient(135deg, var(--purple-bright), var(--pink-neon));
+        color: var(--white);
+        border: 2px solid rgba(255,255,255,0.3);
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .spin-all-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 20px rgba(247,37,133,0.6);
+      }
+
+      .machines-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 20px;
+      }
+
+      .slot-machine {
+        background: rgba(255,255,255,0.05);
+        border: 2px solid rgba(255,255,255,0.15);
+        border-radius: 20px;
+        padding: 20px;
+        position: relative;
+        transition: all 0.3s ease;
+      }
+
+      .slot-machine:hover {
+        border-color: rgba(255,255,255,0.3);
+        box-shadow: 0 0 20px rgba(123,44,191,0.4);
+      }
+
+      .slot-machine.empty {
+        opacity: 0.3;
+        border-style: dashed;
+      }
+
+      .machine-title {
+        font-size: 0.9em;
+        text-align: center;
+        margin-bottom: 15px;
+        color: var(--gold-bright);
+      }
+
+      .screen {
+        background: rgba(0,0,0,0.4);
+        border: 2px solid rgba(255,255,255,0.2);
+        border-radius: 12px;
+        padding: 15px 10px;
+        margin-bottom: 15px;
+      }
+
+      .reels {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .reel {
+        width: 60px;
+        height: 60px;
+        background: rgba(255,255,255,0.05);
+        border: 2px solid rgba(255,255,255,0.2);
+        border-radius: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 2em;
+      }
+
+      .reel.animate {
+        animation: reelSpin 0.3s ease;
+        border-color: var(--pink-neon);
+      }
+
+      @keyframes reelSpin {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+      }
+
+      .machine-controls {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 10px;
+      }
+
+      .machine-controls input {
+        flex: 1;
+        padding: 8px;
+        font-size: 0.9em;
+        font-family: "Poppins", sans-serif;
+        font-weight: 800;
+        background: rgba(255,255,255,0.1);
+        border: 2px solid rgba(255,255,255,0.2);
+        border-radius: 8px;
+        color: var(--white);
+        text-align: center;
+      }
+
+      .machine-controls button {
+        flex: 1;
+        padding: 8px;
+        font-size: 0.9em;
+        font-family: "Poppins", sans-serif;
+        font-weight: 800;
+        background: linear-gradient(135deg, var(--purple-bright), var(--pink-neon));
+        color: var(--white);
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .machine-controls button:hover {
+        transform: scale(1.05);
+      }
+
+      .remove-btn {
+        width: 100%;
+        padding: 6px;
+        font-size: 0.8em;
+        font-family: "Poppins", sans-serif;
+        font-weight: 800;
+        background: rgba(255,0,0,0.3);
+        color: var(--white);
+        border: 2px solid rgba(255,0,0,0.5);
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .remove-btn:hover {
+        background: rgba(255,0,0,0.5);
+      }
+
+      .machine-message {
+        text-align: center;
+        font-size: 0.85em;
+        min-height: 20px;
+      }
+
+      .msg-win {
+        color: var(--gold-bright);
+        text-shadow: 0 0 10px rgba(255,215,0,0.8);
+      }
+
+      .msg-lose {
+        color: var(--pink-neon);
+      }
+
+      /* Sidebar */
+      .sidebar {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .panel {
+        background: rgba(255,255,255,0.05);
+        backdrop-filter: blur(20px);
+        border: 2px solid rgba(255,255,255,0.1);
+        border-radius: 20px;
+        padding: 20px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      }
+
+      .panel-title {
+        font-size: 1.3em;
+        text-align: center;
+        margin-bottom: 15px;
+        background: linear-gradient(135deg, var(--blue-bright), var(--pink-neon));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      /* Auto Clicker */
+      .auto-clicker-panel {
+        text-align: center;
+      }
+
+      .auto-status {
+        font-size: 1.1em;
+        margin-bottom: 15px;
+        color: var(--gold-bright);
+      }
+
+      .auto-status.active {
+        animation: pulse 2s ease-in-out infinite;
+      }
+
+      @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.6; }
+      }
+
+      .buy-auto-btn, .toggle-auto-btn {
+        width: 100%;
+        padding: 12px;
+        font-size: 1em;
+        font-family: "Poppins", sans-serif;
+        font-weight: 800;
+        background: linear-gradient(135deg, var(--gold-bright), #ff8c00);
+        color: var(--purple-deep);
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+      }
+
+      .buy-auto-btn:hover, .toggle-auto-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 20px rgba(255,215,0,0.6);
+      }
+
+      .buy-auto-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .toggle-auto-btn.active {
+        background: linear-gradient(135deg, #00ff00, #00cc00);
+      }
+
+      /* Inventory */
+      .inventory-list {
+        max-height: 300px;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .inventory-list::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      .inventory-list::-webkit-scrollbar-track {
+        background: rgba(255,255,255,0.05);
+        border-radius: 10px;
+      }
+
+      .inventory-list::-webkit-scrollbar-thumb {
+        background: linear-gradient(135deg, var(--purple-bright), var(--pink-neon));
+        border-radius: 10px;
+      }
+
+      .inventory-item {
+        background: rgba(255,255,255,0.05);
+        border: 2px solid rgba(255,255,255,0.15);
+        border-radius: 12px;
+        padding: 12px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        transition: all 0.3s ease;
+      }
+
+      .inventory-item:hover {
+        background: rgba(255,255,255,0.1);
+        border-color: rgba(255,255,255,0.3);
+      }
+
+      .inventory-emoji {
+        font-size: 2em;
+      }
+
+      .inventory-info {
+        flex: 1;
+        font-size: 0.85em;
+      }
+
+      .inventory-name {
+        color: var(--gold-bright);
+        margin-bottom: 3px;
+      }
+
+      .inventory-count {
+        opacity: 0.8;
+        font-size: 0.9em;
+      }
+
+      .use-inventory-btn {
+        padding: 6px 12px;
+        font-size: 0.8em;
+        font-family: "Poppins", sans-serif;
+        font-weight: 800;
+        background: linear-gradient(135deg, var(--blue-bright), var(--purple-bright));
+        color: var(--white);
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .use-inventory-btn:hover {
+        transform: scale(1.05);
+      }
+
+      .use-inventory-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      /* Shop */
+      .shop-panel {
+        max-height: 500px;
+        overflow-y: auto;
+      }
+
+      .shop-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .shop-item {
+        background: rgba(255,255,255,0.05);
+        border: 2px solid rgba(255,255,255,0.15);
+        border-radius: 12px;
+        padding: 15px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        transition: all 0.3s ease;
+      }
+
+      .shop-item:hover {
+        background: rgba(255,255,255,0.1);
+        border-color: rgba(255,255,255,0.3);
+      }
+
+      .shop-item.ultimate {
+        border: 3px solid var(--gold-bright);
+        background: linear-gradient(135deg, rgba(255,215,0,0.15), rgba(255,140,0,0.15));
+        box-shadow: 0 0 30px rgba(255,215,0,0.4);
+        animation: ultimateGlow 2s ease-in-out infinite;
+      }
+
+      @keyframes ultimateGlow {
+        0%, 100% { box-shadow: 0 0 30px rgba(255,215,0,0.4); }
+        50% { box-shadow: 0 0 50px rgba(255,215,0,0.8); }
+      }
+
+      .shop-emoji {
+        font-size: 2.5em;
+      }
+
+      .shop-info {
+        flex: 1;
+        font-size: 0.85em;
+      }
+
+      .shop-name {
+        color: var(--gold-bright);
+        margin-bottom: 5px;
+      }
+
+      .shop-stats {
+        opacity: 0.8;
+        font-size: 0.9em;
+        margin-bottom: 5px;
+      }
+
+      .shop-price {
+        color: var(--blue-bright);
+      }
+
+      .buy-shop-btn {
+        padding: 8px 16px;
+        font-size: 0.9em;
+        font-family: "Poppins", sans-serif;
+        font-weight: 800;
+        background: linear-gradient(135deg, var(--blue-bright), var(--purple-bright));
+        color: var(--white);
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .buy-shop-btn:hover {
+        transform: scale(1.05);
+      }
+
+      .buy-shop-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .code-reveal {
+        margin-top: 10px;
+        padding: 12px;
+        background: rgba(0,255,0,0.2);
+        border: 2px solid #00ff00;
+        border-radius: 8px;
+        font-size: 1em;
+        color: #00ff00;
+        text-shadow: 0 0 10px #00ff00;
+        animation: codeGlow 1s ease-in-out infinite;
+      }
+
+      @keyframes codeGlow {
+        0%, 100% { box-shadow: 0 0 10px rgba(0,255,0,0.5); }
+        50% { box-shadow: 0 0 20px rgba(0,255,0,0.8); }
+      }
+
+      @media (max-width: 1200px) {
+        .main-content {
+          grid-template-columns: 1fr;
+        }
+
+        .machines-grid {
+          grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        }
+      }
+
+      @media (max-width: 768px) {
+        .machines-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .main-title {
+          font-size: 1.8em;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+
+    <div class="container">
+      <div class="header">
+        <div class="main-title">🎰 AURABABY CASINO EMPIRE 🎰</div>
+        <div class="stats-row">
+          <div class="stat-display money-header">
+            💰 $<span id="money">1000</span>
+          </div>
+          <div class="stat-display profit-display" id="profitDisplay">
+            📊 $0
+          </div>
+        </div>
+      </div>
+
+      <div class="main-content">
+        <div class="machines-container">
+          <div class="machines-header">
+            <div class="machines-title">🎲 ACTIVE MACHINES 🎲</div>
+            <button class="spin-all-btn" id="spinAllBtn">SPIN ALL</button>
+          </div>
+          <div class="machines-grid" id="machinesGrid"></div>
+        </div>
+
+        <div class="sidebar">
+          <div class="panel auto-clicker-panel">
+            <div class="panel-title">⚡ AUTO CLICKER ⚡</div>
+            <div class="auto-status" id="autoStatus">LOCKED</div>
+            <div id="autoControls"></div>
+            <div class="panel">
+              <div class="panel-title">📊 GAME STATS 📊</div>
+              <div id="statsPanel">
+                <div>Spins Played: <span id="spinsPlayed">0</span></div>
+                <div>Wins: <span id="winsCount">0</span></div>
+                <div>Losses: <span id="lossesCount">0</span></div>
+                <div>Highest Win: $<span id="highestWin">0</span></div>
+              </div>
+              <button class="buy-auto-btn" id="resetBtn">RESET GAME</button>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-title">🎒 INVENTORY 🎒</div>
+            <div class="inventory-list" id="inventoryList"></div>
+          </div>
+
+          <div class="panel shop-panel">
+            <div class="panel-title">🏪 SHOP 🛒</div>
+            <div class="shop-grid" id="shopGrid"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let money = 1000;
+      let totalProfit = 0; // Track total profit/loss
+      let autoClickerOwned = false;
+      let autoClickerActive = false;
+      let autoClickerInterval = null;
+      let ultimateCodeRevealed = false;
+      let spinsPlayed = 0;
+      let winsCount = 0;
+      let lossesCount = 0;
+      let highestWin = 0;
+      let spinAllUnlocked = false;
+
+
+      const activeMachines = Array(8).fill(null);
+      const inventory = {};
+      const betValues = {};
+      const machineDefinitions = {
+        basic: { name: 'Lucky 7 Slots', emoji: '🎰', symbols: ['🍒', '🍋', '🔔', '⭐', '💎', '7️⃣', '🍀'], jackpot: 10, double: 2, price: 500 },
+        cherry: { name: 'Cherry Blast', emoji: '🍒', symbols: ['🍒', '🍒', '🍓', '🍉', '🍎', '🌸', '❤️'], jackpot: 12, double: 2.5, price: 2500 },
+        ocean: { name: 'Ocean Fortune', emoji: '🌊', symbols: ['🌊', '🐠', '🐚', '🦈', '🐙', '⚓', '💙'], jackpot: 15, double: 3, price: 5000 },
+        diamond: { name: 'Diamond Deluxe', emoji: '💎', symbols: ['💎', '💎', '💎', '⭐', '👑', '💰', '🎯'], jackpot: 18, double: 3.5, price: 10000 },
+        fire: { name: 'Inferno Riches', emoji: '🔥', symbols: ['🔥', '🌋', '💥', '⚡', '☄️', '🎆', '🧨'], jackpot: 20, double: 4, price: 15000 },
+        royal: { name: 'Royal Fortune', emoji: '👑', symbols: ['👑', '🏆', '💰', '🎁', '⚡', '🌟', '💵'], jackpot: 22, double: 4.5, price: 25000 },
+        magic: { name: 'Mystic Magic', emoji: '🔮', symbols: ['🔮', '✨', '🪄', '🌙', '⭐', '🎭', '🦄'], jackpot: 25, double: 5, price: 35000 },
+        neon: { name: 'Neon Nights', emoji: '💜', symbols: ['💜', '💙', '💗', '🌈', '✨', '💫', '🎨'], jackpot: 28, double: 5.5, price: 50000 },
+        cosmic: { name: 'Cosmic Jackpot', emoji: '🌌', symbols: ['🌌', '🚀', '🌟', '🪐', '⭐', '💫', '🌠'], jackpot: 30, double: 6, price: 75000 },
+        dragon: { name: 'Dragon Wealth', emoji: '🐉', symbols: ['🐉', '🔥', '💰', '🏮', '⚡', '👑', '🎆'], jackpot: 35, double: 7, price: 100000 },
+        pirate: { name: 'Pirate Treasure', emoji: '🏴‍☠️', symbols: ['🏴‍☠️', '💰', '⚓', '🗡️', '💎', '🏴', '⛵'], jackpot: 40, double: 8, price: 150000 },
+        pharaoh: { name: 'Pharaoh Gold', emoji: '🔱', symbols: ['🔱', '👑', '💰', '🏺', '💎', '🌟', '🏛️'], jackpot: 45, double: 9, price: 200000 },
+        alien: { name: 'Alien Invasion', emoji: '👽', symbols: ['👽', '🛸', '🌌', '💫', '⚡', '🔮', '🚀'], jackpot: 50, double: 10, price: 300000 },
+        cyber: { name: 'Cyber Nexus', emoji: '🤖', symbols: ['🤖', '💻', '⚡', '🔌', '💾', '🎮', '📡'], jackpot: 60, double: 12, price: 500000 },
+        unicorn: { name: 'Unicorn Dreams', emoji: '🦄', symbols: ['🦄', '🌈', '✨', '💖', '⭐', '🎀', '💫'], jackpot: 70, double: 14, price: 750000 },
+        time: { name: 'Time Traveler', emoji: '⏰', symbols: ['⏰', '⌛', '🔮', '⚡', '🌀', '💫', '🔄'], jackpot: 80, double: 16, price: 1000000 },
+        phoenix: { name: 'Phoenix Rising', emoji: '🔥', symbols: ['🔥', '🦅', '👑', '💎', '⚡', '✨', '🌟'], jackpot: 100, double: 20, price: 2000000 },
+        galaxy: { name: 'Galaxy Emperor', emoji: '🌠', symbols: ['🌠', '👑', '🌌', '💫', '⭐', '🔮', '💎'], jackpot: 150, double: 30, price: 5000000 },
+        quantum: { name: 'Quantum Realm', emoji: '⚛️', symbols: ['⚛️', '💫', '⚡', '🔮', '💎', '🌌', '✨'], jackpot: 200, double: 40, price: 10000000 },
+        infinity: { name: 'Infinity Machine', emoji: '♾️', symbols: ['♾️', '💎', '👑', '⭐', '🌟', '✨', '💫'], jackpot: 500, double: 100, price: 50000000 }
+      };
+
+      function formatMoney(num) {
+        if (num >= 1000000000) return (num / 1000000000).toFixed(1) + 'B';
+        if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+        if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+        return num.toString();
+      }
+
+      function updateMoney() {
+        document.getElementById('money').textContent = formatMoney(money);
+        updateProfitDisplay();
+        renderAll();
+      }
+
+      function updateProfitDisplay() {
+        const profitEl = document.getElementById('profitDisplay');
+        const sign = totalProfit >= 0 ? '+' : '';
+        profitEl.textContent = `📊 ${sign}$${formatMoney(Math.abs(totalProfit))}`;
+
+        if (totalProfit > 0) {
+          profitEl.className = 'stat-display profit-display positive';
+        } else if (totalProfit < 0) {
+          profitEl.className = 'stat-display profit-display negative';
+        } else {
+          profitEl.className = 'stat-display profit-display';
+        }
+      }
+
+      function renderMachines() {
+        const grid = document.getElementById('machinesGrid');
+        grid.innerHTML = '';
+
+        activeMachines.forEach((machineKey, index) => {
+          const div = document.createElement('div');
+          div.className = machineKey ? 'slot-machine' : 'slot-machine empty';
+
+          if (machineKey) {
+            const machine = machineDefinitions[machineKey];
+            div.innerHTML = `
+              <div class="machine-title">${machine.emoji} ${machine.name}</div>
+              <div class="screen">
+                <div class="reels">
+                  <div class="reel" id="reel${index}-0">🍒</div>
+                  <div class="reel" id="reel${index}-1">🍋</div>
+                  <div class="reel" id="reel${index}-2">🔔</div>
+                </div>
+              </div>
+              <div class="machine-controls">
+              <input
+        type="number"
+        id="bet${index}"
+        min="1"
+        value="${betValues[index] ?? 10}"
+        oninput="betValues[${index}] = this.value"
+      />
+
+                <button onclick="spinMachine(${index})">SPIN</button>
+              </div>
+              <button class="remove-btn" onclick="removeMachine(${index})">REMOVE</button>
+              <div class="machine-message" id="msg${index}"></div>
+            `;
+          } else {
+            div.innerHTML = '<div class="machine-title">EMPTY SLOT</div><div style="text-align:center; opacity:0.5; padding:40px 0;">Use inventory to add machine</div>';
+          }
+
+          grid.appendChild(div);
+        });
+      }
+
+      function renderInventory() {
+        const list = document.getElementById('inventoryList');
+        list.innerHTML = '';
+
+        Object.entries(inventory).forEach(([key, count]) => {
+          if (count > 0) {
+            const machine = machineDefinitions[key];
+            const div = document.createElement('div');
+            div.className = 'inventory-item';
+            div.innerHTML = `
+              <div class="inventory-emoji">${machine.emoji}</div>
+              <div class="inventory-info">
+                <div class="inventory-name">${machine.name}</div>
+                <div class="inventory-count">x${count} | ${machine.jackpot}x jackpot</div>
+              </div>
+              <button class="use-inventory-btn" onclick="useFromInventory('${key}')" ${activeMachines.filter(m => m === null).length === 0 ? 'disabled' : ''}>USE</button>
+            `;
+            list.appendChild(div);
+          }
+        });
+
+        if (Object.values(inventory).every(v => v === 0)) {
+          list.innerHTML = '<div style="text-align:center;opacity:0.5;padding:20px;">No machines in inventory</div>';
+        }
+      }
+
+      function renderShop() {
+        const grid = document.getElementById('shopGrid');
+        grid.innerHTML = '';
+
+        // Regular machines
+        Object.entries(machineDefinitions).forEach(([key, machine]) => {
+          const div = document.createElement('div');
+          div.className = 'shop-item';
+          div.innerHTML = `
+            <div class="shop-emoji">${machine.emoji}</div>
+            <div class="shop-info">
+              <div class="shop-name">${machine.name}</div>
+              <div class="shop-stats">Jackpot: ${machine.jackpot}x | Double: ${machine.double}x</div>
+              <div class="shop-price">$${formatMoney(machine.price)}</div>
+            </div>
+            <button class="buy-shop-btn" onclick="buyMachine('${key}')" ${money < machine.price ? 'disabled' : ''}>BUY</button>
+          `;
+          grid.appendChild(div);
+        });
+
+        // Ultimate Code Revealer
+        const ultimateDiv = document.createElement('div');
+        ultimateDiv.className = 'shop-item ultimate';
+        ultimateDiv.innerHTML = `
+          <div class="shop-emoji">💎</div>
+          <div class="shop-info">
+            <div class="shop-name">🏆 ULTIMATE CODE REVEALER 🏆</div>
+            <div class="shop-stats">Reveals a 10,000 EXP code!</div>
+            <div class="shop-price">$10.0B</div>
+            ${ultimateCodeRevealed ? '<div class="code-reveal">🎉 CODE: theultimatebabygambler106</div>' : ''}
+          </div>
+          <button class="buy-shop-btn" onclick="buyUltimateCode()" ${money < 10000000000 || ultimateCodeRevealed ? 'disabled' : ''}>${ultimateCodeRevealed ? 'PURCHASED' : 'BUY'}</button>
+        `;
+        grid.appendChild(ultimateDiv);
+      }
+
+      function renderAutoClicker() {
+        const status = document.getElementById('autoStatus');
+        const controls = document.getElementById('autoControls');
+
+        if (autoClickerOwned) {
+          status.textContent = autoClickerActive ? '✅ ACTIVE' : '⏸️ PAUSED';
+          status.className = autoClickerActive ? 'auto-status active' : 'auto-status';
+          controls.innerHTML = `
+            <button class="toggle-auto-btn ${autoClickerActive ? 'active' : ''}" onclick="toggleAutoClicker()">
+              ${autoClickerActive ? 'PAUSE' : 'START'}
+            </button>
+          `;
+        } else {
+          status.textContent = '🔒 LOCKED';
+          status.className = 'auto-status';
+          controls.innerHTML = `
+            <div style="font-size:0.9em;margin-bottom:10px;">Cost: $500K</div>
+            <button class="buy-auto-btn" onclick="buyAutoClicker()" ${money < 500000 ? 'disabled' : ''}>BUY AUTO CLICKER</button>
+          `;
+        }
+      }
+
+      function renderAll() {
+        renderMachines();
+        renderInventory();
+        renderShop();
+        renderAutoClicker();
+      }
+
+      function buyMachine(key) {
+        const machine = machineDefinitions[key];
+        if (money >= machine.price) {
+          money -= machine.price;
+          inventory[key] = (inventory[key] || 0) + 1;
+          updateMoney();
+        }
+      }
+
+      function buyUltimateCode() {
+        if (money >= 10000000000 && !ultimateCodeRevealed) {
+          money -= 10000000000;
+          ultimateCodeRevealed = true;
+          updateMoney();
+        }
+      }
+
+      function useFromInventory(key) {
+        const emptyIndex = activeMachines.findIndex(m => m === null);
+        if (emptyIndex !== -1 && inventory[key] > 0) {
+          activeMachines[emptyIndex] = key;
+          inventory[key]--;
+          renderAll();
+        }
+      }
+
+      function removeMachine(index) {
+        const machineKey = activeMachines[index];
+        if (machineKey) {
+          inventory[machineKey] = (inventory[machineKey] || 0) + 1;
+          activeMachines[index] = null;
+          renderAll();
+        }
+      }
+
+      function spinMachine(index) {
+        const machineKey = activeMachines[index];
+        if (!machineKey) return;
+
+        const machine = machineDefinitions[machineKey];
+        const betInput = document.getElementById(`bet${index}`);
+        const bet = parseInt(betInput.value) || 0;
+
+        if (bet <= 0 || bet > money) return;
+
+        money -= bet;
+        totalProfit -= bet; // Track bet as loss
+        updateMoney();
+
+        const reels = [
+          document.getElementById(`reel${index}-0`),
+          document.getElementById(`reel${index}-1`),
+          document.getElementById(`reel${index}-2`)
+        ];
+
+        reels.forEach(reel => reel.classList.add('animate'));
+
+        let spins = 0;
+        const interval = setInterval(() => {
+          reels.forEach(reel => {
+            reel.textContent = machine.symbols[Math.floor(Math.random() * machine.symbols.length)];
+          });
+          spins++;
+
+          if (spins >= 10) {
+            clearInterval(interval);
+            finalizeSpin(index, machineKey, bet, reels);
+          }
+        }, 100);
+      }
+
+      function finalizeSpin(index, machineKey, bet, reels) {
+        const machine = machineDefinitions[machineKey];
+        const symbols = reels.map(r => r.textContent);
+
+        setTimeout(() => {
+          reels.forEach(reel => reel.classList.remove('animate'));
+
+          const msg = document.getElementById(`msg${index}`);
+
+          if (symbols[0] === symbols[1] && symbols[1] === symbols[2]) {
+            const win = Math.floor(bet * machine.jackpot);
+            money += win;
+            totalProfit += win; // Track win as profit
+            msg.textContent = `🎉 +$${formatMoney(win)}`;
+            msg.className = 'machine-message msg-win';
+          } else if (symbols[0] === symbols[1] || symbols[1] === symbols[2] || symbols[0] === symbols[2]) {
+            const win = Math.floor(bet * machine.double);
+            money += win;
+            totalProfit += win; // Track win as profit
+            msg.textContent = `✨ +$${formatMoney(win)}`;
+            msg.className = 'machine-message msg-win';
+          } else {
+            msg.textContent = '💫';
+            msg.className = 'machine-message msg-lose';
+          }
+
+          updateMoney();
+        }, 200);
+      }
+      function finalizeSpin(index, machineKey, bet, reels) {
+        const machine = machineDefinitions[machineKey];
+        const symbols = reels.map(r => r.textContent);
+
+        setTimeout(() => {
+          reels.forEach(reel => reel.classList.remove('animate'));
+          const msg = document.getElementById(`msg${index}`);
+          spinsPlayed++; // Track total spins
+
+          if (symbols[0] === symbols[1] && symbols[1] === symbols[2]) {
+            const win = Math.floor(bet * machine.jackpot);
+            money += win;
+            totalProfit += win;
+            winsCount++; // Increment wins
+            if (win > highestWin) highestWin = win; // Track highest win
+            msg.textContent = `🎉 +$${formatMoney(win)}`;
+            msg.className = 'machine-message msg-win';
+          } else if (symbols[0] === symbols[1] || symbols[1] === symbols[2] || symbols[0] === symbols[2]) {
+            const win = Math.floor(bet * machine.double);
+            money += win;
+            totalProfit += win;
+            winsCount++; // Count as win
+            if (win > highestWin) highestWin = win;
+            msg.textContent = `✨ +$${formatMoney(win)}`;
+            msg.className = 'machine-message msg-win';
+          } else {
+            lossesCount++; // Increment losses
+            msg.textContent = '💫';
+            msg.className = 'machine-message msg-lose';
+          }
+
+          updateMoney();
+          updateStatsPanel(); // Update stats display
+        }, 200);
+      }
+      function updateStatsPanel() {
+        document.getElementById('spinsPlayed').textContent = spinsPlayed;
+        document.getElementById('winsCount').textContent = winsCount;
+        document.getElementById('lossesCount').textContent = lossesCount;
+        document.getElementById('highestWin').textContent = formatMoney(highestWin);
+      }
+      function renderSpinAllButton() {
+  const btn = document.getElementById('spinAllBtn');
+
+  if (spinAllUnlocked) {
+    btn.disabled = false;
+    btn.textContent = 'SPIN ALL';
+    btn.style.background = 'linear-gradient(135deg, var(--purple-bright), var(--pink-neon))';
+  } else {
+    btn.disabled = money < 500000; // Only enable if player can afford
+    btn.textContent = 'LOCKED - BUY FOR $500K';
+    btn.style.background = 'linear-gradient(135deg, gray, darkgray)';
+  }
+}
+function buySpinAll() {
+  if (money >= 500000 && !spinAllUnlocked) {
+    money -= 500000;
+    spinAllUnlocked = true;
+    renderAll();
+    updateMoney();
+  }
+}
+document.getElementById('spinAllBtn').addEventListener('click', () => {
+  if (spinAllUnlocked) {
+    spinAll();
+  } else {
+    buySpinAll();
+  }
+});
+
+
+
+
+
+      document.getElementById('resetBtn').addEventListener('click', () => {
+        if (confirm('Are you sure you want to reset the game? All progress will be lost!')) {
+          // Reset core game variables
+          money = 1000;
+          totalProfit = 0;
+          spinsPlayed = 0;
+          winsCount = 0;
+          lossesCount = 0;
+          highestWin = 0;
+          autoClickerOwned = false;
+          autoClickerActive = false;
+          if (autoClickerInterval) {
+            clearInterval(autoClickerInterval);
+            autoClickerInterval = null;
+          }
+
+          // Reset machines & inventory
+          activeMachines.fill(null);
+          for (let key in inventory) inventory[key] = 0;
+          ultimateCodeRevealed = false;
+
+          // Re-render everything
+        renderAll();
+          updateMoney();
+          updateStatsPanel();
+        }
+      });
+
+      function spinAll() {
+        activeMachines.forEach((machine, index) => {
+          if (machine !== null) {
+            spinMachine(index);
+          }
+        });
+      }
+
+      function buyAutoClicker() {
+        if (money >= 500000) {
+          money -= 500000;
+          autoClickerOwned = true;
+          updateMoney();
+        }
+      }
+
+      function toggleAutoClicker() {
+        autoClickerActive = !autoClickerActive;
+
+        if (autoClickerActive) {
+          autoClickerInterval = setInterval(() => {
+            spinAll();
+          }, 2000);
+        } else {
+          if (autoClickerInterval) {
+            clearInterval(autoClickerInterval);
+            autoClickerInterval = null;
+          }
+        }
+
+        renderAutoClicker();
+      }
+
+   
+
+      // Initialize
+      renderAll();
+      updateProfitDisplay();
+    </script>
+  </body>
+</html>
 
