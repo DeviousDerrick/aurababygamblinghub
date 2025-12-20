@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ultimate Casino Hub</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* =========================
+         CSS VARIABLES
+      ========================= */
+      :root {
+        --purple-deep: #1a0d2e;
+        --purple-mid: #2d1b4e;
+        --purple-bright: #7b2cbf;
+        --blue-bright: #00b4d8;
+        --pink-neon: #f72585;
+        --gold-bright: #ffd700;
+        --white: #ffffff;
+      }
+
+      /* =========================
+         GLOBAL RESET
+      ========================= */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      /* =========================
+         BODY
+      ========================= */
+      body {
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(
+          125deg,
+          #1a0d2e 0%,
+          #2d1b4e 25%,
+          #3e1f5c 50%,
+          #2d1b4e 75%,
+          #1a0d2e 100%
+        );
+        background-size: 400% 400%;
+        animation: gradientFlow 20s ease infinite;
+        color: var(--white);
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+
+      @keyframes gradientFlow {
+        0%,
+        100% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+      }
+
+      /* =========================
+         BACKGROUND ORBS
+      ========================= */
+      .orb {
+        position: fixed;
+        border-radius: 50%;
+        filter: blur(80px);
+        opacity: 0.3;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      .orb1 {
+        width: 500px;
+        height: 500px;
+        background: var(--purple-bright);
+        top: -250px;
+        left: -250px;
+        animation: float 25s ease-in-out infinite;
+      }
+
+      .orb2 {
+        width: 400px;
+        height: 400px;
+        background: var(--blue-bright);
+        bottom: -200px;
+        right: -200px;
+        animation: float 30s ease-in-out infinite reverse;
+      }
+
+      .orb3 {
+        width: 350px;
+        height: 350px;
+        background: var(--pink-neon);
+        top: 50%;
+        left: 50%;
+        animation: float 35s ease-in-out infinite;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translate(0, 0) scale(1);
+        }
+        33% {
+          transform: translate(100px, -100px) scale(1.1);
+        }
+        66% {
+          transform: translate(-100px, 100px) scale(0.9);
+        }
+      }
+
+      /* =========================
+         HUB
+      ========================= */
+      .hub-container {
+        position: relative;
+        z-index: 1;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 40px 20px;
+      }
+
+      .hub-header {
+        text-align: center;
+        margin-bottom: 50px;
+      }
+
+      .hub-title {
+        font-size: 4em;
+        font-weight: 800;
+        background: linear-gradient(
+          135deg,
+          var(--gold-bright),
+          var(--pink-neon),
+          var(--gold-bright)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: titleGlow 3s ease-in-out infinite;
+        letter-spacing: 3px;
+      }
+
+      @keyframes titleGlow {
+        0%,
+        100% {
+          filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.8));
+        }
+        50% {
+          filter: drop-shadow(0 0 40px rgba(247, 37, 133, 0.8));
+        }
+      }
+
+      /* =========================
+         GAME GRID (3x3)
+      ========================= */
+      .games-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 30px;
+        margin-top: 40px;
+      }
+
+      .game-card {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(20px);
+        border-radius: 24px;
+        padding: 30px;
+        text-align: center;
+        transition: all 0.4s ease;
+        cursor: pointer;
+      }
+
+      .game-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      }
+
+      .game-icon {
+        font-size: 5em;
+        margin-bottom: 20px;
+      }
+
+      .game-name {
+        font-size: 2em;
+        font-weight: 800;
+        background: linear-gradient(
+          135deg,
+          var(--blue-bright),
+          var(--pink-neon)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 10px;
+      }
+
+      .game-desc {
+        font-size: 0.9em;
+        color: rgba(255, 255, 255, 0.7);
+        font-weight: 600;
+      }
+
+      a.game-link {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      /* =========================
+         RESPONSIVE
+      ========================= */
+      @media (max-width: 1024px) {
+        .games-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 600px) {
+        .games-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .hub-title {
+          font-size: 2.5em;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Background Orbs -->
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+
+    <!-- Hub -->
+    <div class="hub-container">
+      <div class="hub-header">
+        <h1 class="hub-title">🎰 ULTIMATE CASINO 🎰</h1>
+      </div>
+
+      <div class="games-grid">
+        <a href="slotmachine.html" class="game-link">
+          <div class="game-card">
+            <div class="game-icon">🎰</div>
+            <div class="game-name">Lucky 7 Slots</div>
+            <div class="game-desc">Match three symbols to win big!</div>
+          </div>
+        </a>
+
+        <a href="blackjack.html" class="game-link">
+          <div class="game-card">
+            <div class="game-icon">🃏</div>
+            <div class="game-name">Blackjack</div>
+            <div class="game-desc">Beat the dealer, get 21!</div>
+          </div>
+        </a>
+
+        <a href="roulette.html" class="game-link">
+          <div class="game-card">
+            <div class="game-icon">🎡</div>
+            <div class="game-name">Roulette</div>
+            <div class="game-desc">Spin the wheel, pick your color!</div>
+          </div>
+        </a>
+
+        <a href="ridethebus.html" class="game-link">
+          <div class="game-card">
+            <div class="game-icon">🚌</div>
+            <div class="game-name">Ride the Bus</div>
+            <div class="game-desc">Four challenges, double or nothing!</div>
+          </div>
+        </a>
+
+        <a href="plinko.html" class="game-link">
+          <div class="game-card">
+            <div class="game-icon">🎯</div>
+            <div class="game-name">Plinko</div>
+            <div class="game-desc">Drop the disk, hit the multipliers!</div>
+          </div>
+        </a>
+
+        <!-- Example future slot -->
+        <div class="game-card">
+          <div class="game-icon">❓</div>
+          <div class="game-name">Coming Soon</div>
+          <div class="game-desc">More games on the way!</div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
