@@ -1,1 +1,1105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Plinko Casino Empire</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@800&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --purple-deep: #1a0d2e;
+    --purple-mid: #2d1b4e;
+    --purple-bright: #7b2cbf;
+    --blue-bright: #00b4d8;
+    --pink-neon: #f72585;
+    --gold-bright: #ffd700;
+    --white: #ffffff;
+  }
 
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    background: linear-gradient(125deg, #1a0d2e 0%, #2d1b4e 25%, #3e1f5c 50%, #2d1b4e 75%, #1a0d2e 100%);
+    background-size: 400% 400%;
+    animation: gradientFlow 20s ease infinite;
+    color: var(--white);
+    padding: 20px;
+    min-height: 100vh;
+  }
+
+  @keyframes gradientFlow {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  .orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.3;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .orb1 {
+    width: 500px;
+    height: 500px;
+    background: var(--purple-bright);
+    top: -250px;
+    left: -250px;
+    animation: float 25s ease-in-out infinite;
+  }
+
+  .orb2 {
+    width: 400px;
+    height: 400px;
+    background: var(--blue-bright);
+    bottom: -200px;
+    right: -200px;
+    animation: float 30s ease-in-out infinite reverse;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(100px, -100px) scale(1.1); }
+    66% { transform: translate(-100px, 100px) scale(0.9); }
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 1800px;
+    margin: 0 auto;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .main-title {
+    font-size: 2.5em;
+    background: linear-gradient(135deg, var(--gold-bright), var(--pink-neon), var(--blue-bright));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: titleGlow 3s ease-in-out infinite;
+    letter-spacing: 3px;
+    margin-bottom: 15px;
+  }
+
+  @keyframes titleGlow {
+    0%, 100% { filter: drop-shadow(0 0 20px rgba(255,215,0,0.8)); }
+    50% { filter: drop-shadow(0 0 40px rgba(247,37,133,0.8)); }
+  }
+
+  .stats-row {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+  }
+
+  .stat-display {
+    font-size: 1.5em;
+    padding: 10px 20px;
+    background: rgba(255,255,255,0.05);
+    border: 2px solid rgba(255,255,255,0.2);
+    border-radius: 12px;
+    color: var(--gold-bright);
+    text-shadow: 0 0 20px rgba(255,215,0,0.8);
+  }
+
+  .main-content {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 30px;
+  }
+
+  .boards-container {
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(255,255,255,0.1);
+    border-radius: 28px;
+    padding: 30px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  }
+
+  .boards-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .boards-title {
+    font-size: 1.5em;
+    background: linear-gradient(135deg, var(--white), var(--blue-bright));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .drop-all-btn {
+    padding: 10px 20px;
+    font-size: 1em;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--purple-bright), var(--pink-neon));
+    color: var(--white);
+    border: 2px solid rgba(255,255,255,0.3);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 15px rgba(123,44,191,0.4);
+  }
+
+  .drop-all-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 25px rgba(247,37,133,0.6);
+  }
+
+  .boards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 25px;
+  }
+
+  .plinko-card {
+    background: rgba(255,255,255,0.05);
+    border: 2px solid rgba(255,255,255,0.15);
+    border-radius: 20px;
+    padding: 20px;
+    position: relative;
+  }
+
+  .plinko-card.empty {
+    opacity: 0.3;
+    border-style: dashed;
+    text-align: center;
+    padding: 60px 20px;
+  }
+
+  .plinko-title {
+    text-align: center;
+    font-size: 1em;
+    color: var(--gold-bright);
+    text-shadow: 0 0 10px var(--gold-bright);
+    margin-bottom: 10px;
+  }
+
+  .plinko-stats {
+    text-align: center;
+    font-size: 0.75em;
+    opacity: 0.8;
+    margin-bottom: 10px;
+  }
+
+  .plinko-board {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    background: rgba(0,0,0,0.4);
+    border: 2px solid rgba(255,255,255,0.2);
+    border-radius: 12px;
+    margin-bottom: 15px;
+    overflow: hidden;
+  }
+
+  .peg {
+    width: 8px;
+    height: 8px;
+    background: var(--white);
+    border-radius: 50%;
+    position: absolute;
+    box-shadow: 0 0 8px var(--blue-bright);
+  }
+
+  .disk {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--pink-neon), var(--purple-bright));
+    position: absolute;
+    box-shadow: 0 0 10px var(--pink-neon);
+    z-index: 10;
+  }
+
+  .slots-row {
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 5px;
+  }
+
+  .slot {
+    flex: 1;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    font-size: 0.7em;
+    border-radius: 8px;
+    margin: 0 2px;
+    color: var(--white);
+    box-shadow: 0 0 10px rgba(255,255,255,0.3);
+  }
+
+  .plinko-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .plinko-controls input {
+    flex: 1;
+    padding: 8px;
+    font-size: 0.9em;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    background: rgba(255,255,255,0.1);
+    border: 2px solid var(--gold-bright);
+    border-radius: 8px;
+    color: var(--gold-bright);
+    text-align: center;
+  }
+
+  .plinko-controls button {
+    flex: 1;
+    padding: 8px;
+    font-size: 0.9em;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--purple-bright), var(--pink-neon));
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(123,44,191,0.4);
+  }
+
+  .remove-btn {
+    width: 100%;
+    padding: 6px;
+    font-size: 0.8em;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    background: rgba(255,0,0,0.3);
+    color: #ff4444;
+    border: 2px solid #ff4444;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  .plinko-message {
+    text-align: center;
+    font-size: 0.8em;
+    min-height: 30px;
+    margin-top: 5px;
+  }
+
+  .msg-win {
+    color: var(--gold-bright);
+    text-shadow: 0 0 10px var(--gold-bright);
+  }
+
+  .msg-lose {
+    color: #ff4444;
+  }
+
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .panel {
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(255,255,255,0.1);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  }
+
+  .panel-title {
+    font-size: 1.3em;
+    text-align: center;
+    margin-bottom: 15px;
+    background: linear-gradient(135deg, var(--blue-bright), var(--pink-neon));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .passives-list, .inventory-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 250px;
+    overflow-y: auto;
+  }
+
+  .passive-item, .inventory-item {
+    background: rgba(255,255,255,0.05);
+    border: 2px solid rgba(255,255,255,0.15);
+    border-radius: 12px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .passive-emoji, .inventory-emoji {
+    font-size: 1.8em;
+  }
+
+  .passive-info, .inventory-info {
+    flex: 1;
+    font-size: 0.8em;
+  }
+
+  .passive-name, .inventory-name {
+    color: var(--gold-bright);
+    margin-bottom: 3px;
+  }
+
+  .passive-effect {
+    opacity: 0.8;
+    font-size: 0.9em;
+  }
+
+  .passive-level {
+    color: var(--blue-bright);
+    font-size: 0.85em;
+  }
+
+  .use-btn {
+    padding: 6px 12px;
+    font-size: 0.8em;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    background: transparent;
+    color: var(--blue-bright);
+    border: 2px solid var(--blue-bright);
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 0 10px var(--blue-bright);
+  }
+
+  .use-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  .shop-panel, .saves-panel {
+    max-height: 500px;
+    overflow-y: auto;
+  }
+
+  .shop-section-title {
+    font-size: 1.1em;
+    text-align: center;
+    padding: 12px;
+    margin: 10px 0;
+    background: linear-gradient(135deg, var(--purple-bright), var(--pink-neon));
+    border-radius: 12px;
+  }
+
+  .shop-item {
+    background: rgba(255,255,255,0.05);
+    border: 2px solid rgba(255,255,255,0.15);
+    border-radius: 12px;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .shop-item.maxed {
+    opacity: 0.5;
+    border-color: var(--gold-bright);
+  }
+
+  .shop-emoji {
+    font-size: 2em;
+  }
+
+  .shop-info {
+    flex: 1;
+    font-size: 0.8em;
+  }
+
+  .shop-name {
+    color: var(--gold-bright);
+    margin-bottom: 3px;
+  }
+
+  .shop-stats {
+    opacity: 0.8;
+    font-size: 0.9em;
+  }
+
+  .shop-price {
+    color: var(--blue-bright);
+    margin-top: 3px;
+  }
+
+  .buy-btn {
+    padding: 8px 16px;
+    font-size: 0.85em;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--blue-bright), var(--purple-bright));
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0,180,216,0.4);
+  }
+
+  .buy-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  .save-slot {
+    background: rgba(255,255,255,0.05);
+    border: 2px solid rgba(255,255,255,0.15);
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 15px;
+  }
+
+  .save-slot input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    font-size: 0.9em;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    background: rgba(255,255,255,0.1);
+    border: 2px solid var(--blue-bright);
+    border-radius: 8px;
+    color: var(--white);
+    text-align: center;
+  }
+
+  .save-slot-buttons {
+    display: flex;
+    gap: 10px;
+  }
+
+  .save-slot-buttons button {
+    flex: 1;
+    padding: 8px;
+    font-size: 0.85em;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  .save-slot-buttons .save-btn {
+    background: linear-gradient(135deg, #4caf50, #2e7d32);
+  }
+
+  .save-slot-buttons .load-btn {
+    background: linear-gradient(135deg, #ff9800, #e65100);
+  }
+
+  .reset-btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 1em;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    background: rgba(255,0,0,0.3);
+    color: #ff4444;
+    border: 2px solid #ff4444;
+    border-radius: 12px;
+    cursor: pointer;
+    margin-top: 15px;
+  }
+
+  @media (max-width: 1400px) {
+    .main-content {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+
+  <div class="container">
+    <div class="header">
+      <div class="main-title">🎲 PLINKO CASINO EMPIRE 🎲</div>
+      <div class="stats-row">
+        <div class="stat-display">
+          💰 $<span id="money">1000</span>
+        </div>
+        <div class="stat-display">
+          📊 Profit: $<span id="profit">0</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="main-content">
+      <div class="boards-container">
+        <div class="boards-header">
+          <div class="boards-title">🎯 ACTIVE PLINKO BOARDS 🎯</div>
+          <button class="drop-all-btn" id="dropAllBtn">DROP ALL</button>
+        </div>
+        <div class="boards-grid" id="boardsGrid"></div>
+      </div>
+
+      <div class="sidebar">
+        <div class="panel">
+          <div class="panel-title">⚡ PASSIVES ⚡</div>
+          <div class="passives-list" id="passivesList"></div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-title">📊 STATS 📊</div>
+          <div style="font-size: 0.85em;">
+            <div style="margin-bottom: 8px;">Drops: <span id="drops" style="color: var(--gold-bright);">0</span></div>
+            <div style="margin-bottom: 8px;">Wins: <span id="wins" style="color: #00ff00;">0</span></div>
+            <div style="margin-bottom: 8px;">Losses: <span id="losses" style="color: #ff4444;">0</span></div>
+            <div style="margin-bottom: 8px;">Biggest Win: $<span id="biggestWin" style="color: var(--pink-neon);">0</span></div>
+          </div>
+          <button class="reset-btn" onclick="resetGame()">RESET GAME</button>
+        </div>
+
+        <div class="panel">
+          <div class="panel-title">🎒 INVENTORY 🎒</div>
+          <div class="inventory-list" id="inventoryList"></div>
+        </div>
+
+        <div class="panel saves-panel">
+          <div class="panel-title">💾 SAVE SLOTS 💾</div>
+          <div id="savesContainer"></div>
+        </div>
+
+        <div class="panel shop-panel">
+          <div class="panel-title">🏪 SHOP 🛒</div>
+          <div id="shopGrid"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const PLINKO_TYPES = {
+      classic: {
+        name: "CLASSIC PLINKO",
+        emoji: "🎯",
+        multipliers: [0.5, 1, 1.5, 2, 3, 2, 1.5, 1, 0.5],
+        cost: 0,
+        description: "Standard board, balanced"
+      },
+      risky: {
+        name: "RISKY PLINKO",
+        emoji: "🔥",
+        multipliers: [0.2, 0.5, 1, 2, 5, 2, 1, 0.5, 0.2],
+        cost: 600,
+        description: "High risk, high reward"
+      },
+      safe: {
+        name: "SAFE PLINKO",
+        emoji: "🛡️",
+        multipliers: [0.8, 1, 1.2, 1.5, 2, 1.5, 1.2, 1, 0.8],
+        cost: 500,
+        description: "Lower variance, safer"
+      },
+      lucky: {
+        name: "LUCKY PLINKO",
+        emoji: "🍀",
+        multipliers: [0.5, 1, 2, 3, 10, 3, 2, 1, 0.5],
+        cost: 1500,
+        description: "Huge center jackpot"
+      },
+      fortune: {
+        name: "FORTUNE PLINKO",
+        emoji: "💎",
+        multipliers: [1, 2, 3, 5, 25, 5, 3, 2, 1],
+        cost: 3500,
+        description: "Legendary payouts"
+      }
+    };
+
+    let money = 1000;
+    let totalProfit = 0;
+    let activeBoards = [null, null, null, null];
+    let inventory = {};
+    let betValues = {};
+    let passives = {
+      multiplierBoost: { owned: false, level: 0, maxLevel: 5 },
+      luckyBounce: { owned: false, level: 0, maxLevel: 5 },
+      centerMagnet: { owned: false, level: 0, maxLevel: 3 },
+      profitMultiplier: { owned: false, level: 0, maxLevel: 3 },
+      safetyBoost: { owned: false, level: 0, maxLevel: 3 }
+    };
+    let stats = { drops: 0, wins: 0, losses: 0, biggestWin: 0 };
+    let saveSlots = JSON.parse(localStorage.getItem('plinkoSaveSlots')) || [
+      { name: 'Slot 1', data: null },
+      { name: 'Slot 2', data: null },
+      { name: 'Slot 3', data: null }
+    ];
+
+    function formatMoney(num) {
+      if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+      if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+      return Math.floor(num).toString();
+    }
+
+    function getMultiplier(base) {
+      let mult = base;
+      if (passives.multiplierBoost.owned) {
+        mult *= (1 + 0.10 * passives.multiplierBoost.level);
+      }
+      return mult;
+    }
+
+    function updateUI() {
+      document.getElementById('money').textContent = formatMoney(money);
+      document.getElementById('profit').textContent = formatMoney(Math.abs(totalProfit));
+      document.getElementById('drops').textContent = stats.drops;
+      document.getElementById('wins').textContent = stats.wins;
+      document.getElementById('losses').textContent = stats.losses;
+      document.getElementById('biggestWin').textContent = formatMoney(stats.biggestWin);
+      
+      renderBoards();
+      renderPassives();
+      renderInventory();
+      renderSaveSlots();
+      renderShop();
+    }
+
+    function renderBoards() {
+      const grid = document.getElementById('boardsGrid');
+      grid.innerHTML = '';
+
+      activeBoards.forEach((boardKey, index) => {
+        const div = document.createElement('div');
+        div.className = boardKey ? 'plinko-card' : 'plinko-card empty';
+
+        if (boardKey) {
+          const board = PLINKO_TYPES[boardKey];
+          div.innerHTML = `
+            <div class="plinko-title">${board.emoji} ${board.name}</div>
+            <div class="plinko-stats">${board.description}</div>
+            <div class="plinko-board" id="board${index}">
+              <div class="slots-row" id="slots${index}"></div>
+            </div>
+            <div class="plinko-controls">
+              <input type="number" id="bet${index}" placeholder="Bet" value="${betValues[index] ?? 10}" 
+                     oninput="betValues[${index}] = this.value" min="1" />
+              <button onclick="dropDisk(${index})">DROP</button>
+            </div>
+            <button class="remove-btn" onclick="removeBoard(${index})">REMOVE</button>
+            <div class="plinko-message" id="msg${index}"></div>
+          `;
+
+          grid.appendChild(div);
+          
+          setTimeout(() => {
+            createBoardPegs(index, boardKey);
+            createSlots(index, boardKey);
+          }, 100);
+        } else {
+          div.innerHTML = '<div style="opacity: 0.5;">EMPTY SLOT<br>Add board from inventory</div>';
+          grid.appendChild(div);
+        }
+      });
+    }
+
+    function createBoardPegs(index, boardKey) {
+      const board = document.getElementById(`board${index}`);
+      if (!board) return;
+      
+      const rows = 6;
+      const cols = 9;
+      
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          if (r % 2 && c === cols - 1) continue;
+          const peg = document.createElement('div');
+          peg.className = 'peg';
+          peg.style.top = `${r * 40 + 20}px`;
+          peg.style.left = `${c * 35 + (r % 2 ? 17 : 0)}px`;
+          board.appendChild(peg);
+        }
+      }
+    }
+
+    function createSlots(index, boardKey) {
+      const slotsContainer = document.getElementById(`slots${index}`);
+      if (!slotsContainer) return;
+      
+      const board = PLINKO_TYPES[boardKey];
+      const colors = ['#f44336', '#ff9800', '#4caf50', '#2196f3', '#9c27b0', '#00bcd4', '#ff4081', '#8bc34a', '#ffeb3b'];
+      
+      board.multipliers.forEach((mult, i) => {
+        const slot = document.createElement('div');
+        slot.className = 'slot';
+        slot.textContent = mult + 'x';
+        slot.dataset.multiplier = mult;
+        slot.style.backgroundColor = colors[i % colors.length];
+        slotsContainer.appendChild(slot);
+      });
+    }
+
+    function dropDisk(index) {
+      const boardKey = activeBoards[index];
+      if (!boardKey) return;
+
+      const bet = parseInt(document.getElementById(`bet${index}`).value) || 0;
+      if (bet <= 0 || bet > money) {
+        showMessage(index, "⛔ Invalid bet!", false);
+        return;
+      }
+
+      money -= bet;
+      totalProfit -= bet;
+      stats.drops++;
+      updateUI();
+
+      const board = document.getElementById(`board${index}`);
+      const disk = document.createElement('div');
+      disk.className = 'disk';
+      board.appendChild(disk);
+
+      let x = board.clientWidth / 2 - 7;
+      let y = 0;
+      const speedY = 2;
+
+      const interval = setInterval(() => {
+        y += speedY;
+        
+        const pegs = board.querySelectorAll('.peg');
+        pegs.forEach(peg => {
+          const pegX = peg.offsetLeft + peg.offsetWidth / 2;
+          const pegY = peg.offsetTop + peg.offsetHeight / 2;
+          if (Math.abs(x - pegX) < 10 && Math.abs(y - pegY) < 10) {
+            x += Math.random() > 0.5 ? 5 : -5;
+          }
+        });
+
+        disk.style.top = `${y}px`;
+        disk.style.left = `${x}px`;
+
+        if (y >= board.clientHeight - 40) {
+          clearInterval(interval);
+          
+          let multiplier = 0;
+          const slots = board.querySelectorAll('.slot');
+          slots.forEach(slot => {
+            const slotRect = slot.getBoundingClientRect();
+            const diskRect = disk.getBoundingClientRect();
+            if (diskRect.left + diskRect.width / 2 >= slotRect.left && 
+                diskRect.left + diskRect.width / 2 <= slotRect.right) {
+              multiplier = parseFloat(slot.dataset.multiplier);
+            }
+          });
+
+          multiplier = getMultiplier(multiplier);
+          const winnings = Math.floor(bet * multiplier);
+          money += winnings;
+          const profit = winnings - bet;
+          totalProfit += profit;
+
+          if (profit > 0) {
+            stats.wins++;
+            if (winnings > stats.biggestWin) stats.biggestWin = winnings;
+            showMessage(index, `🎉 Won $${formatMoney(winnings)}! (${multiplier.toFixed(1)}x)`, true);
+          } else {
+            stats.losses++;
+            showMessage(index, `Lost! (${multiplier.toFixed(1)}x)`, false);
+          }
+
+          disk.remove();
+          updateUI();
+        }
+      }, 20);
+    }
+
+    function showMessage(index, msg, isWin) {
+      const msgEl = document.getElementById(`msg${index}`);
+      if (msgEl) {
+        msgEl.textContent = msg;
+        msgEl.className = 'plinko-message ' + (isWin ? 'msg-win' : 'msg-lose');
+        setTimeout(() => {
+          msgEl.textContent = '';
+        }, 3000);
+      }
+    }
+
+    function dropAll() {
+      activeBoards.forEach((board, index) => {
+        if (board !== null) {
+          setTimeout(() => dropDisk(index), index * 200);
+        }
+      });
+    }
+
+    function renderPassives() {
+      const list = document.getElementById('passivesList');
+      list.innerHTML = '';
+
+      const passiveConfigs = {
+        multiplierBoost: { name: 'Multiplier Boost', emoji: '📈', effect: '+10% all multipliers per level' },
+        luckyBounce: { name: 'Lucky Bounce', emoji: '🍀', effect: 'Better peg bounces' },
+        centerMagnet: { name: 'Center Magnet', emoji: '🧲', effect: 'Pulls toward center' },
+        profitMultiplier: { name: 'Profit Booster', emoji: '💰', effect: '+20% profit tracking' },
+        safetyBoost: { name: 'Safety Boost', emoji: '🛡️', effect: 'Better low multipliers' }
+      };
+
+      let hasPassives = false;
+      Object.entries(passives).forEach(([key, passive]) => {
+        if (passive.owned) {
+          hasPassives = true;
+          const config = passiveConfigs[key];
+          const div = document.createElement('div');
+          div.className = 'passive-item';
+          div.innerHTML = `
+            <div class="passive-emoji">${config.emoji}</div>
+            <div class="passive-info">
+              <div class="passive-name">${config.name}</div>
+              <div class="passive-effect">${config.effect}</div>
+              ${passive.maxLevel > 1 ? `<div class="passive-level">Level ${passive.level}/${passive.maxLevel}</div>` : ''}
+            </div>
+          `;
+          list.appendChild(div);
+        }
+      });
+
+      if (!hasPassives) {
+        list.innerHTML = '<div style="text-align: center; opacity: 0.5; padding: 20px; font-size: 0.85em;">No passives yet!</div>';
+      }
+    }
+
+    function renderInventory() {
+      const list = document.getElementById('inventoryList');
+      list.innerHTML = '';
+
+      let hasItems = false;
+      Object.entries(inventory).forEach(([key, count]) => {
+        if (count > 0) {
+          hasItems = true;
+          const board = PLINKO_TYPES[key];
+          const div = document.createElement('div');
+          div.className = 'inventory-item';
+          div.innerHTML = `
+            <div class="inventory-emoji">${board.emoji}</div>
+            <div class="inventory-info">
+              <div class="inventory-name">${board.name}</div>
+              <div>x${count}</div>
+            </div>
+            <button class="use-btn" onclick="useFromInventory('${key}')" 
+                    ${activeBoards.filter(b => b === null).length === 0 ? 'disabled' : ''}>USE</button>
+          `;
+          list.appendChild(div);
+        }
+      });
+
+      if (!hasItems) {
+        list.innerHTML = '<div style="text-align:center;opacity:0.5;padding:20px;font-size:0.85em;">No boards in inventory</div>';
+      }
+    }
+
+    function renderSaveSlots() {
+      const container = document.getElementById('savesContainer');
+      container.innerHTML = '';
+
+      saveSlots.forEach((slot, i) => {
+        const div = document.createElement('div');
+        div.className = 'save-slot';
+        div.innerHTML = `
+          <input type="text" value="${slot.name}" onchange="updateSlotName(${i}, this.value)" />
+          <div style="font-size: 0.8em; margin-bottom: 10px; opacity: 0.8;">
+            ${slot.data ? `💾 Saved: $${formatMoney(slot.data.money)}` : '📂 Empty'}
+          </div>
+          <div class="save-slot-buttons">
+            <button class="save-btn" onclick="saveToSlot(${i})">SAVE</button>
+            <button class="load-btn" onclick="loadFromSlot(${i})" ${!slot.data ? 'disabled' : ''}>LOAD</button>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function updateSlotName(index, name) {
+      saveSlots[index].name = name || `Slot ${index + 1}`;
+      localStorage.setItem('plinkoSaveSlots', JSON.stringify(saveSlots));
+    }
+
+    function saveToSlot(index) {
+      saveSlots[index].data = {
+        money,
+        totalProfit,
+        activeBoards: activeBoards.slice(),
+        inventory: {...inventory},
+        passives: JSON.parse(JSON.stringify(passives)),
+        stats: {...stats}
+      };
+      localStorage.setItem('plinkoSaveSlots', JSON.stringify(saveSlots));
+      alert(`Saved to ${saveSlots[index].name}!`);
+      renderSaveSlots();
+    }
+
+    function loadFromSlot(index) {
+      const data = saveSlots[index].data;
+      if (!data) {
+        alert('Empty slot!');
+        return;
+      }
+      
+      money = data.money;
+      totalProfit = data.totalProfit;
+      activeBoards = data.activeBoards.slice();
+      inventory = {...data.inventory};
+      passives = JSON.parse(JSON.stringify(data.passives));
+      stats = {...data.stats};
+      
+      alert(`Loaded ${saveSlots[index].name}!`);
+      updateUI();
+    }
+
+    function renderShop() {
+      const grid = document.getElementById('shopGrid');
+      grid.innerHTML = '';
+
+      // Boards
+      const boardsTitle = document.createElement('div');
+      boardsTitle.className = 'shop-section-title';
+      boardsTitle.textContent = '🎯 PLINKO BOARDS 🎯';
+      grid.appendChild(boardsTitle);
+
+      Object.entries(PLINKO_TYPES).forEach(([key, board]) => {
+        const div = document.createElement('div');
+        div.className = 'shop-item';
+        div.innerHTML = `
+          <div class="shop-emoji">${board.emoji}</div>
+          <div class="shop-info">
+            <div class="shop-name">${board.name}</div>
+            <div class="shop-stats">${board.description}</div>
+            <div class="shop-price">$${formatMoney(board.cost)}</div>
+          </div>
+          <button class="buy-btn" onclick="buyBoard('${key}')" ${money < board.cost ? 'disabled' : ''}>BUY</button>
+        `;
+        grid.appendChild(div);
+      });
+
+      // Passives
+      const passivesTitle = document.createElement('div');
+      passivesTitle.className = 'shop-section-title';
+      passivesTitle.textContent = '⚡ PASSIVES ⚡';
+      grid.appendChild(passivesTitle);
+
+      const passiveShop = [
+        { key: 'multiplierBoost', name: 'Multiplier Boost', emoji: '📈', baseCost: 1000, costMultiplier: 2, effect: '+10% multipliers', maxLevel: 5 },
+        { key: 'luckyBounce', name: 'Lucky Bounce', emoji: '🍀', baseCost: 1200, costMultiplier: 2, effect: 'Better bounces', maxLevel: 5 },
+        { key: 'centerMagnet', name: 'Center Magnet', emoji: '🧲', baseCost: 1500, costMultiplier: 2, effect: 'Center pull', maxLevel: 3 },
+        { key: 'profitMultiplier', name: 'Profit Booster', emoji: '💰', baseCost: 2000, costMultiplier: 3, effect: '+20% profit', maxLevel: 3 },
+        { key: 'safetyBoost', name: 'Safety Boost', emoji: '🛡️', baseCost: 1800, costMultiplier: 2.5, effect: 'Better low mult', maxLevel: 3 }
+      ];
+
+      passiveShop.forEach(passive => {
+        const current = passives[passive.key];
+        const currentLevel = current.level || 0;
+        const canUpgrade = currentLevel < passive.maxLevel;
+        const cost = Math.floor(passive.baseCost * Math.pow(passive.costMultiplier, currentLevel));
+        
+        const div = document.createElement('div');
+        div.className = `shop-item ${!canUpgrade ? 'maxed' : ''}`;
+        div.innerHTML = `
+          <div class="shop-emoji">${passive.emoji}</div>
+          <div class="shop-info">
+            <div class="shop-name">${passive.name}</div>
+            <div class="shop-stats">${passive.effect}</div>
+            ${passive.maxLevel > 1 ? `<div class="shop-stats">Level: ${currentLevel}/${passive.maxLevel}</div>` : ''}
+            ${canUpgrade ? `<div class="shop-price">$${formatMoney(cost)}</div>` : '<div class="shop-price">MAX</div>'}
+          </div>
+          ${canUpgrade ? `
+            <button class="buy-btn" onclick="buyPassive('${passive.key}', ${cost})" 
+                    ${money < cost ? 'disabled' : ''}>${current.owned ? 'UPGRADE' : 'BUY'}</button>
+          ` : '<button class="buy-btn" disabled>MAXED</button>'}
+        `;
+        grid.appendChild(div);
+      });
+    }
+
+    function buyBoard(key) {
+      const board = PLINKO_TYPES[key];
+      if (money >= board.cost) {
+        money -= board.cost;
+        inventory[key] = (inventory[key] || 0) + 1;
+        updateUI();
+      }
+    }
+
+    function buyPassive(passiveKey, cost) {
+      if (money >= cost) {
+        money -= cost;
+        passives[passiveKey].owned = true;
+        passives[passiveKey].level = (passives[passiveKey].level || 0) + 1;
+        updateUI();
+      }
+    }
+
+    function useFromInventory(key) {
+      const emptyIndex = activeBoards.findIndex(b => b === null);
+      if (emptyIndex !== -1 && inventory[key] > 0) {
+        activeBoards[emptyIndex] = key;
+        inventory[key]--;
+        updateUI();
+      }
+    }
+
+    function removeBoard(index) {
+      const boardKey = activeBoards[index];
+      if (boardKey) {
+        inventory[boardKey] = (inventory[boardKey] || 0) + 1;
+        activeBoards[index] = null;
+        updateUI();
+      }
+    }
+
+    function resetGame() {
+      if (confirm('Reset game? All progress will be lost!')) {
+        money = 1000;
+        totalProfit = 0;
+        activeBoards = [null, null, null, null];
+        inventory = {};
+        betValues = {};
+        passives = {
+          multiplierBoost: { owned: false, level: 0, maxLevel: 5 },
+          luckyBounce: { owned: false, level: 0, maxLevel: 5 },
+          centerMagnet: { owned: false, level: 0, maxLevel: 3 },
+          profitMultiplier: { owned: false, level: 0, maxLevel: 3 },
+          safetyBoost: { owned: false, level: 0, maxLevel: 3 }
+        };
+        stats = { drops: 0, wins: 0, losses: 0, biggestWin: 0 };
+        updateUI();
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('dropAllBtn').onclick = dropAll;
+      updateUI();
+    });
+  </script>
+</body>
+</html>
