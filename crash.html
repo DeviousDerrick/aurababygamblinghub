@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Crash Casino Empire</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@800&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --purple-deep: #1a0d2e;
+    --purple-mid: #2d1b4e;
+    --purple-bright: #7b2cbf;
+    --blue-bright: #00b4d8;
+    --pink-neon: #f72585;
+    --gold-bright: #ffd700;
+    --white: #ffffff;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    background: linear-gradient(125deg, #1a0d2e 0%, #2d1b4e 25%, #3e1f5c 50%, #2d1b4e 75%, #1a0d2e 100%);
+    background-size: 400% 400%;
+    animation: gradientFlow 20s ease infinite;
+    color: var(--white);
+    padding: 20px;
+    min-height: 100vh;
+  }
+
+  @keyframes gradientFlow {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  .orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.3;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .orb1 {
+    width: 500px;
+    height: 500px;
+    background: var(--purple-bright);
+    top: -250px;
+    left: -250px;
+    animation: float 25s ease-in-out infinite;
+  }
+
+  .orb2 {
+    width: 400px;
+    height: 400px;
+    background: var(--blue-bright);
+    bottom: -200px;
+    right: -200px;
+    animation: float 30s ease-in-out infinite reverse;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(100px, -100px) scale(1.1); }
+    66% { transform: translate(-100px, 100px) scale(0.9); }
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 1800px;
+    margin: 0 auto;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .main-title {
+    font-size: 2.5em;
+    background: linear-gradient(135deg, var(--gold-bright), var(--pink-neon), var(--blue-bright));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: titleGlow 3s ease-in-out infinite;
+    letter-spacing: 3px;
+    margin-bottom: 15px;
+  }
+
+  @keyframes titleGlow {
+    0%, 100% { filter: drop-shadow(0 0 20px rgba(255,215,0,0.8)); }
+    50% { filter: drop-shadow(0 0 40px rgba(247,37,133,0.8)); }
+  }
+
+  .stats-row {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+  }
+
+  .stat-display {
+    font-size: 1.5em;
+    padding: 10px 20px;
+    background: rgba(255,255,255,0.05);
+    border: 2px solid rgba(255,255,255,0.2);
+    border-radius: 12px;
+    color: var(--gold-bright);
+    text-shadow: 0 0 20px rgba(255,215,0,0.8);
+  }
+
+  .main-content {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 30px;
+  }
+
+  .boards-container {
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(255,255,255,0.1);
+    border-radius: 28px;
+    padding: 30px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  }
+
+  .boards-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .boards-title {
+    font-size: 1.5em;
+    background: linear-gradient(135deg, var(--white), var(--blue-bright));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .boards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 25px;
+  }
+
+  .crash-card {
+    background: rgba(255,255,255,0.05);
+    border: 2px solid rgba(255,255,255,0.15);
+    border-radius: 20px;
+    padding: 20px;
+    position: relative;
+  }
+
+  .crash-card.empty {
+    opacity: 0.3;
+    border-style: dashed;
+    text-align: center;
+    padding: 60px 20px;
+  }
+
+  .crash-title {
+    text-align: center;
+    font-size: 1em;
+    color: var(--gold-bright);
+    text-shadow: 0 0 10px var(--gold-bright);
+    margin-bottom: 5px;
+  }
+
+  .crash-stats {
+    text-align: center;
+    font-size: 0.7em;
+    opacity: 0.8;
+    margin-bottom: 10px;
+  }
+
+  .crash-display {
+    background: rgba(0,0,0,0.4);
+    border: 2px solid rgba(255,255,255,0.2);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 15px;
+    min-height: 200px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .multiplier-display {
+    text-align: center;
+    font-size: 3em;
+    color: var(--gold-bright);
+    text-shadow: 0 0 20px var(--gold-bright);
+    margin-bottom: 10px;
+    animation: pulse 0.5s ease-in-out infinite;
+  }
+
+  .multiplier-display.crashed {
+    color: #ff4444;
+    text-shadow: 0 0 20px #ff4444;
+    animation: shake 0.3s;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    75% { transform: translateX(10px); }
+  }
+
+  .rocket {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    font-size: 3em;
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 0 10px var(--gold-bright));
+  }
+
+  .rocket.flying {
+    animation: rocketFly 3s ease-out forwards;
+  }
+
+  @keyframes rocketFly {
+    0% { bottom: 20px; left: 20px; transform: rotate(0deg); }
+    100% { bottom: 150px; left: 300px; transform: rotate(-45deg); }
+  }
+
+  .crash-controls {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 10px;
+  }
+
+  .crash-controls input {
+    flex: 1;
+    padding: 6px;
+    font-size: 0.85em;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    background: rgba(255,255,255,0.1);
+    border: 2px solid var(--gold-bright);
+    border-radius: 8px;
+    color: var(--gold-bright);
+    text-align: center;
+  }
+
+  .crash-controls button {
+    flex: 1;
+    padding: 8px;
+    font-size: 0.85em;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--purple-bright), var(--pink-neon));
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(123,44,191,0.4);
+    transition: all 0.3s ease;
+  }
+
+  .crash-controls button:hover:not(:disabled) {
+    transform: scale(1.05);
+  }
+
+  .crash-controls button:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  .crash-controls button.cashout-btn {
+    background: linear-gradient(135deg, var(--gold-bright), #ff8c00);
+    color: var(--purple-deep);
+  }
+
+  .auto-cashout {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    font-size: 0.8em;
+  }
+
+  .auto-cashout input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+  }
+
+  .auto-cashout input[type="number"] {
+    flex: 1;
+    padding: 4px;
+    font-size: 0.9em;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    background: rgba(255,255,255,0.1);
+    border: 2px solid var(--blue-bright);
+    border-radius: 6px;
+    color: var(--blue-bright);
+    text-align: center;
+  }
+
+  .remove-btn {
+    width: 100%;
+    padding: 6px;
+    font-size: 0.8em;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    background: rgba(255,0,0,0.3);
+    color: #ff4444;
+    border: 2px solid #ff4444;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  .crash-message {
+    text-align: center;
+    font-size: 0.75em;
+    min-height: 30px;
+    margin-top: 5px;
+  }
+
+  .msg-win {
+    color: var(--gold-bright);
+    text-shadow: 0 0 10px var(--gold-bright);
+  }
+
+  .msg-lose {
+    color: #ff4444;
+  }
+
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .panel {
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(255,255,255,0.1);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  }
+
+  .panel-title {
+    font-size: 1.3em;
+    text-align: center;
+    margin-bottom: 15px;
+    background: linear-gradient(135deg, var(--blue-bright), var(--pink-neon));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .passives-list, .inventory-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 250px;
+    overflow-y: auto;
+  }
+
+  .passive-item, .inventory-item {
+    background: rgba(255,255,255,0.05);
+    border: 2px solid rgba(255,255,255,0.15);
+    border-radius: 12px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .passive-emoji, .inventory-emoji {
+    font-size: 1.8em;
+  }
+
+  .passive-info, .inventory-info {
+    flex: 1;
+    font-size: 0.8em;
+  }
+
+  .passive-name, .inventory-name {
+    color: var(--gold-bright);
+    margin-bottom: 3px;
+  }
+
+  .passive-effect {
+    opacity: 0.8;
+    font-size: 0.9em;
+  }
+
+  .passive-level {
+    color: var(--blue-bright);
+    font-size: 0.85em;
+  }
+
+  .use-btn {
+    padding: 6px 12px;
+    font-size: 0.8em;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    background: transparent;
+    color: var(--blue-bright);
+    border: 2px solid var(--blue-bright);
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 0 10px var(--blue-bright);
+  }
+
+  .use-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  .shop-panel, .saves-panel {
+    max-height: 500px;
+    overflow-y: auto;
+  }
+
+  .shop-section-title {
+    font-size: 1.1em;
+    text-align: center;
+    padding: 12px;
+    margin: 10px 0;
+    background: linear-gradient(135deg, var(--purple-bright), var(--pink-neon));
+    border-radius: 12px;
+  }
+
+  .shop-item {
+    background: rgba(255,255,255,0.05);
+    border: 2px solid rgba(255,255,255,0.15);
+    border-radius: 12px;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .shop-item.maxed {
+    opacity: 0.5;
+    border-color: var(--gold-bright);
+  }
+
+  .shop-emoji {
+    font-size: 2em;
+  }
+
+  .shop-info {
+    flex: 1;
+    font-size: 0.8em;
+  }
+
+  .shop-name {
+    color: var(--gold-bright);
+    margin-bottom: 3px;
+  }
+
+  .shop-stats {
+    opacity: 0.8;
+    font-size: 0.9em;
+  }
+
+  .shop-price {
+    color: var(--blue-bright);
+    margin-top: 3px;
+  }
+
+  .buy-btn {
+    padding: 8px 16px;
+    font-size: 0.85em;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--blue-bright), var(--purple-bright));
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0,180,216,0.4);
+  }
+
+  .buy-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  .save-slot {
+    background: rgba(255,255,255,0.05);
+    border: 2px solid rgba(255,255,255,0.15);
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 15px;
+  }
+
+  .save-slot input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    font-size: 0.9em;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    background: rgba(255,255,255,0.1);
+    border: 2px solid var(--blue-bright);
+    border-radius: 8px;
+    color: var(--white);
+    text-align: center;
+  }
+
+  .save-slot-buttons {
+    display: flex;
+    gap: 10px;
+  }
+
+  .save-slot-buttons button {
+    flex: 1;
+    padding: 8px;
+    font-size: 0.85em;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  .save-slot-buttons .save-btn {
+    background: linear-gradient(135deg, #4caf50, #2e7d32);
+  }
+
+  .save-slot-buttons .load-btn {
+    background: linear-gradient(135deg, #ff9800, #e65100);
+  }
+
+  .reset-btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 1em;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    background: rgba(255,0,0,0.3);
+    color: #ff4444;
+    border: 2px solid #ff4444;
+    border-radius: 12px;
+    cursor: pointer;
+    margin-top: 15px;
+  }
+
+  @media (max-width: 1400px) {
+    .main-content {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+
+  <div class="container">
+    <div class="header">
+      <div class="main-title">🚀 CRASH CASINO EMPIRE 🚀</div>
+      <div class="stats-row">
+        <div class="stat-display">
+          💰 $<span id="money">1000</span>
+        </div>
+        <div class="stat-display">
+          📊 Profit: $<span id="profit">0</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="main-content">
+      <div class="boards-container">
+        <div class="boards-header">
+          <div class="boards-title">🚀 ACTIVE CRASH GAMES 🚀</div>
+        </div>
+        <div class="boards-grid" id="boardsGrid"></div>
+      </div>
+
+      <div class="sidebar">
+        <div class="panel">
+          <div class="panel-title">⚡ PASSIVES ⚡</div>
+          <div class="passives-list" id="passivesList"></div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-title">📊 STATS 📊</div>
+          <div style="font-size: 0.85em;">
+            <div style="margin-bottom: 8px;">Games: <span id="games" style="color: var(--gold-bright);">0</span></div>
+            <div style="margin-bottom: 8px;">Wins: <span id="wins" style="color: #00ff00;">0</span></div>
+            <div style="margin-bottom: 8px;">Crashes: <span id="crashes" style="color: #ff4444;">0</span></div>
+            <div style="margin-bottom: 8px;">Best Cashout: <span id="bestCashout" style="color: var(--pink-neon);">1.00x</span></div>
+          </div>
+          <button class="reset-btn" onclick="resetGame()">RESET GAME</button>
+        </div>
+
+        <div class="panel">
+          <div class="panel-title">🎒 INVENTORY 🎒</div>
+          <div class="inventory-list" id="inventoryList"></div>
+        </div>
+
+        <div class="panel saves-panel">
+          <div class="panel-title">💾 SAVE SLOTS 💾</div>
+          <div id="savesContainer"></div>
+        </div>
+
+        <div class="panel shop-panel">
+          <div class="panel-title">🏪 SHOP 🛒</div>
+          <div id="shopGrid"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const CRASH_TYPES = {
+      classic: {
+        name: "CLASSIC ROCKET",
+        emoji: "🚀",
+        minCrash: 1.2,
+        maxCrash: 10,
+        speed: 100,
+        cost: 0,
+        description: "Standard crash game"
+      },
+      speed: {
+        name: "SPEED ROCKET",
+        emoji: "⚡",
+        minCrash: 1.1,
+        maxCrash: 8,
+        speed: 50,
+        cost: 600,
+        description: "Faster multiplier climb"
+      },
+      safe: {
+        name: "SAFE SHUTTLE",
+        emoji: "🛸",
+        minCrash: 1.5,
+        maxCrash: 15,
+        speed: 150,
+        cost: 800,
+        description: "Higher minimum crash point"
+      },
+      mega: {
+        name: "MEGA ROCKET",
+        emoji: "💫",
+        minCrash: 1.1,
+        maxCrash: 50,
+        speed: 80,
+        cost: 2000,
+        description: "Massive potential multipliers"
+      },
+      cosmic: {
+        name: "COSMIC SHIP",
+        emoji: "🌠",
+        minCrash: 2.0,
+        maxCrash: 100,
+        speed: 120,
+        cost: 5000,
+        description: "Legendary crash points"
+      }
+    };
+
+    let money = 1000;
+    let totalProfit = 0;
+    let activeBoards = [null, null, null, null];
+    let inventory = {};
+    let betValues = {};
+    let autoCashoutEnabled = {};
+    let autoCashoutValues = {};
+    let gameStates = {}; // Track active games
+    let passives = {
+      multiplierBoost: { owned: false, level: 0, maxLevel: 5 },
+      safeGuard: { owned: false, level: 0, maxLevel: 3 },
+      luckyLaunch: { owned: false, level: 0, maxLevel: 5 },
+      insurance: { owned: false, level: 0, maxLevel: 3 },
+      instantCashout: { owned: false }
+    };
+    let stats = { games: 0, wins: 0, crashes: 0, bestCashout: 1.0 };
+    let saveSlots = JSON.parse(localStorage.getItem('crashSaveSlots')) || [
+      { name: 'Slot 1', data: null },
+      { name: 'Slot 2', data: null },
+      { name: 'Slot 3', data: null }
+    ];
+
+    function formatMoney(num) {
+      if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+      if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+      return Math.floor(num).toString();
+    }
+
+    function getMultiplierBoost() {
+      if (passives.multiplierBoost.owned) {
+        return 1 + (0.10 * passives.multiplierBoost.level);
+      }
+      return 1;
+    }
+
+    function getCrashPoint(boardType) {
+      const type = CRASH_TYPES[boardType];
+      let crashPoint = type.minCrash + Math.random() * (type.maxCrash - type.minCrash);
+      
+      if (passives.luckyLaunch.owned) {
+        crashPoint *= (1 + 0.05 * passives.luckyLaunch.level);
+      }
+      
+      return crashPoint;
+    }
+
+    function updateUI() {
+      document.getElementById('money').textContent = formatMoney(money);
+      document.getElementById('profit').textContent = formatMoney(Math.abs(totalProfit));
+      document.getElementById('games').textContent = stats.games;
+      document.getElementById('wins').textContent = stats.wins;
+      document.getElementById('crashes').textContent = stats.crashes;
+      document.getElementById('bestCashout').textContent = stats.bestCashout.toFixed(2) + 'x';
+      
+      renderBoards();
+      renderPassives();
+      renderInventory();
+      renderSaveSlots();
+      renderShop();
+    }
+
+    function renderBoards() {
+      const grid = document.getElementById('boardsGrid');
+      grid.innerHTML = '';
+
+      activeBoards.forEach((boardKey, index) => {
+        const div = document.createElement('div');
+        div.className = boardKey ? 'crash-card' : 'crash-card empty';
+
+        if (boardKey) {
+          const board = CRASH_TYPES[boardKey];
+          const game = gameStates[index];
+          const isActive = game && game.active;
+          
+          div.innerHTML = `
+            <div class="crash-title">${board.emoji} ${board.name}</div>
+            <div class="crash-stats">${board.description}</div>
+            <div class="crash-display">
+              <div class="multiplier-display ${game?.crashed ? 'crashed' : ''}" id="mult${index}">
+                ${game?.crashed ? 'CRASHED!' : (game?.multiplier ? game.multiplier.toFixed(2) + 'x' : '1.00x')}
+              </div>
+              <div class="rocket ${game?.active ? 'flying' : ''}" id="rocket${index}">${board.emoji}</div>
+            </div>
+            <div class="auto-cashout">
+              <input type="checkbox" id="auto${index}" 
+                     ${autoCashoutEnabled[index] ? 'checked' : ''}
+                     onchange="autoCashoutEnabled[${index}] = this.checked; renderBoards()">
+              <label>Auto @ </label>
+              <input type="number" id="autoVal${index}" value="${autoCashoutValues[index] ?? 2.00}" 
+                     step="0.1" min="1.1" onchange="autoCashoutValues[${index}] = parseFloat(this.value)">
+              <label>x</label>
+            </div>
+            <div class="crash-controls">
+              <input type="number" id="bet${index}" placeholder="Bet" value="${betValues[index] ?? 10}" 
+                     oninput="betValues[${index}] = this.value" min="1" ${isActive ? 'disabled' : ''} />
+              <button onclick="${isActive ? 'cashout(' + index + ')' : 'startGame(' + index + ')'}" 
+                      class="${isActive ? 'cashout-btn' : ''}"
+                      ${game?.crashed ? 'disabled' : ''}>
+                ${isActive ? 'CASH OUT' : 'START'}
+              </button>
+            </div>
+            <button class="remove-btn" onclick="removeBoard(${index})">REMOVE</button>
+            <div class="crash-message" id="msg${index}"></div>
+          `;
+
+          grid.appendChild(div);
+        } else {
+          div.innerHTML = '<div style="opacity: 0.5;">EMPTY SLOT<br>Add rocket from inventory</div>';
+          grid.appendChild(div);
+        }
+      });
+    }
+
+    function startGame(index) {
+      const boardKey = activeBoards[index];
+      if (!boardKey) return;
+
+      const bet = parseInt(document.getElementById(`bet${index}`).value) || 0;
+      if (bet <= 0 || bet > money) {
+        showMessage(index, "⛔ Invalid bet!", false);
+        return;
+      }
+
+      money -= bet;
+      stats.games++;
+      
+      const crashPoint = getCrashPoint(boardKey);
+      const speed = CRASH_TYPES[boardKey].speed;
+      
+      gameStates[index] = {
+        active: true,
+        bet: bet,
+        multiplier: 1.00,
+        crashPoint: crashPoint,
+        crashed: false,
+        startTime: Date.now()
+      };
+
+      updateUI();
+      runGame(index, speed);
+    }
+
+    function runGame(index, speed) {
+      const game = gameStates[index];
+      if (!game || !game.active) return;
+
+      const interval = setInterval(() => {
+        if (!game.active) {
+          clearInterval(interval);
+          return;
+        }
+
+        game.multiplier += 0.01 * getMultiplierBoost();
+
+        // Update display
+        const multEl = document.getElementById(`mult${index}`);
+        if (multEl) {
+          multEl.textContent = game.multiplier.toFixed(2) + 'x';
+        }
+
+        // Auto cashout check
+        if (autoCashoutEnabled[index] && game.multiplier >= (autoCashoutValues[index] || 2.0)) {
+          clearInterval(interval);
+          cashout(index);
+          return;
+        }
+
+        // Check if crashed
+        if (game.multiplier >= game.crashPoint) {
+          clearInterval(interval);
+          game.crashed = true;
+          game.active = false;
+          
+          stats.crashes++;
+          totalProfit -= game.bet;
+          
+          // Insurance passive saves some money
+          if (passives.insurance.owned) {
+            const insurancePercent = 0.10 * passives.insurance.level;
+            const refund = Math.floor(game.bet * insurancePercent);
+            money += refund;
+            showMessage(index, `💥 CRASHED @ ${game.crashPoint.toFixed(2)}x! Insurance: $${refund}`, false);
+          } else {
+            showMessage(index, `💥 CRASHED @ ${game.crashPoint.toFixed(2)}x!`, false);
+          }
+          
+          updateUI();
+          
+          // Reset after 2 seconds
+          setTimeout(() => {
+            gameStates[index] = null;
+            updateUI();
+          }, 2000);
+        }
+      }, speed);
+    }
+
+    function cashout(index) {
+      const game = gameStates[index];
+      if (!game || !game.active || game.crashed) return;
+
+      game.active = false;
+      
+      const winnings = Math.floor(game.bet * game.multiplier);
+      money += winnings;
+      const profit = winnings - game.bet;
+      totalProfit += profit;
+      stats.wins++;
+      
+      if (game.multiplier > stats.bestCashout) {
+        stats.bestCashout = game.multiplier;
+      }
+      
+      showMessage(index, `✅ Cashed out @ ${game.multiplier.toFixed(2)}x! Won $${formatMoney(winnings)}`, true);
+      
+      updateUI();
+      
+      // Reset after 2 seconds
+      setTimeout(() => {
+        gameStates[index] = null;
+        updateUI();
+      }, 2000);
+    }
+
+    function showMessage(index, msg, isWin) {
+      const msgEl = document.getElementById(`msg${index}`);
+      if (msgEl) {
+        msgEl.textContent = msg;
+        msgEl.className = 'crash-message ' + (isWin ? 'msg-win' : 'msg-lose');
+        setTimeout(() => {
+          msgEl.textContent = '';
+        }, 4000);
+      }
+    }
+
+    function renderPassives() {
+      const list = document.getElementById('passivesList');
+      list.innerHTML = '';
+
+      const passiveConfigs = {
+        multiplierBoost: { name: 'Multiplier Boost', emoji: '📈', effect: '+10% multiplier speed' },
+        safeGuard: { name: 'Safe Guard', emoji: '🛡️', effect: 'Higher crash points' },
+        luckyLaunch: { name: 'Lucky Launch', emoji: '🍀', effect: '+5% crash point' },
+        insurance: { name: 'Insurance', emoji: '💼', effect: 'Get back 10% on crash' },
+        instantCashout: { name: 'Instant Cashout', emoji: '⚡', effect: 'No delay on cashout' }
+      };
+
+      let hasPassives = false;
+      Object.entries(passives).forEach(([key, passive]) => {
+        if (passive.owned) {
+          hasPassives = true;
+          const config = passiveConfigs[key];
+          const div = document.createElement('div');
+          div.className = 'passive-item';
+          div.innerHTML = `
+            <div class="passive-emoji">${config.emoji}</div>
+            <div class="passive-info">
+              <div class="passive-name">${config.name}</div>
+              <div class="passive-effect">${config.effect}</div>
+              ${passive.maxLevel > 1 ? `<div class="passive-level">Level ${passive.level}/${passive.maxLevel}</div>` : ''}
+            </div>
+          `;
+          list.appendChild(div);
+        }
+      });
+
+      if (!hasPassives) {
+        list.innerHTML = '<div style="text-align: center; opacity: 0.5; padding: 20px; font-size: 0.85em;">No passives yet!</div>';
+      }
+    }
+
+    function renderInventory() {
+      const list = document.getElementById('inventoryList');
+      list.innerHTML = '';
+
+      let hasItems = false;
+      Object.entries(inventory).forEach(([key, count]) => {
+        if (count > 0) {
+          hasItems = true;
+          const rocket = CRASH_TYPES[key];
+          const div = document.createElement('div');
+          div.className = 'inventory-item';
+          div.innerHTML = `
+            <div class="inventory-emoji">${rocket.emoji}</div>
+            <div class="inventory-info">
+              <div class="inventory-name">${rocket.name}</div>
+              <div>x${count}</div>
+            </div>
+            <button class="use-btn" onclick="useFromInventory('${key}')" 
+                    ${activeBoards.filter(b => b === null).length === 0 ? 'disabled' : ''}>USE</button>
+          `;
+          list.appendChild(div);
+        }
+      });
+
+      if (!hasItems) {
+        list.innerHTML = '<div style="text-align:center;opacity:0.5;padding:20px;font-size:0.85em;">No rockets in inventory</div>';
+      }
+    }
+
+    function renderSaveSlots() {
+      const container = document.getElementById('savesContainer');
+      container.innerHTML = '';
+
+      saveSlots.forEach((slot, i) => {
+        const div = document.createElement('div');
+        div.className = 'save-slot';
+        div.innerHTML = `
+          <input type="text" value="${slot.name}" onchange="updateSlotName(${i}, this.value)" />
+          <div style="font-size: 0.8em; margin-bottom: 10px; opacity: 0.8;">
+            ${slot.data ? `💾 Saved: $${formatMoney(slot.data.money)}` : '📂 Empty'}
+          </div>
+          <div class="save-slot-buttons">
+            <button class="save-btn" onclick="saveToSlot(${i})">SAVE</button>
+            <button class="load-btn" onclick="loadFromSlot(${i})" ${!slot.data ? 'disabled' : ''}>LOAD</button>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function updateSlotName(index, name) {
+      saveSlots[index].name = name || `Slot ${index + 1}`;
+      localStorage.setItem('crashSaveSlots', JSON.stringify(saveSlots));
+    }
+
+    function saveToSlot(index) {
+      saveSlots[index].data = {
+        money,
+        totalProfit,
+        activeBoards: activeBoards.slice(),
+        inventory: {...inventory},
+        passives: JSON.parse(JSON.stringify(passives)),
+        stats: {...stats}
+      };
+      localStorage.setItem('crashSaveSlots', JSON.stringify(saveSlots));
+      alert(`Saved to ${saveSlots[index].name}!`);
+      renderSaveSlots();
+    }
+
+    function loadFromSlot(index) {
+      const data = saveSlots[index].data;
+      if (!data) {
+        alert('Empty slot!');
+        return;
+      }
+      
+      money = data.money;
+      totalProfit = data.totalProfit;
+      activeBoards = data.activeBoards.slice();
+      inventory = {...data.inventory};
+      passives = JSON.parse(JSON.stringify(data.passives));
+      stats = {...data.stats};
+      gameStates = {};
+      
+      alert(`Loaded ${saveSlots[index].name}!`);
+      updateUI();
+    }
+
+    function renderShop() {
+      const grid = document.getElementById('shopGrid');
+      grid.innerHTML = '';
+
+      // Rockets
+      const rocketsTitle = document.createElement('div');
+      rocketsTitle.className = 'shop-section-title';
+      rocketsTitle.textContent = '🚀 CRASH ROCKETS 🚀';
+      grid.appendChild(rocketsTitle);
+
+      Object.entries(CRASH_TYPES).forEach(([key, rocket]) => {
+        const div = document.createElement('div');
+        div.className = 'shop-item';
+        div.innerHTML = `
+          <div class="shop-emoji">${rocket.emoji}</div>
+          <div class="shop-info">
+            <div class="shop-name">${rocket.name}</div>
+            <div class="shop-stats">${rocket.description}</div>
+            <div class="shop-price">$${formatMoney(rocket.cost)}</div>
+          </div>
+          <button class="buy-btn" onclick="buyRocket('${key}')" ${money < rocket.cost ? 'disabled' : ''}>BUY</button>
+        `;
+        grid.appendChild(div);
+      });
+
+      // Passives
+      const passivesTitle = document.createElement('div');
+      passivesTitle.className = 'shop-section-title';
+      passivesTitle.textContent = '⚡ PASSIVES ⚡';
+      grid.appendChild(passivesTitle);
+
+      const passiveShop = [
+        { key: 'multiplierBoost', name: 'Multiplier Boost', emoji: '📈', baseCost: 1000, costMultiplier: 2, effect: '+10% mult speed', maxLevel: 5 },
+        { key: 'safeGuard', name: 'Safe Guard', emoji: '🛡️', baseCost: 1500, costMultiplier: 2.5, effect: 'Higher crash', maxLevel: 3 },
+        { key: 'luckyLaunch', name: 'Lucky Launch', emoji: '🍀', baseCost: 1200, costMultiplier: 2, effect: '+5% crash point', maxLevel: 5 },
+        { key: 'insurance', name: 'Insurance', emoji: '💼', baseCost: 2000, costMultiplier: 2, effect: '10% refund', maxLevel: 3 },
+        { key: 'instantCashout', name: 'Instant Cashout', emoji: '⚡', baseCost: 3000, costMultiplier: 1, effect: 'No delay', maxLevel: 1 }
+      ];
+
+      passiveShop.forEach(passive => {
+        const current = passives[passive.key];
+        const currentLevel = current.level || 0;
+        const canUpgrade = currentLevel < passive.maxLevel;
+        const cost = Math.floor(passive.baseCost * Math.pow(passive.costMultiplier, currentLevel));
+        
+        const div = document.createElement('div');
+        div.className = `shop-item ${!canUpgrade ? 'maxed' : ''}`;
+        div.innerHTML = `
+          <div class="shop-emoji">${passive.emoji}</div>
+          <div class="shop-info">
+            <div class="shop-name">${passive.name}</div>
+            <div class="shop-stats">${passive.effect}</div>
+            ${passive.maxLevel > 1 ? `<div class="shop-stats">Level: ${currentLevel}/${passive.maxLevel}</div>` : ''}
+            ${canUpgrade ? `<div class="shop-price">$${formatMoney(cost)}</div>` : '<div class="shop-price">MAX</div>'}
+          </div>
+          ${canUpgrade ? `
+            <button class="buy-btn" onclick="buyPassive('${passive.key}', ${cost})" 
+                    ${money < cost ? 'disabled' : ''}>${current.owned ? 'UPGRADE' : 'BUY'}</button>
+          ` : '<button class="buy-btn" disabled>MAXED</button>'}
+        `;
+        grid.appendChild(div);
+      });
+    }
+
+    function buyRocket(key) {
+      const rocket = CRASH_TYPES[key];
+      if (money >= rocket.cost) {
+        money -= rocket.cost;
+        inventory[key] = (inventory[key] || 0) + 1;
+        updateUI();
+      }
+    }
+
+    function buyPassive(passiveKey, cost) {
+      if (money >= cost) {
+        money -= cost;
+        passives[passiveKey].owned = true;
+        passives[passiveKey].level = (passives[passiveKey].level || 0) + 1;
+        updateUI();
+      }
+    }
+
+    function useFromInventory(key) {
+      const emptyIndex = activeBoards.findIndex(b => b === null);
+      if (emptyIndex !== -1 && inventory[key] > 0) {
+        activeBoards[emptyIndex] = key;
+        inventory[key]--;
+        updateUI();
+      }
+    }
+
+    function removeBoard(index) {
+      const boardKey = activeBoards[index];
+      if (boardKey) {
+        inventory[boardKey] = (inventory[boardKey] || 0) + 1;
+        activeBoards[index] = null;
+        delete gameStates[index];
+        updateUI();
+      }
+    }
+
+    function resetGame() {
+      if (confirm('Reset game? All progress will be lost!')) {
+        money = 1000;
+        totalProfit = 0;
+        activeBoards = [null, null, null, null];
+        inventory = {};
+        betValues = {};
+        autoCashoutEnabled = {};
+        autoCashoutValues = {};
+        gameStates = {};
+        passives = {
+          multiplierBoost: { owned: false, level: 0, maxLevel: 5 },
+          safeGuard: { owned: false, level: 0, maxLevel: 3 },
+          luckyLaunch: { owned: false, level: 0, maxLevel: 5 },
+          insurance: { owned: false, level: 0, maxLevel: 3 },
+          instantCashout: { owned: false }
+        };
+        stats = { games: 0, wins: 0, crashes: 0, bestCashout: 1.0 };
+        updateUI();
+      }
+    }
+
+    updateUI();
+  </script>
+</body>
+</html>
