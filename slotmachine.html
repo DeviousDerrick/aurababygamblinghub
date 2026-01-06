@@ -157,7 +157,6 @@
         margin-bottom: 30px;
       }
 
-      /* Slot Machines Grid */
       .machines-container {
         background: rgba(255,255,255,0.05);
         backdrop-filter: blur(20px);
@@ -228,8 +227,15 @@
       .machine-title {
         font-size: 0.9em;
         text-align: center;
-        margin-bottom: 15px;
+        margin-bottom: 10px;
         color: var(--gold-bright);
+      }
+
+      .machine-stats {
+        text-align: center;
+        font-size: 0.75em;
+        opacity: 0.8;
+        margin-bottom: 10px;
       }
 
       .screen {
@@ -338,7 +344,6 @@
         color: var(--pink-neon);
       }
 
-      /* Sidebar */
       .sidebar {
         display: flex;
         flex-direction: column;
@@ -364,27 +369,7 @@
         background-clip: text;
       }
 
-      /* Auto Clicker */
-      .auto-clicker-panel {
-        text-align: center;
-      }
-
-      .auto-status {
-        font-size: 1.1em;
-        margin-bottom: 15px;
-        color: var(--gold-bright);
-      }
-
-      .auto-status.active {
-        animation: pulse 2s ease-in-out infinite;
-      }
-
-      @keyframes pulse {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0.6; }
-      }
-
-      .buy-auto-btn, .toggle-auto-btn {
+      .buy-auto-btn {
         width: 100%;
         padding: 12px;
         font-size: 1em;
@@ -399,7 +384,7 @@
         margin-top: 10px;
       }
 
-      .buy-auto-btn:hover, .toggle-auto-btn:hover {
+      .buy-auto-btn:hover {
         transform: scale(1.05);
         box-shadow: 0 0 20px rgba(255,215,0,0.6);
       }
@@ -409,11 +394,95 @@
         cursor: not-allowed;
       }
 
-      .toggle-auto-btn.active {
+      .passives-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        max-height: 300px;
+        overflow-y: auto;
+      }
+
+      .passives-list::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      .passives-list::-webkit-scrollbar-track {
+        background: rgba(255,255,255,0.05);
+        border-radius: 10px;
+      }
+
+      .passives-list::-webkit-scrollbar-thumb {
+        background: linear-gradient(135deg, var(--purple-bright), var(--pink-neon));
+        border-radius: 10px;
+      }
+
+      .passive-item {
+        background: rgba(255,255,255,0.05);
+        border: 2px solid rgba(255,255,255,0.15);
+        border-radius: 12px;
+        padding: 12px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        transition: all 0.3s ease;
+      }
+
+      .passive-item:hover {
+        background: rgba(255,255,255,0.1);
+        border-color: rgba(255,255,255,0.3);
+      }
+
+      .passive-item.active {
+        border-color: #00ff00;
+        box-shadow: 0 0 15px rgba(0,255,0,0.3);
+      }
+
+      .passive-emoji {
+        font-size: 2em;
+      }
+
+      .passive-info {
+        flex: 1;
+        font-size: 0.85em;
+      }
+
+      .passive-name {
+        color: var(--gold-bright);
+        margin-bottom: 3px;
+      }
+
+      .passive-effect {
+        opacity: 0.8;
+        font-size: 0.9em;
+        margin-bottom: 3px;
+      }
+
+      .passive-level {
+        color: var(--blue-bright);
+        font-size: 0.85em;
+      }
+
+      .toggle-passive-btn {
+        padding: 6px 12px;
+        font-size: 0.8em;
+        font-family: "Poppins", sans-serif;
+        font-weight: 800;
+        background: linear-gradient(135deg, var(--pink-neon), #ff0055);
+        color: var(--white);
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .toggle-passive-btn:hover {
+        transform: scale(1.05);
+      }
+
+      .toggle-passive-btn.active {
         background: linear-gradient(135deg, #00ff00, #00cc00);
       }
 
-      /* Inventory */
       .inventory-list {
         max-height: 300px;
         overflow-y: auto;
@@ -493,9 +562,8 @@
         cursor: not-allowed;
       }
 
-      /* Shop */
       .shop-panel {
-        max-height: 500px;
+        max-height: 600px;
         overflow-y: auto;
       }
 
@@ -503,6 +571,17 @@
         display: flex;
         flex-direction: column;
         gap: 15px;
+      }
+
+      .shop-section-title {
+        font-size: 1.2em;
+        text-align: center;
+        padding: 15px;
+        margin: 10px 0;
+        background: linear-gradient(135deg, var(--purple-bright), var(--pink-neon));
+        border-radius: 12px;
+        color: var(--white);
+        text-shadow: 0 0 10px rgba(255,255,255,0.5);
       }
 
       .shop-item {
@@ -521,16 +600,9 @@
         border-color: rgba(255,255,255,0.3);
       }
 
-      .shop-item.ultimate {
-        border: 3px solid var(--gold-bright);
-        background: linear-gradient(135deg, rgba(255,215,0,0.15), rgba(255,140,0,0.15));
-        box-shadow: 0 0 30px rgba(255,215,0,0.4);
-        animation: ultimateGlow 2s ease-in-out infinite;
-      }
-
-      @keyframes ultimateGlow {
-        0%, 100% { box-shadow: 0 0 30px rgba(255,215,0,0.4); }
-        50% { box-shadow: 0 0 50px rgba(255,215,0,0.8); }
+      .shop-item.maxed {
+        opacity: 0.6;
+        border-color: var(--gold-bright);
       }
 
       .shop-emoji {
@@ -577,23 +649,6 @@
       .buy-shop-btn:disabled {
         opacity: 0.5;
         cursor: not-allowed;
-      }
-
-      .code-reveal {
-        margin-top: 10px;
-        padding: 12px;
-        background: rgba(0,255,0,0.2);
-        border: 2px solid #00ff00;
-        border-radius: 8px;
-        font-size: 1em;
-        color: #00ff00;
-        text-shadow: 0 0 10px #00ff00;
-        animation: codeGlow 1s ease-in-out infinite;
-      }
-
-      @keyframes codeGlow {
-        0%, 100% { box-shadow: 0 0 10px rgba(0,255,0,0.5); }
-        50% { box-shadow: 0 0 20px rgba(0,255,0,0.8); }
       }
 
       @media (max-width: 1200px) {
@@ -645,20 +700,21 @@
         </div>
 
         <div class="sidebar">
-          <div class="panel auto-clicker-panel">
-            <div class="panel-title">⚡ AUTO CLICKER ⚡</div>
-            <div class="auto-status" id="autoStatus">LOCKED</div>
-            <div id="autoControls"></div>
-            <div class="panel">
-              <div class="panel-title">📊 GAME STATS 📊</div>
-              <div id="statsPanel">
-                <div>Spins Played: <span id="spinsPlayed">0</span></div>
-                <div>Wins: <span id="winsCount">0</span></div>
-                <div>Losses: <span id="lossesCount">0</span></div>
-                <div>Highest Win: $<span id="highestWin">0</span></div>
-              </div>
-              <button class="buy-auto-btn" id="resetBtn">RESET GAME</button>
+          <div class="panel">
+            <div class="panel-title">⚡ PASSIVES ⚡</div>
+            <div class="passives-list" id="passivesList"></div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-title">📊 GAME STATS 📊</div>
+            <div id="statsPanel" style="font-size: 0.9em;">
+              <div style="margin-bottom: 8px;">Spins: <span id="spinsPlayed" style="color: var(--gold-bright);">0</span></div>
+              <div style="margin-bottom: 8px;">Wins: <span id="winsCount" style="color: #00ff00;">0</span></div>
+              <div style="margin-bottom: 8px;">Losses: <span id="lossesCount" style="color: #ff4444;">0</span></div>
+              <div style="margin-bottom: 8px;">Highest Win: $<span id="highestWin" style="color: var(--gold-bright);">0</span></div>
+              <div style="margin-bottom: 8px;">Win Streak: <span id="winStreak" style="color: var(--pink-neon);">0</span> 🔥</div>
             </div>
+            <button class="buy-auto-btn" id="resetBtn" style="margin-top: 15px;">RESET GAME</button>
           </div>
 
           <div class="panel">
@@ -675,70 +731,130 @@
     </div>
 
     <script>
+      // Machine Types
+      const MACHINE_TYPES = {
+        highRoller: {
+          name: "HIGH ROLLER",
+          emoji: "👔",
+          winChance: 0.75,
+          minPayout: 1.2,
+          maxPayout: 1.5,
+          cost: 500,
+          description: "75% win rate, safe returns"
+        },
+        riskTaker: {
+          name: "RISK TAKER",
+          emoji: "🎲",
+          winChance: 0.25,
+          minPayout: 5,
+          maxPayout: 10,
+          cost: 800,
+          description: "25% win rate, HUGE payouts"
+        },
+        balanced: {
+          name: "BALANCED",
+          emoji: "⚖️",
+          winChance: 0.50,
+          minPayout: 2,
+          maxPayout: 3,
+          cost: 300,
+          description: "50% win rate, fair game"
+        },
+        grinder: {
+          name: "GRINDER",
+          emoji: "⚙️",
+          winChance: 0.85,
+          minPayout: 1.1,
+          maxPayout: 1.3,
+          cost: 400,
+          description: "85% win rate, steady income"
+        },
+        jackpot: {
+          name: "JACKPOT HUNTER",
+          emoji: "💰",
+          winChance: 0.10,
+          minPayout: 20,
+          maxPayout: 50,
+          cost: 1500,
+          description: "10% win rate, MASSIVE jackpots"
+        }
+      };
+
+      const SYMBOLS = ["💎", "🍒", "🍋", "🍊", "⭐", "7️⃣"];
+
       let money = 1000;
-      let totalProfit = 0; // Track total profit/loss
-      let autoClickerOwned = false;
-      let autoClickerActive = false;
-      let autoClickerInterval = null;
-      let ultimateCodeRevealed = false;
-      let spinsPlayed = 0;
-      let winsCount = 0;
-      let lossesCount = 0;
-      let highestWin = 0;
-      let spinAllUnlocked = false;
-
-
-      const activeMachines = Array(8).fill(null);
-      const inventory = {};
-      const betValues = {};
-      const machineDefinitions = {
-        basic: { name: 'Lucky 7 Slots', emoji: '🎰', symbols: ['🍒', '🍋', '🔔', '⭐', '💎', '7️⃣', '🍀'], jackpot: 10, double: 2, price: 500 },
-        cherry: { name: 'Cherry Blast', emoji: '🍒', symbols: ['🍒', '🍒', '🍓', '🍉', '🍎', '🌸', '❤️'], jackpot: 12, double: 2.5, price: 2500 },
-        ocean: { name: 'Ocean Fortune', emoji: '🌊', symbols: ['🌊', '🐠', '🐚', '🦈', '🐙', '⚓', '💙'], jackpot: 15, double: 3, price: 5000 },
-        diamond: { name: 'Diamond Deluxe', emoji: '💎', symbols: ['💎', '💎', '💎', '⭐', '👑', '💰', '🎯'], jackpot: 18, double: 3.5, price: 10000 },
-        fire: { name: 'Inferno Riches', emoji: '🔥', symbols: ['🔥', '🌋', '💥', '⚡', '☄️', '🎆', '🧨'], jackpot: 20, double: 4, price: 15000 },
-        royal: { name: 'Royal Fortune', emoji: '👑', symbols: ['👑', '🏆', '💰', '🎁', '⚡', '🌟', '💵'], jackpot: 22, double: 4.5, price: 25000 },
-        magic: { name: 'Mystic Magic', emoji: '🔮', symbols: ['🔮', '✨', '🪄', '🌙', '⭐', '🎭', '🦄'], jackpot: 25, double: 5, price: 35000 },
-        neon: { name: 'Neon Nights', emoji: '💜', symbols: ['💜', '💙', '💗', '🌈', '✨', '💫', '🎨'], jackpot: 28, double: 5.5, price: 50000 },
-        cosmic: { name: 'Cosmic Jackpot', emoji: '🌌', symbols: ['🌌', '🚀', '🌟', '🪐', '⭐', '💫', '🌠'], jackpot: 30, double: 6, price: 75000 },
-        dragon: { name: 'Dragon Wealth', emoji: '🐉', symbols: ['🐉', '🔥', '💰', '🏮', '⚡', '👑', '🎆'], jackpot: 35, double: 7, price: 100000 },
-        pirate: { name: 'Pirate Treasure', emoji: '🏴‍☠️', symbols: ['🏴‍☠️', '💰', '⚓', '🗡️', '💎', '🏴', '⛵'], jackpot: 40, double: 8, price: 150000 },
-        pharaoh: { name: 'Pharaoh Gold', emoji: '🔱', symbols: ['🔱', '👑', '💰', '🏺', '💎', '🌟', '🏛️'], jackpot: 45, double: 9, price: 200000 },
-        alien: { name: 'Alien Invasion', emoji: '👽', symbols: ['👽', '🛸', '🌌', '💫', '⚡', '🔮', '🚀'], jackpot: 50, double: 10, price: 300000 },
-        cyber: { name: 'Cyber Nexus', emoji: '🤖', symbols: ['🤖', '💻', '⚡', '🔌', '💾', '🎮', '📡'], jackpot: 60, double: 12, price: 500000 },
-        unicorn: { name: 'Unicorn Dreams', emoji: '🦄', symbols: ['🦄', '🌈', '✨', '💖', '⭐', '🎀', '💫'], jackpot: 70, double: 14, price: 750000 },
-        time: { name: 'Time Traveler', emoji: '⏰', symbols: ['⏰', '⌛', '🔮', '⚡', '🌀', '💫', '🔄'], jackpot: 80, double: 16, price: 1000000 },
-        phoenix: { name: 'Phoenix Rising', emoji: '🔥', symbols: ['🔥', '🦅', '👑', '💎', '⚡', '✨', '🌟'], jackpot: 100, double: 20, price: 2000000 },
-        galaxy: { name: 'Galaxy Emperor', emoji: '🌠', symbols: ['🌠', '👑', '🌌', '💫', '⭐', '🔮', '💎'], jackpot: 150, double: 30, price: 5000000 },
-        quantum: { name: 'Quantum Realm', emoji: '⚛️', symbols: ['⚛️', '💫', '⚡', '🔮', '💎', '🌌', '✨'], jackpot: 200, double: 40, price: 10000000 },
-        infinity: { name: 'Infinity Machine', emoji: '♾️', symbols: ['♾️', '💎', '👑', '⭐', '🌟', '✨', '💫'], jackpot: 500, double: 100, price: 50000000 }
+      let totalProfit = 0;
+      let activeMachines = Array(8).fill(null);
+      let inventory = {};
+      let betValues = {};
+      let passives = {
+        luckyCharm: { owned: false, level: 0, maxLevel: 5 },
+        moneyMagnet: { owned: false, level: 0, maxLevel: 5 },
+        autoSpinner: { owned: false, active: false, interval: null },
+        bulkDiscount: { owned: false, level: 0, maxLevel: 3 },
+        profitMultiplier: { owned: false, level: 0, maxLevel: 3 },
+        winStreak: { owned: false }
+      };
+      let winStreakCount = 0;
+      let stats = {
+        spinsPlayed: 0,
+        wins: 0,
+        losses: 0,
+        highestWin: 0
       };
 
       function formatMoney(num) {
         if (num >= 1000000000) return (num / 1000000000).toFixed(1) + 'B';
         if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
         if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
-        return num.toString();
+        return Math.floor(num).toString();
       }
 
-      function updateMoney() {
-        document.getElementById('money').textContent = formatMoney(money);
-        updateProfitDisplay();
-        renderAll();
-      }
-
-      function updateProfitDisplay() {
-        const profitEl = document.getElementById('profitDisplay');
-        const sign = totalProfit >= 0 ? '+' : '';
-        profitEl.textContent = `📊 ${sign}$${formatMoney(Math.abs(totalProfit))}`;
-
-        if (totalProfit > 0) {
-          profitEl.className = 'stat-display profit-display positive';
-        } else if (totalProfit < 0) {
-          profitEl.className = 'stat-display profit-display negative';
-        } else {
-          profitEl.className = 'stat-display profit-display';
+      function getEffectiveWinChance(baseChance) {
+        let chance = baseChance;
+        if (passives.luckyCharm.owned) {
+          chance += (0.05 * passives.luckyCharm.level);
         }
+        return Math.min(chance, 0.95);
+      }
+
+      function getEffectivePayout(basePayout) {
+        let payout = basePayout;
+        if (passives.moneyMagnet.owned) {
+          payout *= (1 + 0.10 * passives.moneyMagnet.level);
+        }
+        if (passives.winStreak.owned && winStreakCount >= 3) {
+          payout *= 2;
+          winStreakCount = 0;
+        }
+        return payout;
+      }
+
+      function getMachineCost(baseCost) {
+        let cost = baseCost;
+        if (passives.bulkDiscount.owned) {
+          cost *= (1 - 0.15 * passives.bulkDiscount.level);
+        }
+        return Math.floor(cost);
+      }
+
+      function updateUI() {
+        document.getElementById('money').textContent = formatMoney(money);
+        
+        const profitDisplay = document.getElementById('profitDisplay');
+        profitDisplay.textContent = `📊 $${formatMoney(Math.abs(totalProfit))}`;
+        profitDisplay.className = 'profit-display ' + (totalProfit >= 0 ? 'positive' : 'negative');
+
+        document.getElementById('spinsPlayed').textContent = stats.spinsPlayed;
+        document.getElementById('winsCount').textContent = stats.wins;
+        document.getElementById('lossesCount').textContent = stats.losses;
+        document.getElementById('highestWin').textContent = formatMoney(stats.highestWin);
+        document.getElementById('winStreak').textContent = winStreakCount;
+        
+        renderMachines();
+        renderPassives();
+        renderInventory();
+        renderShop();
       }
 
       function renderMachines() {
@@ -750,25 +866,29 @@
           div.className = machineKey ? 'slot-machine' : 'slot-machine empty';
 
           if (machineKey) {
-            const machine = machineDefinitions[machineKey];
+            const machine = MACHINE_TYPES[machineKey];
+            const effectiveWinChance = getEffectiveWinChance(machine.winChance);
+            
             div.innerHTML = `
               <div class="machine-title">${machine.emoji} ${machine.name}</div>
+              <div class="machine-stats">
+                Win: ${Math.floor(effectiveWinChance * 100)}% | Pay: ${machine.minPayout}x-${machine.maxPayout}x
+              </div>
               <div class="screen">
                 <div class="reels">
-                  <div class="reel" id="reel${index}-0">🍒</div>
-                  <div class="reel" id="reel${index}-1">🍋</div>
-                  <div class="reel" id="reel${index}-2">🔔</div>
+                  <div class="reel" id="reel${index}-0">${SYMBOLS[0]}</div>
+                  <div class="reel" id="reel${index}-1">${SYMBOLS[1]}</div>
+                  <div class="reel" id="reel${index}-2">${SYMBOLS[2]}</div>
                 </div>
               </div>
               <div class="machine-controls">
-              <input
-        type="number"
-        id="bet${index}"
-        min="1"
-        value="${betValues[index] ?? 10}"
-        oninput="betValues[${index}] = this.value"
-      />
-
+                <input
+                  type="number"
+                  id="bet${index}"
+                  min="1"
+                  value="${betValues[index] ?? 10}"
+                  oninput="betValues[${index}] = this.value"
+                />
                 <button onclick="spinMachine(${index})">SPIN</button>
               </div>
               <button class="remove-btn" onclick="removeMachine(${index})">REMOVE</button>
@@ -782,20 +902,68 @@
         });
       }
 
+      function renderPassives() {
+        const list = document.getElementById('passivesList');
+        list.innerHTML = '';
+        
+        const passiveConfigs = {
+          luckyCharm: { name: 'Lucky Charm', emoji: '🍀', effect: '+5% win chance per level' },
+          moneyMagnet: { name: 'Money Magnet', emoji: '🧲', effect: '+10% payout per level' },
+          autoSpinner: { name: 'Auto Spinner', emoji: '⚡', effect: 'Auto-spin every 10s' },
+          bulkDiscount: { name: 'Bulk Discount', emoji: '💳', effect: '-15% machine cost per level' },
+          profitMultiplier: { name: 'Profit Booster', emoji: '📈', effect: '+25% profit tracking per level' },
+          winStreak: { name: 'Win Streak', emoji: '🔥', effect: '3 wins = next win 2x' }
+        };
+
+        let hasPassives = false;
+        Object.entries(passives).forEach(([key, passive]) => {
+          if (passive.owned) {
+            hasPassives = true;
+            const config = passiveConfigs[key];
+            const level = passive.level || 0;
+            const maxLevel = passive.maxLevel || 1;
+            
+            const div = document.createElement('div');
+            div.className = `passive-item ${passive.active ? 'active' : ''}`;
+            div.innerHTML = `
+              <div class="passive-emoji">${config.emoji}</div>
+              <div class="passive-info">
+                <div class="passive-name">${config.name}</div>
+                <div class="passive-effect">${config.effect}</div>
+                ${maxLevel > 1 ? `<div class="passive-level">Level ${level}/${maxLevel}</div>` : ''}
+              </div>
+              ${key === 'autoSpinner' ? `
+                <button class="toggle-passive-btn ${passive.active ? 'active' : ''}" 
+                        onclick="toggleAutoSpinner()">
+                  ${passive.active ? 'ON' : 'OFF'}
+                </button>
+              ` : ''}
+            `;
+            list.appendChild(div);
+          }
+        });
+        
+        if (!hasPassives) {
+          list.innerHTML = '<div style="text-align: center; opacity: 0.5; padding: 20px;">No passives yet! Buy some from the shop!</div>';
+        }
+      }
+
       function renderInventory() {
         const list = document.getElementById('inventoryList');
         list.innerHTML = '';
 
+        let hasItems = false;
         Object.entries(inventory).forEach(([key, count]) => {
           if (count > 0) {
-            const machine = machineDefinitions[key];
+            hasItems = true;
+            const machine = MACHINE_TYPES[key];
             const div = document.createElement('div');
             div.className = 'inventory-item';
             div.innerHTML = `
               <div class="inventory-emoji">${machine.emoji}</div>
               <div class="inventory-info">
                 <div class="inventory-name">${machine.name}</div>
-                <div class="inventory-count">x${count} | ${machine.jackpot}x jackpot</div>
+                <div class="inventory-count">x${count} | ${Math.floor(machine.winChance * 100)}% win</div>
               </div>
               <button class="use-inventory-btn" onclick="useFromInventory('${key}')" ${activeMachines.filter(m => m === null).length === 0 ? 'disabled' : ''}>USE</button>
             `;
@@ -803,7 +971,7 @@
           }
         });
 
-        if (Object.values(inventory).every(v => v === 0)) {
+        if (!hasItems) {
           list.innerHTML = '<div style="text-align:center;opacity:0.5;padding:20px;">No machines in inventory</div>';
         }
       }
@@ -812,81 +980,136 @@
         const grid = document.getElementById('shopGrid');
         grid.innerHTML = '';
 
-        // Regular machines
-        Object.entries(machineDefinitions).forEach(([key, machine]) => {
+        // Machines Section
+        const machinesTitle = document.createElement('div');
+        machinesTitle.className = 'shop-section-title';
+        machinesTitle.textContent = '🎰 MACHINES 🎰';
+        grid.appendChild(machinesTitle);
+
+        Object.entries(MACHINE_TYPES).forEach(([key, machine]) => {
+          const cost = getMachineCost(machine.cost);
           const div = document.createElement('div');
           div.className = 'shop-item';
           div.innerHTML = `
             <div class="shop-emoji">${machine.emoji}</div>
             <div class="shop-info">
               <div class="shop-name">${machine.name}</div>
-              <div class="shop-stats">Jackpot: ${machine.jackpot}x | Double: ${machine.double}x</div>
-              <div class="shop-price">$${formatMoney(machine.price)}</div>
+              <div class="shop-stats">${machine.description}</div>
+              <div class="shop-stats">Win: ${Math.floor(machine.winChance * 100)}% | Pay: ${machine.minPayout}x-${machine.maxPayout}x</div>
+              <div class="shop-price">$${formatMoney(cost)}</div>
             </div>
-            <button class="buy-shop-btn" onclick="buyMachine('${key}')" ${money < machine.price ? 'disabled' : ''}>BUY</button>
+            <button class="buy-shop-btn" onclick="buyMachine('${key}')" ${money < cost ? 'disabled' : ''}>BUY</button>
           `;
           grid.appendChild(div);
         });
 
-        // Ultimate Code Revealer
-        const ultimateDiv = document.createElement('div');
-        ultimateDiv.className = 'shop-item ultimate';
-        ultimateDiv.innerHTML = `
-          <div class="shop-emoji">💎</div>
-          <div class="shop-info">
-            <div class="shop-name">🏆 ULTIMATE CODE REVEALER 🏆</div>
-            <div class="shop-stats">Reveals a 10,000 EXP code!</div>
-            <div class="shop-price">$10.0B</div>
-            ${ultimateCodeRevealed ? '<div class="code-reveal">🎉 CODE: theultimatebabygambler106</div>' : ''}
-          </div>
-          <button class="buy-shop-btn" onclick="buyUltimateCode()" ${money < 10000000000 || ultimateCodeRevealed ? 'disabled' : ''}>${ultimateCodeRevealed ? 'PURCHASED' : 'BUY'}</button>
-        `;
-        grid.appendChild(ultimateDiv);
-      }
+        // Passives Section
+        const passivesTitle = document.createElement('div');
+        passivesTitle.className = 'shop-section-title';
+        passivesTitle.textContent = '⚡ PASSIVES ⚡';
+        grid.appendChild(passivesTitle);
 
-      function renderAutoClicker() {
-        const status = document.getElementById('autoStatus');
-        const controls = document.getElementById('autoControls');
+        const passiveShop = [
+          { 
+            key: 'luckyCharm', 
+            name: 'Lucky Charm', 
+            emoji: '🍀', 
+            baseCost: 1000, 
+            costMultiplier: 2,
+            effect: '+5% win chance',
+            maxLevel: 5 
+          },
+          { 
+            key: 'moneyMagnet', 
+            name: 'Money Magnet', 
+            emoji: '🧲', 
+            baseCost: 1500, 
+            costMultiplier: 2,
+            effect: '+10% payout',
+            maxLevel: 5 
+          },
+          { 
+            key: 'autoSpinner', 
+            name: 'Auto Spinner', 
+            emoji: '⚡', 
+            baseCost: 3000, 
+            costMultiplier: 1,
+            effect: 'Auto-spin all machines every 10s',
+            maxLevel: 1 
+          },
+          { 
+            key: 'bulkDiscount', 
+            name: 'Bulk Discount', 
+            emoji: '💳', 
+            baseCost: 2000, 
+            costMultiplier: 2.5,
+            effect: '-15% machine costs',
+            maxLevel: 3 
+          },
+          { 
+            key: 'profitMultiplier', 
+            name: 'Profit Booster', 
+            emoji: '📈', 
+            baseCost: 2500, 
+            costMultiplier: 3,
+            effect: '+25% profit tracking',
+            maxLevel: 3 
+          },
+          { 
+            key: 'winStreak', 
+            name: 'Win Streak', 
+            emoji: '🔥', 
+            baseCost: 5000, 
+            costMultiplier: 1,
+            effect: '3 wins in a row = next win 2x',
+            maxLevel: 1 
+          }
+        ];
 
-        if (autoClickerOwned) {
-          status.textContent = autoClickerActive ? '✅ ACTIVE' : '⏸️ PAUSED';
-          status.className = autoClickerActive ? 'auto-status active' : 'auto-status';
-          controls.innerHTML = `
-            <button class="toggle-auto-btn ${autoClickerActive ? 'active' : ''}" onclick="toggleAutoClicker()">
-              ${autoClickerActive ? 'PAUSE' : 'START'}
-            </button>
+        passiveShop.forEach(passive => {
+          const current = passives[passive.key];
+          const currentLevel = current.level || 0;
+          const canUpgrade = currentLevel < passive.maxLevel;
+          const cost = Math.floor(passive.baseCost * Math.pow(passive.costMultiplier, currentLevel));
+          const canBuy = money >= cost && canUpgrade;
+          
+          const div = document.createElement('div');
+          div.className = `shop-item ${!canUpgrade ? 'maxed' : ''}`;
+          div.innerHTML = `
+            <div class="shop-emoji">${passive.emoji}</div>
+            <div class="shop-info">
+              <div class="shop-name">${passive.name}</div>
+              <div class="shop-stats">${passive.effect}</div>
+              ${passive.maxLevel > 1 ? `<div class="shop-stats">Level: ${currentLevel}/${passive.maxLevel}</div>` : ''}
+              ${canUpgrade ? `<div class="shop-price">$${formatMoney(cost)}</div>` : '<div class="shop-price">MAX LEVEL</div>'}
+            </div>
+            ${canUpgrade ? `
+              <button class="buy-shop-btn" onclick="buyPassive('${passive.key}', ${cost})" ${!canBuy ? 'disabled' : ''}>
+                ${current.owned ? 'UPGRADE' : 'BUY'}
+              </button>
+            ` : '<button class="buy-shop-btn" disabled>MAXED</button>'}
           `;
-        } else {
-          status.textContent = '🔒 LOCKED';
-          status.className = 'auto-status';
-          controls.innerHTML = `
-            <div style="font-size:0.9em;margin-bottom:10px;">Cost: $500K</div>
-            <button class="buy-auto-btn" onclick="buyAutoClicker()" ${money < 500000 ? 'disabled' : ''}>BUY AUTO CLICKER</button>
-          `;
-        }
-      }
-
-      function renderAll() {
-        renderMachines();
-        renderInventory();
-        renderShop();
-        renderAutoClicker();
+          grid.appendChild(div);
+        });
       }
 
       function buyMachine(key) {
-        const machine = machineDefinitions[key];
-        if (money >= machine.price) {
-          money -= machine.price;
+        const machine = MACHINE_TYPES[key];
+        const cost = getMachineCost(machine.cost);
+        
+        if (money >= cost) {
+          money -= cost;
           inventory[key] = (inventory[key] || 0) + 1;
-          updateMoney();
+          updateUI();
         }
       }
 
-      function buyUltimateCode() {
-        if (money >= 10000000000 && !ultimateCodeRevealed) {
-          money -= 10000000000;
-          ultimateCodeRevealed = true;
-          updateMoney();
+      function buyPassive(passiveKey, cost) {
+        if (money >= cost) {
+          money -= cost;
+          passives[passiveKey].owned = true;
+          passives[passiveKey].level = (passives[passiveKey].level || 0) + 1;
+          updateUI();
         }
       }
 
@@ -895,7 +1118,7 @@
         if (emptyIndex !== -1 && inventory[key] > 0) {
           activeMachines[emptyIndex] = key;
           inventory[key]--;
-          renderAll();
+          updateUI();
         }
       }
 
@@ -904,7 +1127,7 @@
         if (machineKey) {
           inventory[machineKey] = (inventory[machineKey] || 0) + 1;
           activeMachines[index] = null;
-          renderAll();
+          updateUI();
         }
       }
 
@@ -912,15 +1135,15 @@
         const machineKey = activeMachines[index];
         if (!machineKey) return;
 
-        const machine = machineDefinitions[machineKey];
+        const machine = MACHINE_TYPES[machineKey];
         const betInput = document.getElementById(`bet${index}`);
         const bet = parseInt(betInput.value) || 0;
 
         if (bet <= 0 || bet > money) return;
 
         money -= bet;
-        totalProfit -= bet; // Track bet as loss
-        updateMoney();
+        totalProfit -= bet;
+        updateUI();
 
         const reels = [
           document.getElementById(`reel${index}-0`),
@@ -933,187 +1156,108 @@
         let spins = 0;
         const interval = setInterval(() => {
           reels.forEach(reel => {
-            reel.textContent = machine.symbols[Math.floor(Math.random() * machine.symbols.length)];
+            reel.textContent = SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)];
           });
           spins++;
 
           if (spins >= 10) {
             clearInterval(interval);
-            finalizeSpin(index, machineKey, bet, reels);
+            finalizeSpin(index, machineKey, bet, reels, machine);
           }
         }, 100);
       }
 
-      function finalizeSpin(index, machineKey, bet, reels) {
-        const machine = machineDefinitions[machineKey];
-        const symbols = reels.map(r => r.textContent);
-
-        setTimeout(() => {
-          reels.forEach(reel => reel.classList.remove('animate'));
-
-          const msg = document.getElementById(`msg${index}`);
-
-          if (symbols[0] === symbols[1] && symbols[1] === symbols[2]) {
-            const win = Math.floor(bet * machine.jackpot);
-            money += win;
-            totalProfit += win; // Track win as profit
-            msg.textContent = `🎉 +$${formatMoney(win)}`;
-            msg.className = 'machine-message msg-win';
-          } else if (symbols[0] === symbols[1] || symbols[1] === symbols[2] || symbols[0] === symbols[2]) {
-            const win = Math.floor(bet * machine.double);
-            money += win;
-            totalProfit += win; // Track win as profit
-            msg.textContent = `✨ +$${formatMoney(win)}`;
-            msg.className = 'machine-message msg-win';
-          } else {
-            msg.textContent = '💫';
-            msg.className = 'machine-message msg-lose';
-          }
-
-          updateMoney();
-        }, 200);
-      }
-      function finalizeSpin(index, machineKey, bet, reels) {
-        const machine = machineDefinitions[machineKey];
+      function finalizeSpin(index, machineKey, bet, reels, machine) {
         const symbols = reels.map(r => r.textContent);
 
         setTimeout(() => {
           reels.forEach(reel => reel.classList.remove('animate'));
           const msg = document.getElementById(`msg${index}`);
-          spinsPlayed++; // Track total spins
+          stats.spinsPlayed++;
 
-          if (symbols[0] === symbols[1] && symbols[1] === symbols[2]) {
-            const win = Math.floor(bet * machine.jackpot);
-            money += win;
-            totalProfit += win;
-            winsCount++; // Increment wins
-            if (win > highestWin) highestWin = win; // Track highest win
-            msg.textContent = `🎉 +$${formatMoney(win)}`;
-            msg.className = 'machine-message msg-win';
-          } else if (symbols[0] === symbols[1] || symbols[1] === symbols[2] || symbols[0] === symbols[2]) {
-            const win = Math.floor(bet * machine.double);
-            money += win;
-            totalProfit += win;
-            winsCount++; // Count as win
-            if (win > highestWin) highestWin = win;
-            msg.textContent = `✨ +$${formatMoney(win)}`;
+          const effectiveWinChance = getEffectiveWinChance(machine.winChance);
+          const isWin = Math.random() < effectiveWinChance;
+
+          if (isWin) {
+            const multiplier = machine.minPayout + Math.random() * (machine.maxPayout - machine.minPayout);
+            let winAmount = bet * multiplier;
+            winAmount = getEffectivePayout(winAmount);
+            
+            money += winAmount;
+            const profit = winAmount - bet;
+            totalProfit += profit * (passives.profitMultiplier.owned ? (1 + 0.25 * passives.profitMultiplier.level) : 1);
+            
+            stats.wins++;
+            winStreakCount++;
+            if (profit > stats.highestWin) stats.highestWin = profit;
+            
+            msg.textContent = `🎉 +$${formatMoney(winAmount)}`;
             msg.className = 'machine-message msg-win';
           } else {
-            lossesCount++; // Increment losses
+            stats.losses++;
+            winStreakCount = 0;
             msg.textContent = '💫';
             msg.className = 'machine-message msg-lose';
           }
 
-          updateMoney();
-          updateStatsPanel(); // Update stats display
+          updateUI();
         }, 200);
       }
-      function updateStatsPanel() {
-        document.getElementById('spinsPlayed').textContent = spinsPlayed;
-        document.getElementById('winsCount').textContent = winsCount;
-        document.getElementById('lossesCount').textContent = lossesCount;
-        document.getElementById('highestWin').textContent = formatMoney(highestWin);
-      }
-      function renderSpinAllButton() {
-  const btn = document.getElementById('spinAllBtn');
-
-  if (spinAllUnlocked) {
-    btn.disabled = false;
-    btn.textContent = 'SPIN ALL';
-    btn.style.background = 'linear-gradient(135deg, var(--purple-bright), var(--pink-neon))';
-  } else {
-    btn.disabled = money < 500000; // Only enable if player can afford
-    btn.textContent = 'LOCKED - BUY FOR $500K';
-    btn.style.background = 'linear-gradient(135deg, gray, darkgray)';
-  }
-}
-function buySpinAll() {
-  if (money >= 500000 && !spinAllUnlocked) {
-    money -= 500000;
-    spinAllUnlocked = true;
-    renderAll();
-    updateMoney();
-  }
-}
-document.getElementById('spinAllBtn').addEventListener('click', () => {
-  if (spinAllUnlocked) {
-    spinAll();
-  } else {
-    buySpinAll();
-  }
-});
-
-
-
-
-
-      document.getElementById('resetBtn').addEventListener('click', () => {
-        if (confirm('Are you sure you want to reset the game? All progress will be lost!')) {
-          // Reset core game variables
-          money = 1000;
-          totalProfit = 0;
-          spinsPlayed = 0;
-          winsCount = 0;
-          lossesCount = 0;
-          highestWin = 0;
-          autoClickerOwned = false;
-          autoClickerActive = false;
-          if (autoClickerInterval) {
-            clearInterval(autoClickerInterval);
-            autoClickerInterval = null;
-          }
-
-          // Reset machines & inventory
-          activeMachines.fill(null);
-          for (let key in inventory) inventory[key] = 0;
-          ultimateCodeRevealed = false;
-
-          // Re-render everything
-        renderAll();
-          updateMoney();
-          updateStatsPanel();
-        }
-      });
 
       function spinAll() {
         activeMachines.forEach((machine, index) => {
           if (machine !== null) {
-            spinMachine(index);
+            setTimeout(() => spinMachine(index), index * 100);
           }
         });
       }
 
-      function buyAutoClicker() {
-        if (money >= 500000) {
-          money -= 500000;
-          autoClickerOwned = true;
-          updateMoney();
-        }
-      }
-
-      function toggleAutoClicker() {
-        autoClickerActive = !autoClickerActive;
-
-        if (autoClickerActive) {
-          autoClickerInterval = setInterval(() => {
+      function toggleAutoSpinner() {
+        if (!passives.autoSpinner.owned) return;
+        
+        passives.autoSpinner.active = !passives.autoSpinner.active;
+        
+        if (passives.autoSpinner.active) {
+          passives.autoSpinner.interval = setInterval(() => {
             spinAll();
-          }, 2000);
+          }, 10000);
         } else {
-          if (autoClickerInterval) {
-            clearInterval(autoClickerInterval);
-            autoClickerInterval = null;
+          if (passives.autoSpinner.interval) {
+            clearInterval(passives.autoSpinner.interval);
           }
         }
-
-        renderAutoClicker();
+        
+        updateUI();
       }
 
-   
+      function resetGame() {
+        if (confirm('Are you sure you want to reset the game? All progress will be lost!')) {
+          money = 1000;
+          totalProfit = 0;
+          activeMachines = Array(8).fill(null);
+          inventory = {};
+          betValues = {};
+          passives = {
+            luckyCharm: { owned: false, level: 0, maxLevel: 5 },
+            moneyMagnet: { owned: false, level: 0, maxLevel: 5 },
+            autoSpinner: { owned: false, active: false, interval: null },
+            bulkDiscount: { owned: false, level: 0, maxLevel: 3 },
+            profitMultiplier: { owned: false, level: 0, maxLevel: 3 },
+            winStreak: { owned: false }
+          };
+          winStreakCount = 0;
+          stats = { spinsPlayed: 0, wins: 0, losses: 0, highestWin: 0 };
+          if (passives.autoSpinner.interval) clearInterval(passives.autoSpinner.interval);
+          updateUI();
+        }
+      }
 
       // Initialize
-      renderAll();
-      updateProfitDisplay();
+      document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('spinAllBtn').onclick = spinAll;
+        document.getElementById('resetBtn').onclick = resetGame;
+        updateUI();
+      });
     </script>
   </body>
 </html>
-
