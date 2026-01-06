@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Dice Casino Empire</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@800&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --purple-deep: #1a0d2e;
+    --purple-mid: #2d1b4e;
+    --purple-bright: #7b2cbf;
+    --blue-bright: #00b4d8;
+    --pink-neon: #f72585;
+    --gold-bright: #ffd700;
+    --white: #ffffff;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    background: linear-gradient(125deg, #1a0d2e 0%, #2d1b4e 25%, #3e1f5c 50%, #2d1b4e 75%, #1a0d2e 100%);
+    background-size: 400% 400%;
+    animation: gradientFlow 20s ease infinite;
+    color: var(--white);
+    padding: 20px;
+    min-height: 100vh;
+  }
+
+  @keyframes gradientFlow {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  .orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.3;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .orb1 {
+    width: 500px;
+    height: 500px;
+    background: var(--purple-bright);
+    top: -250px;
+    left: -250px;
+    animation: float 25s ease-in-out infinite;
+  }
+
+  .orb2 {
+    width: 400px;
+    height: 400px;
+    background: var(--blue-bright);
+    bottom: -200px;
+    right: -200px;
+    animation: float 30s ease-in-out infinite reverse;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(100px, -100px) scale(1.1); }
+    66% { transform: translate(-100px, 100px) scale(0.9); }
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 1800px;
+    margin: 0 auto;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .main-title {
+    font-size: 2.5em;
+    background: linear-gradient(135deg, var(--gold-bright), var(--pink-neon), var(--blue-bright));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: titleGlow 3s ease-in-out infinite;
+    letter-spacing: 3px;
+    margin-bottom: 15px;
+  }
+
+  @keyframes titleGlow {
+    0%, 100% { filter: drop-shadow(0 0 20px rgba(255,215,0,0.8)); }
+    50% { filter: drop-shadow(0 0 40px rgba(247,37,133,0.8)); }
+  }
+
+  .stats-row {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+  }
+
+  .stat-display {
+    font-size: 1.5em;
+    padding: 10px 20px;
+    background: rgba(255,255,255,0.05);
+    border: 2px solid rgba(255,255,255,0.2);
+    border-radius: 12px;
+    color: var(--gold-bright);
+    text-shadow: 0 0 20px rgba(255,215,0,0.8);
+  }
+
+  .main-content {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 30px;
+  }
+
+  .boards-container {
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(255,255,255,0.1);
+    border-radius: 28px;
+    padding: 30px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  }
+
+  .boards-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .boards-title {
+    font-size: 1.5em;
+    background: linear-gradient(135deg, var(--white), var(--blue-bright));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .roll-all-btn {
+    padding: 10px 20px;
+    font-size: 1em;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--purple-bright), var(--pink-neon));
+    color: var(--white);
+    border: 2px solid rgba(255,255,255,0.3);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 15px rgba(123,44,191,0.4);
+  }
+
+  .roll-all-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 25px rgba(247,37,133,0.6);
+  }
+
+  .boards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 25px;
+  }
+
+  .dice-card {
+    background: rgba(255,255,255,0.05);
+    border: 2px solid rgba(255,255,255,0.15);
+    border-radius: 20px;
+    padding: 20px;
+    position: relative;
+  }
+
+  .dice-card.empty {
+    opacity: 0.3;
+    border-style: dashed;
+    text-align: center;
+    padding: 60px 20px;
+  }
+
+  .dice-title {
+    text-align: center;
+    font-size: 1em;
+    color: var(--gold-bright);
+    text-shadow: 0 0 10px var(--gold-bright);
+    margin-bottom: 5px;
+  }
+
+  .dice-stats {
+    text-align: center;
+    font-size: 0.7em;
+    opacity: 0.8;
+    margin-bottom: 10px;
+  }
+
+  .dice-display {
+    width: 100px;
+    height: 100px;
+    margin: 15px auto;
+    perspective: 1000px;
+  }
+
+  .dice {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+  }
+
+  .dice.rolling {
+    animation: diceRoll 1s ease-out;
+  }
+
+  @keyframes diceRoll {
+    0% { transform: rotateX(0) rotateY(0); }
+    25% { transform: rotateX(360deg) rotateY(180deg); }
+    50% { transform: rotateX(720deg) rotateY(360deg); }
+    75% { transform: rotateX(1080deg) rotateY(540deg); }
+    100% { transform: rotateX(1440deg) rotateY(720deg); }
+  }
+
+  .dice-face {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background: var(--white);
+    border: 3px solid var(--gold-bright);
+    border-radius: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 15px;
+    box-shadow: 0 0 20px rgba(255,215,0,0.5);
+  }
+
+  .dice-dot {
+    width: 18px;
+    height: 18px;
+    background: #000;
+    border-radius: 50%;
+    margin: auto;
+  }
+
+  .number-selection {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  .number-btn {
+    padding: 12px;
+    font-size: 1.2em;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    background: rgba(255,255,255,0.1);
+    color: var(--white);
+    border: 2px solid rgba(255,255,255,0.2);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .number-btn:hover {
+    background: rgba(255,255,255,0.2);
+    transform: scale(1.05);
+  }
+
+  .number-btn.selected {
+    background: linear-gradient(135deg, var(--gold-bright), #ff8c00);
+    border-color: var(--gold-bright);
+    color: var(--purple-deep);
+    box-shadow: 0 0 20px var(--gold-bright);
+  }
+
+  .dice-controls {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 10px;
+  }
+
+  .dice-controls input {
+    flex: 1;
+    padding: 6px;
+    font-size: 0.85em;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    background: rgba(255,255,255,0.1);
+    border: 2px solid var(--gold-bright);
+    border-radius: 8px;
+    color: var(--gold-bright);
+    text-align: center;
+  }
+
+  .dice-controls button {
+    flex: 1;
+    padding: 8px;
+    font-size: 0.85em;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--purple-bright), var(--pink-neon));
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(123,44,191,0.4);
+    transition: all 0.3s ease;
+  }
+
+  .dice-controls button:hover:not(:disabled) {
+    transform: scale(1.05);
+  }
+
+  .dice-controls button:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  .remove-btn {
+    width: 100%;
+    padding: 6px;
+    font-size: 0.8em;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    background: rgba(255,0,0,0.3);
+    color: #ff4444;
+    border: 2px solid #ff4444;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  .dice-message {
+    text-align: center;
+    font-size: 0.75em;
+    min-height: 40px;
+    margin-top: 5px;
+  }
+
+  .msg-win {
+    color: var(--gold-bright);
+    text-shadow: 0 0 10px var(--gold-bright);
+  }
+
+  .msg-lose {
+    color: #ff4444;
+  }
+
+  .combo-indicator {
+    text-align: center;
+    font-size: 0.75em;
+    color: var(--pink-neon);
+    text-shadow: 0 0 10px var(--pink-neon);
+    margin-bottom: 5px;
+    min-height: 20px;
+  }
+
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .panel {
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(255,255,255,0.1);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  }
+
+  .panel-title {
+    font-size: 1.3em;
+    text-align: center;
+    margin-bottom: 15px;
+    background: linear-gradient(135deg, var(--blue-bright), var(--pink-neon));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .passives-list, .inventory-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 250px;
+    overflow-y: auto;
+  }
+
+  .passive-item, .inventory-item {
+    background: rgba(255,255,255,0.05);
+    border: 2px solid rgba(255,255,255,0.15);
+    border-radius: 12px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .passive-emoji, .inventory-emoji {
+    font-size: 1.8em;
+  }
+
+  .passive-info, .inventory-info {
+    flex: 1;
+    font-size: 0.8em;
+  }
+
+  .passive-name, .inventory-name {
+    color: var(--gold-bright);
+    margin-bottom: 3px;
+  }
+
+  .passive-effect {
+    opacity: 0.8;
+    font-size: 0.9em;
+  }
+
+  .passive-level {
+    color: var(--blue-bright);
+    font-size: 0.85em;
+  }
+
+  .use-btn {
+    padding: 6px 12px;
+    font-size: 0.8em;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    background: transparent;
+    color: var(--blue-bright);
+    border: 2px solid var(--blue-bright);
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 0 10px var(--blue-bright);
+  }
+
+  .use-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  .shop-panel, .saves-panel {
+    max-height: 500px;
+    overflow-y: auto;
+  }
+
+  .shop-section-title {
+    font-size: 1.1em;
+    text-align: center;
+    padding: 12px;
+    margin: 10px 0;
+    background: linear-gradient(135deg, var(--purple-bright), var(--pink-neon));
+    border-radius: 12px;
+  }
+
+  .shop-item {
+    background: rgba(255,255,255,0.05);
+    border: 2px solid rgba(255,255,255,0.15);
+    border-radius: 12px;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .shop-item.maxed {
+    opacity: 0.5;
+    border-color: var(--gold-bright);
+  }
+
+  .shop-emoji {
+    font-size: 2em;
+  }
+
+  .shop-info {
+    flex: 1;
+    font-size: 0.8em;
+  }
+
+  .shop-name {
+    color: var(--gold-bright);
+    margin-bottom: 3px;
+  }
+
+  .shop-stats {
+    opacity: 0.8;
+    font-size: 0.9em;
+  }
+
+  .shop-price {
+    color: var(--blue-bright);
+    margin-top: 3px;
+  }
+
+  .buy-btn {
+    padding: 8px 16px;
+    font-size: 0.85em;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--blue-bright), var(--purple-bright));
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0,180,216,0.4);
+  }
+
+  .buy-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  .save-slot {
+    background: rgba(255,255,255,0.05);
+    border: 2px solid rgba(255,255,255,0.15);
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 15px;
+  }
+
+  .save-slot input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    font-size: 0.9em;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    background: rgba(255,255,255,0.1);
+    border: 2px solid var(--blue-bright);
+    border-radius: 8px;
+    color: var(--white);
+    text-align: center;
+  }
+
+  .save-slot-buttons {
+    display: flex;
+    gap: 10px;
+  }
+
+  .save-slot-buttons button {
+    flex: 1;
+    padding: 8px;
+    font-size: 0.85em;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  .save-slot-buttons .save-btn {
+    background: linear-gradient(135deg, #4caf50, #2e7d32);
+  }
+
+  .save-slot-buttons .load-btn {
+    background: linear-gradient(135deg, #ff9800, #e65100);
+  }
+
+  .reset-btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 1em;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    background: rgba(255,0,0,0.3);
+    color: #ff4444;
+    border: 2px solid #ff4444;
+    border-radius: 12px;
+    cursor: pointer;
+    margin-top: 15px;
+  }
+
+  @media (max-width: 1400px) {
+    .main-content {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+
+  <div class="container">
+    <div class="header">
+      <div class="main-title">🎲 DICE CASINO EMPIRE 🎲</div>
+      <div class="stats-row">
+        <div class="stat-display">
+          💰 $<span id="money">1000</span>
+        </div>
+        <div class="stat-display">
+          📊 Profit: $<span id="profit">0</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="main-content">
+      <div class="boards-container">
+        <div class="boards-header">
+          <div class="boards-title">🎲 ACTIVE DICE BOARDS 🎲</div>
+          <button class="roll-all-btn" id="rollAllBtn">ROLL ALL</button>
+        </div>
+        <div class="boards-grid" id="boardsGrid"></div>
+      </div>
+
+      <div class="sidebar">
+        <div class="panel">
+          <div class="panel-title">⚡ PASSIVES ⚡</div>
+          <div class="passives-list" id="passivesList"></div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-title">📊 STATS 📊</div>
+          <div style="font-size: 0.85em;">
+            <div style="margin-bottom: 8px;">Rolls: <span id="rolls" style="color: var(--gold-bright);">0</span></div>
+            <div style="margin-bottom: 8px;">Wins: <span id="wins" style="color: #00ff00;">0</span></div>
+            <div style="margin-bottom: 8px;">Losses: <span id="losses" style="color: #ff4444;">0</span></div>
+            <div style="margin-bottom: 8px;">Biggest Win: $<span id="biggestWin" style="color: var(--pink-neon);">0</span></div>
+            <div style="margin-bottom: 8px;">Max Combo: <span id="maxCombo" style="color: var(--gold-bright);">0</span>x 🔥</div>
+          </div>
+          <button class="reset-btn" onclick="resetGame()">RESET GAME</button>
+        </div>
+
+        <div class="panel">
+          <div class="panel-title">🎒 INVENTORY 🎒</div>
+          <div class="inventory-list" id="inventoryList"></div>
+        </div>
+
+        <div class="panel saves-panel">
+          <div class="panel-title">💾 SAVE SLOTS 💾</div>
+          <div id="savesContainer"></div>
+        </div>
+
+        <div class="panel shop-panel">
+          <div class="panel-title">🏪 SHOP 🛒</div>
+          <div id="shopGrid"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const DICE_TYPES = {
+      classic: {
+        name: "CLASSIC DICE",
+        emoji: "🎲",
+        payout: 6,
+        cost: 0,
+        description: "Standard 6x payout"
+      },
+      lucky: {
+        name: "LUCKY DICE",
+        emoji: "🍀",
+        payout: 8,
+        cost: 600,
+        description: "Better odds, 8x payout"
+      },
+      risky: {
+        name: "RISKY DICE",
+        emoji: "🔥",
+        payout: 12,
+        cost: 1000,
+        description: "High risk, 12x payout"
+      },
+      fortune: {
+        name: "FORTUNE DICE",
+        emoji: "💎",
+        payout: 15,
+        cost: 2000,
+        description: "Legendary 15x payout"
+      },
+      cosmic: {
+        name: "COSMIC DICE",
+        emoji: "🌌",
+        payout: 25,
+        cost: 5000,
+        description: "Ultimate 25x payout"
+      }
+    };
+
+    let money = 1000;
+    let totalProfit = 0;
+    let activeBoards = [null, null, null, null];
+    let inventory = {};
+    let betValues = {};
+    let selectedNumbers = {}; // Store selected numbers per board
+    let passives = {
+      luckyNumber: { owned: false, level: 0, maxLevel: 5 },
+      comboMaster: { owned: false, level: 0, maxLevel: 5 },
+      payoutBooster: { owned: false, level: 0, maxLevel: 5 },
+      multiPredict: { owned: false, level: 0, maxLevel: 3 },
+      perfectRoll: { owned: false, level: 0, maxLevel: 3 }
+    };
+    let stats = { rolls: 0, wins: 0, losses: 0, biggestWin: 0, maxCombo: 0 };
+    let saveSlots = JSON.parse(localStorage.getItem('diceSaveSlots')) || [
+      { name: 'Slot 1', data: null },
+      { name: 'Slot 2', data: null },
+      { name: 'Slot 3', data: null }
+    ];
+
+    function formatMoney(num) {
+      if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+      if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+      return Math.floor(num).toString();
+    }
+
+    function getPayout(boardType, comboCount) {
+      let basePayout = DICE_TYPES[boardType].payout;
+      
+      // Combo bonus (NEW ORIGINAL FEATURE!)
+      let comboMultiplier = 1;
+      if (comboCount === 2) comboMultiplier = 1.5;
+      else if (comboCount === 3) comboMultiplier = 2;
+      else if (comboCount >= 4) comboMultiplier = 3;
+      
+      if (passives.comboMaster.owned) {
+        comboMultiplier *= (1 + 0.20 * passives.comboMaster.level);
+      }
+      
+      if (passives.payoutBooster.owned) {
+        basePayout *= (1 + 0.15 * passives.payoutBooster.level);
+      }
+      
+      return basePayout * comboMultiplier;
+    }
+
+    function updateUI() {
+      document.getElementById('money').textContent = formatMoney(money);
+      document.getElementById('profit').textContent = formatMoney(Math.abs(totalProfit));
+      document.getElementById('rolls').textContent = stats.rolls;
+      document.getElementById('wins').textContent = stats.wins;
+      document.getElementById('losses').textContent = stats.losses;
+      document.getElementById('biggestWin').textContent = formatMoney(stats.biggestWin);
+      document.getElementById('maxCombo').textContent = stats.maxCombo;
+      
+      renderBoards();
+      renderPassives();
+      renderInventory();
+      renderSaveSlots();
+      renderShop();
+    }
+
+    function renderBoards() {
+      const grid = document.getElementById('boardsGrid');
+      grid.innerHTML = '';
+
+      activeBoards.forEach((boardKey, index) => {
+        const div = document.createElement('div');
+        div.className = boardKey ? 'dice-card' : 'dice-card empty';
+
+        if (boardKey) {
+          const board = DICE_TYPES[boardKey];
+          const selected = selectedNumbers[index] || [];
+          const maxSelections = passives.multiPredict.owned ? (3 + passives.multiPredict.level) : 1;
+          
+          div.innerHTML = `
+            <div class="dice-title">${board.emoji} ${board.name}</div>
+            <div class="dice-stats">${board.description}</div>
+            <div class="combo-indicator" id="combo${index}">
+              ${selected.length > 1 ? `🔥 ${selected.length}x COMBO! Multiplier: ${getComboMultiplier(selected.length).toFixed(1)}x` : ''}
+            </div>
+            <div class="dice-display">
+              <div class="dice" id="dice${index}">
+                <div class="dice-face" style="transform: translateZ(50px);">
+                  <div class="dice-dot"></div>
+                </div>
+              </div>
+            </div>
+            <div class="number-selection" id="numbers${index}"></div>
+            <div class="dice-controls">
+              <input type="number" id="bet${index}" placeholder="Bet" value="${betValues[index] ?? 10}" 
+                     oninput="betValues[${index}] = this.value" min="1" />
+              <button onclick="rollDice(${index})">ROLL</button>
+            </div>
+            <button class="remove-btn" onclick="removeBoard(${index})">REMOVE</button>
+            <div class="dice-message" id="msg${index}"></div>
+          `;
+
+          grid.appendChild(div);
+          
+          setTimeout(() => {
+            renderNumberButtons(index, maxSelections);
+          }, 100);
+        } else {
+          div.innerHTML = '<div style="opacity: 0.5;">EMPTY SLOT<br>Add dice from inventory</div>';
+          grid.appendChild(div);
+        }
+      });
+    }
+
+    function renderNumberButtons(index, maxSelections) {
+      const container = document.getElementById(`numbers${index}`);
+      if (!container) return;
+      
+      container.innerHTML = '';
+      const selected = selectedNumbers[index] || [];
+      
+      for (let i = 1; i <= 6; i++) {
+        const btn = document.createElement('button');
+        btn.className = 'number-btn' + (selected.includes(i) ? ' selected' : '');
+        btn.textContent = i;
+        btn.onclick = () => toggleNumber(index, i, maxSelections);
+        container.appendChild(btn);
+      }
+    }
+
+    function toggleNumber(index, num, maxSelections) {
+      if (!selectedNumbers[index]) selectedNumbers[index] = [];
+      
+      const idx = selectedNumbers[index].indexOf(num);
+      if (idx > -1) {
+        selectedNumbers[index].splice(idx, 1);
+      } else {
+        if (selectedNumbers[index].length < maxSelections) {
+          selectedNumbers[index].push(num);
+        } else {
+          alert(`Max ${maxSelections} predictions! Upgrade Multi-Predict for more.`);
+          return;
+        }
+      }
+      
+      renderBoards();
+    }
+
+    function getComboMultiplier(count) {
+      let mult = 1;
+      if (count === 2) mult = 1.5;
+      else if (count === 3) mult = 2;
+      else if (count >= 4) mult = 3;
+      
+      if (passives.comboMaster.owned) {
+        mult *= (1 + 0.20 * passives.comboMaster.level);
+      }
+      
+      return mult;
+    }
+
+    function rollDice(index) {
+      const boardKey = activeBoards[index];
+      if (!boardKey) return;
+
+      const selected = selectedNumbers[index] || [];
+      if (selected.length === 0) {
+        showMessage(index, "⛔ Select at least one number!", false);
+        return;
+      }
+
+      const bet = parseInt(document.getElementById(`bet${index}`).value) || 0;
+      if (bet <= 0 || bet > money) {
+        showMessage(index, "⛔ Invalid bet!", false);
+        return;
+      }
+
+      money -= bet;
+      totalProfit -= bet;
+      stats.rolls++;
+      updateUI();
+
+      const diceEl = document.getElementById(`dice${index}`);
+      if (diceEl) {
+        diceEl.classList.add('rolling');
+      }
+
+      setTimeout(() => {
+        const result = Math.floor(Math.random() * 6) + 1;
+        
+        if (diceEl) {
+          diceEl.classList.remove('rolling');
+          updateDiceFace(index, result);
+        }
+
+        if (selected.includes(result)) {
+          const comboCount = selected.length;
+          const payout = Math.floor(bet * getPayout(boardKey, comboCount));
+          money += payout;
+          const profit = payout - bet;
+          totalProfit += profit;
+          stats.wins++;
+          
+          if (comboCount > stats.maxCombo) stats.maxCombo = comboCount;
+          if (payout > stats.biggestWin) stats.biggestWin = payout;
+          
+          const comboText = comboCount > 1 ? ` (${comboCount}x COMBO!)` : '';
+          showMessage(index, `🎉 Hit ${result}! Won $${formatMoney(payout)}${comboText}`, true);
+        } else {
+          stats.losses++;
+          showMessage(index, `❌ Rolled ${result}. Lost $${bet}`, false);
+        }
+
+        updateUI();
+      }, 1000);
+    }
+
+    function updateDiceFace(index, number) {
+      const diceEl = document.getElementById(`dice${index}`);
+      if (!diceEl) return;
+      
+      diceEl.innerHTML = `<div class="dice-face" style="transform: translateZ(50px);">${getDots(number)}</div>`;
+    }
+
+    function getDots(number) {
+      const patterns = {
+        1: '<div class="dice-dot"></div>',
+        2: '<div class="dice-dot"></div><div></div><div></div><div class="dice-dot"></div>',
+        3: '<div class="dice-dot"></div><div></div><div class="dice-dot"></div><div></div><div class="dice-dot"></div>',
+        4: '<div class="dice-dot"></div><div class="dice-dot"></div><div></div><div class="dice-dot"></div><div class="dice-dot"></div>',
+        5: '<div class="dice-dot"></div><div class="dice-dot"></div><div class="dice-dot"></div><div class="dice-dot"></div><div class="dice-dot"></div>',
+        6: '<div class="dice-dot"></div><div class="dice-dot"></div><div class="dice-dot"></div><div class="dice-dot"></div><div class="dice-dot"></div><div class="dice-dot"></div>'
+      };
+      return patterns[number] || '';
+    }
+
+    function showMessage(index, msg, isWin) {
+      const msgEl = document.getElementById(`msg${index}`);
+      if (msgEl) {
+        msgEl.textContent = msg;
+        msgEl.className = 'dice-message ' + (isWin ? 'msg-win' : 'msg-lose');
+        setTimeout(() => {
+          msgEl.textContent = '';
+        }, 3000);
+      }
+    }
+
+    function rollAll() {
+      activeBoards.forEach((board, index) => {
+        if (board !== null) {
+          setTimeout(() => rollDice(index), index * 300);
+        }
+      });
+    }
+
+    function renderPassives() {
+      const list = document.getElementById('passivesList');
+      list.innerHTML = '';
+
+      const passiveConfigs = {
+        luckyNumber: { name: 'Lucky Number', emoji: '🍀', effect: '+10% better odds per level' },
+        comboMaster: { name: 'Combo Master', emoji: '🔥', effect: '+20% combo multipliers' },
+        payoutBooster: { name: 'Payout Booster', emoji: '💰', effect: '+15% base payout' },
+        multiPredict: { name: 'Multi-Predict', emoji: '🎯', effect: 'Bet on more numbers' },
+        perfectRoll: { name: 'Perfect Roll', emoji: '⭐', effect: 'Better dice luck' }
+      };
+
+      let hasPassives = false;
+      Object.entries(passives).forEach(([key, passive]) => {
+        if (passive.owned) {
+          hasPassives = true;
+          const config = passiveConfigs[key];
+          const div = document.createElement('div');
+          div.className = 'passive-item';
+          div.innerHTML = `
+            <div class="passive-emoji">${config.emoji}</div>
+            <div class="passive-info">
+              <div class="passive-name">${config.name}</div>
+              <div class="passive-effect">${config.effect}</div>
+              ${passive.maxLevel > 1 ? `<div class="passive-level">Level ${passive.level}/${passive.maxLevel}</div>` : ''}
+            </div>
+          `;
+          list.appendChild(div);
+        }
+      });
+
+      if (!hasPassives) {
+        list.innerHTML = '<div style="text-align: center; opacity: 0.5; padding: 20px; font-size: 0.85em;">No passives yet!</div>';
+      }
+    }
+
+    function renderInventory() {
+      const list = document.getElementById('inventoryList');
+      list.innerHTML = '';
+
+      let hasItems = false;
+      Object.entries(inventory).forEach(([key, count]) => {
+        if (count > 0) {
+          hasItems = true;
+          const dice = DICE_TYPES[key];
+          const div = document.createElement('div');
+          div.className = 'inventory-item';
+          div.innerHTML = `
+            <div class="inventory-emoji">${dice.emoji}</div>
+            <div class="inventory-info">
+              <div class="inventory-name">${dice.name}</div>
+              <div>x${count} | ${dice.payout}x payout</div>
+            </div>
+            <button class="use-btn" onclick="useFromInventory('${key}')" 
+                    ${activeBoards.filter(b => b === null).length === 0 ? 'disabled' : ''}>USE</button>
+          `;
+          list.appendChild(div);
+        }
+      });
+
+      if (!hasItems) {
+        list.innerHTML = '<div style="text-align:center;opacity:0.5;padding:20px;font-size:0.85em;">No dice in inventory</div>';
+      }
+    }
+
+    function renderSaveSlots() {
+      const container = document.getElementById('savesContainer');
+      container.innerHTML = '';
+
+      saveSlots.forEach((slot, i) => {
+        const div = document.createElement('div');
+        div.className = 'save-slot';
+        div.innerHTML = `
+          <input type="text" value="${slot.name}" onchange="updateSlotName(${i}, this.value)" />
+          <div style="font-size: 0.8em; margin-bottom: 10px; opacity: 0.8;">
+            ${slot.data ? `💾 Saved: $${formatMoney(slot.data.money)}` : '📂 Empty'}
+          </div>
+          <div class="save-slot-buttons">
+            <button class="save-btn" onclick="saveToSlot(${i})">SAVE</button>
+            <button class="load-btn" onclick="loadFromSlot(${i})" ${!slot.data ? 'disabled' : ''}>LOAD</button>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function updateSlotName(index, name) {
+      saveSlots[index].name = name || `Slot ${index + 1}`;
+      localStorage.setItem('diceSaveSlots', JSON.stringify(saveSlots));
+    }
+
+    function saveToSlot(index) {
+      saveSlots[index].data = {
+        money,
+        totalProfit,
+        activeBoards: activeBoards.slice(),
+        inventory: {...inventory},
+        passives: JSON.parse(JSON.stringify(passives)),
+        stats: {...stats}
+      };
+      localStorage.setItem('diceSaveSlots', JSON.stringify(saveSlots));
+      alert(`Saved to ${saveSlots[index].name}!`);
+      renderSaveSlots();
+    }
+
+    function loadFromSlot(index) {
+      const data = saveSlots[index].data;
+      if (!data) {
+        alert('Empty slot!');
+        return;
+      }
+      
+      money = data.money;
+      totalProfit = data.totalProfit;
+      activeBoards = data.activeBoards.slice();
+      inventory = {...data.inventory};
+      passives = JSON.parse(JSON.stringify(data.passives));
+      stats = {...data.stats};
+      selectedNumbers = {};
+      
+      alert(`Loaded ${saveSlots[index].name}!`);
+      updateUI();
+    }
+
+    function renderShop() {
+      const grid = document.getElementById('shopGrid');
+      grid.innerHTML = '';
+
+      // Dice
+      const diceTitle = document.createElement('div');
+      diceTitle.className = 'shop-section-title';
+      diceTitle.textContent = '🎲 DICE TYPES 🎲';
+      grid.appendChild(diceTitle);
+
+      Object.entries(DICE_TYPES).forEach(([key, dice]) => {
+        const div = document.createElement('div');
+        div.className = 'shop-item';
+        div.innerHTML = `
+          <div class="shop-emoji">${dice.emoji}</div>
+          <div class="shop-info">
+            <div class="shop-name">${dice.name}</div>
+            <div class="shop-stats">${dice.description}</div>
+            <div class="shop-price">$${formatMoney(dice.cost)}</div>
+          </div>
+          <button class="buy-btn" onclick="buyDice('${key}')" ${money < dice.cost ? 'disabled' : ''}>BUY</button>
+        `;
+        grid.appendChild(div);
+      });
+
+      // Passives
+      const passivesTitle = document.createElement('div');
+      passivesTitle.className = 'shop-section-title';
+      passivesTitle.textContent = '⚡ PASSIVES ⚡';
+      grid.appendChild(passivesTitle);
+
+      const passiveShop = [
+        { key: 'luckyNumber', name: 'Lucky Number', emoji: '🍀', baseCost: 800, costMultiplier: 2, effect: '+10% odds', maxLevel: 5 },
+        { key: 'comboMaster', name: 'Combo Master', emoji: '🔥', baseCost: 1500, costMultiplier: 2.5, effect: '+20% combo mult', maxLevel: 5 },
+        { key: 'payoutBooster', name: 'Payout Booster', emoji: '💰', baseCost: 1200, costMultiplier: 2, effect: '+15% payout', maxLevel: 5 },
+        { key: 'multiPredict', name: 'Multi-Predict', emoji: '🎯', baseCost: 2000, costMultiplier: 3, effect: 'More predictions', maxLevel: 3 },
+        { key: 'perfectRoll', name: 'Perfect Roll', emoji: '⭐', baseCost: 2500, costMultiplier: 2.5, effect: 'Better luck', maxLevel: 3 }
+      ];
+
+      passiveShop.forEach(passive => {
+        const current = passives[passive.key];
+        const currentLevel = current.level || 0;
+        const canUpgrade = currentLevel < passive.maxLevel;
+        const cost = Math.floor(passive.baseCost * Math.pow(passive.costMultiplier, currentLevel));
+        
+        const div = document.createElement('div');
+        div.className = `shop-item ${!canUpgrade ? 'maxed' : ''}`;
+        div.innerHTML = `
+          <div class="shop-emoji">${passive.emoji}</div>
+          <div class="shop-info">
+            <div class="shop-name">${passive.name}</div>
+            <div class="shop-stats">${passive.effect}</div>
+            ${passive.maxLevel > 1 ? `<div class="shop-stats">Level: ${currentLevel}/${passive.maxLevel}</div>` : ''}
+            ${canUpgrade ? `<div class="shop-price">$${formatMoney(cost)}</div>` : '<div class="shop-price">MAX</div>'}
+          </div>
+          ${canUpgrade ? `
+            <button class="buy-btn" onclick="buyPassive('${passive.key}', ${cost})" 
+                    ${money < cost ? 'disabled' : ''}>${current.owned ? 'UPGRADE' : 'BUY'}</button>
+          ` : '<button class="buy-btn" disabled>MAXED</button>'}
+        `;
+        grid.appendChild(div);
+      });
+    }
+
+    function buyDice(key) {
+      const dice = DICE_TYPES[key];
+      if (money >= dice.cost) {
+        money -= dice.cost;
+        inventory[key] = (inventory[key] || 0) + 1;
+        updateUI();
+      }
+    }
+
+    function buyPassive(passiveKey, cost) {
+      if (money >= cost) {
+        money -= cost;
+        passives[passiveKey].owned = true;
+        passives[passiveKey].level = (passives[passiveKey].level || 0) + 1;
+        updateUI();
+      }
+    }
+
+    function useFromInventory(key) {
+      const emptyIndex = activeBoards.findIndex(b => b === null);
+      if (emptyIndex !== -1 && inventory[key] > 0) {
+        activeBoards[emptyIndex] = key;
+        inventory[key]--;
+        selectedNumbers[emptyIndex] = [];
+        updateUI();
+      }
+    }
+
+    function removeBoard(index) {
+      const boardKey = activeBoards[index];
+      if (boardKey) {
+        inventory[boardKey] = (inventory[boardKey] || 0) + 1;
+        activeBoards[index] = null;
+        delete selectedNumbers[index];
+        updateUI();
+      }
+    }
+
+    function resetGame() {
+      if (confirm('Reset game? All progress will be lost!')) {
+        money = 1000;
+        totalProfit = 0;
+        activeBoards = [null, null, null, null];
+        inventory = {};
+        betValues = {};
+        selectedNumbers = {};
+        passives = {
+          luckyNumber: { owned: false, level: 0, maxLevel: 5 },
+          comboMaster: { owned: false, level: 0, maxLevel: 5 },
+          payoutBooster: { owned: false, level: 0, maxLevel: 5 },
+          multiPredict: { owned: false, level: 0, maxLevel: 3 },
+          perfectRoll: { owned: false, level: 0, maxLevel: 3 }
+        };
+        stats = { rolls: 0, wins: 0, losses: 0, biggestWin: 0, maxCombo: 0 };
+        updateUI();
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('rollAllBtn').onclick = rollAll;
+      updateUI();
+    });
+  </script>
+</body>
+</html>
