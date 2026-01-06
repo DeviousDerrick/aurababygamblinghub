@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Plinko Casino Empire</title>
+<title>Poker Casino Empire</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@800&display=swap" rel="stylesheet"/>
 <style>
   :root {
@@ -122,7 +122,7 @@
     gap: 30px;
   }
 
-  .boards-container {
+  .tables-container {
     background: rgba(255,255,255,0.05);
     backdrop-filter: blur(20px);
     border: 2px solid rgba(255,255,255,0.1);
@@ -131,14 +131,14 @@
     box-shadow: 0 8px 32px rgba(0,0,0,0.3);
   }
 
-  .boards-header {
+  .tables-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
   }
 
-  .boards-title {
+  .tables-title {
     font-size: 1.5em;
     background: linear-gradient(135deg, var(--white), var(--blue-bright));
     -webkit-background-clip: text;
@@ -146,32 +146,13 @@
     background-clip: text;
   }
 
-  .drop-all-btn {
-    padding: 10px 20px;
-    font-size: 1em;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 800;
-    background: linear-gradient(135deg, var(--purple-bright), var(--pink-neon));
-    color: var(--white);
-    border: 2px solid rgba(255,255,255,0.3);
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 0 15px rgba(123,44,191,0.4);
-  }
-
-  .drop-all-btn:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 25px rgba(247,37,133,0.6);
-  }
-
-  .boards-grid {
+  .tables-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
     gap: 25px;
   }
 
-  .plinko-card {
+  .table-card {
     background: rgba(255,255,255,0.05);
     border: 2px solid rgba(255,255,255,0.15);
     border-radius: 20px;
@@ -179,89 +160,99 @@
     position: relative;
   }
 
-  .plinko-card.empty {
+  .table-card.empty {
     opacity: 0.3;
     border-style: dashed;
     text-align: center;
     padding: 60px 20px;
   }
 
-  .plinko-title {
+  .table-title {
     text-align: center;
     font-size: 1em;
     color: var(--gold-bright);
     text-shadow: 0 0 10px var(--gold-bright);
-    margin-bottom: 10px;
+    margin-bottom: 5px;
   }
 
-  .plinko-stats {
+  .table-stats {
     text-align: center;
-    font-size: 0.75em;
+    font-size: 0.7em;
     opacity: 0.8;
     margin-bottom: 10px;
   }
 
-  .plinko-board {
-    position: relative;
-    width: 100%;
-    height: 300px;
+  .game-area {
     background: rgba(0,0,0,0.4);
     border: 2px solid rgba(255,255,255,0.2);
     border-radius: 12px;
+    padding: 15px;
     margin-bottom: 15px;
-    overflow: hidden;
+    min-height: 280px;
   }
 
-  .peg {
-    width: 8px;
-    height: 8px;
-    background: var(--white);
-    border-radius: 50%;
-    position: absolute;
-    box-shadow: 0 0 8px var(--blue-bright);
-  }
-
-  .disk {
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    background: radial-gradient(circle, var(--pink-neon), var(--purple-bright));
-    position: absolute;
-    box-shadow: 0 0 10px var(--pink-neon);
-    z-index: 10;
-  }
-
-  .slots-row {
-    display: flex;
-    justify-content: space-between;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    padding: 5px;
-  }
-
-  .slot {
-    flex: 1;
-    height: 30px;
+  .community-cards {
     text-align: center;
-    line-height: 30px;
-    font-size: 0.7em;
-    border-radius: 8px;
-    margin: 0 2px;
-    color: var(--white);
-    box-shadow: 0 0 10px rgba(255,255,255,0.3);
+    margin-bottom: 15px;
   }
 
-  .plinko-controls {
+  .community-label {
+    font-size: 0.8em;
+    color: var(--pink-neon);
+    margin-bottom: 5px;
+  }
+
+  .hand-section {
+    margin: 10px 0;
+  }
+
+  .hand-label {
+    font-size: 0.8em;
+    color: var(--blue-bright);
+    margin-bottom: 5px;
+  }
+
+  .hand {
     display: flex;
-    gap: 10px;
+    gap: 5px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .card {
+    width: 40px;
+    height: 56px;
+    background: white;
+    color: black;
+    font-weight: bold;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+    font-size: 0.7em;
+    line-height: 1.2;
+  }
+
+  .card.hearts, .card.diamonds { color: #ff0000; }
+  .card.clubs, .card.spades { color: #000000; }
+
+  .card.hidden {
+    background: linear-gradient(135deg, #444, #222);
+    color: #666;
+  }
+
+  .table-controls {
+    display: flex;
+    gap: 5px;
     margin-bottom: 10px;
   }
 
-  .plinko-controls input {
+  .table-controls input {
     flex: 1;
-    padding: 8px;
-    font-size: 0.9em;
+    padding: 6px;
+    font-size: 0.85em;
     font-family: 'Poppins', sans-serif;
     font-weight: 800;
     background: rgba(255,255,255,0.1);
@@ -271,10 +262,10 @@
     text-align: center;
   }
 
-  .plinko-controls button {
+  .table-controls button {
     flex: 1;
-    padding: 8px;
-    font-size: 0.9em;
+    padding: 6px;
+    font-size: 0.85em;
     font-family: 'Poppins', sans-serif;
     font-weight: 800;
     background: linear-gradient(135deg, var(--purple-bright), var(--pink-neon));
@@ -283,6 +274,16 @@
     border-radius: 8px;
     cursor: pointer;
     box-shadow: 0 0 10px rgba(123,44,191,0.4);
+    transition: all 0.3s ease;
+  }
+
+  .table-controls button:hover:not(:disabled) {
+    transform: scale(1.05);
+  }
+
+  .table-controls button:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
   }
 
   .remove-btn {
@@ -298,9 +299,9 @@
     cursor: pointer;
   }
 
-  .plinko-message {
+  .table-message {
     text-align: center;
-    font-size: 0.8em;
+    font-size: 0.75em;
     min-height: 30px;
     margin-top: 5px;
   }
@@ -312,6 +313,10 @@
 
   .msg-lose {
     color: #ff4444;
+  }
+
+  .msg-tie {
+    color: var(--blue-bright);
   }
 
   .sidebar {
@@ -545,7 +550,7 @@
 
   <div class="container">
     <div class="header">
-      <div class="main-title">🎲 PLINKO CASINO EMPIRE 🎲</div>
+      <div class="main-title">🃏 POKER CASINO EMPIRE 🃏</div>
       <div class="stats-row">
         <div class="stat-display">
           💰 $<span id="money">1000</span>
@@ -557,12 +562,11 @@
     </div>
 
     <div class="main-content">
-      <div class="boards-container">
-        <div class="boards-header">
-          <div class="boards-title">🎯 ACTIVE PLINKO BOARDS 🎯</div>
-          <button class="drop-all-btn" id="dropAllBtn">DROP ALL</button>
+      <div class="tables-container">
+        <div class="tables-header">
+          <div class="tables-title">🎴 ACTIVE POKER TABLES 🎴</div>
         </div>
-        <div class="boards-grid" id="boardsGrid"></div>
+        <div class="tables-grid" id="tablesGrid"></div>
       </div>
 
       <div class="sidebar">
@@ -574,10 +578,10 @@
         <div class="panel">
           <div class="panel-title">📊 STATS 📊</div>
           <div style="font-size: 0.85em;">
-            <div style="margin-bottom: 8px;">Drops: <span id="drops" style="color: var(--gold-bright);">0</span></div>
+            <div style="margin-bottom: 8px;">Hands: <span id="hands" style="color: var(--gold-bright);">0</span></div>
             <div style="margin-bottom: 8px;">Wins: <span id="wins" style="color: #00ff00;">0</span></div>
             <div style="margin-bottom: 8px;">Losses: <span id="losses" style="color: #ff4444;">0</span></div>
-            <div style="margin-bottom: 8px;">Biggest Win: $<span id="biggestWin" style="color: var(--pink-neon);">0</span></div>
+            <div style="margin-bottom: 8px;">Royal Flushes: <span id="royalFlushes" style="color: var(--pink-neon);">👑 0</span></div>
           </div>
           <button class="reset-btn" onclick="resetGame()">RESET GAME</button>
         </div>
@@ -601,58 +605,70 @@
   </div>
 
   <script>
-    const PLINKO_TYPES = {
+    const TABLE_TYPES = {
       classic: {
-        name: "CLASSIC PLINKO",
-        emoji: "🎯",
-        multipliers: [0.5, 1, 1.5, 2, 3, 2, 1.5, 1, 0.5],
+        name: "CLASSIC POKER",
+        emoji: "🎴",
+        payout: 2,
+        ante: 1,
         cost: 0,
-        description: "Standard board, balanced"
+        description: "Standard Texas Hold'em, 2x payout"
       },
-      risky: {
-        name: "RISKY PLINKO",
-        emoji: "🔥",
-        multipliers: [0.2, 0.5, 1, 2, 5, 2, 1, 0.5, 0.2],
+      highStakes: {
+        name: "HIGH STAKES",
+        emoji: "💎",
+        payout: 3,
+        ante: 1.5,
+        cost: 800,
+        description: "Higher risk, 3x payout"
+      },
+      tournament: {
+        name: "TOURNAMENT",
+        emoji: "🏆",
+        payout: 2.5,
+        ante: 1,
+        royalBonus: true,
+        cost: 1200,
+        description: "2.5x payout, royal flush bonus"
+      },
+      speed: {
+        name: "SPEED POKER",
+        emoji: "⚡",
+        payout: 2.2,
+        ante: 0.8,
         cost: 600,
-        description: "High risk, high reward"
-      },
-      safe: {
-        name: "SAFE PLINKO",
-        emoji: "🛡️",
-        multipliers: [0.8, 1, 1.2, 1.5, 2, 1.5, 1.2, 1, 0.8],
-        cost: 500,
-        description: "Lower variance, safer"
-      },
-      lucky: {
-        name: "LUCKY PLINKO",
-        emoji: "🍀",
-        multipliers: [0.5, 1, 2, 3, 10, 3, 2, 1, 0.5],
-        cost: 1500,
-        description: "Huge center jackpot"
+        description: "Quick play, 2.2x payout"
       },
       fortune: {
-        name: "FORTUNE PLINKO",
-        emoji: "💎",
-        multipliers: [1, 2, 3, 5, 25, 5, 3, 2, 1],
+        name: "FORTUNE POKER",
+        emoji: "💰",
+        payout: 5,
+        ante: 2,
+        royalBonus: true,
         cost: 3500,
-        description: "Legendary payouts"
+        description: "Legendary 5x payout"
       }
     };
 
+    const suits = ['♥', '♦', '♣', '♠'];
+    const suitNames = ['hearts', 'diamonds', 'clubs', 'spades'];
+    const values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
+
     let money = 1000;
     let totalProfit = 0;
-    let activeBoards = [null, null, null, null];
+    let activeTables = [null, null, null, null];
     let inventory = {};
     let betValues = {};
+    let tableGames = {};
     let passives = {
-      multiplierBoost: { owned: false, level: 0, maxLevel: 5 },
-      luckyBounce: { owned: false, level: 0, maxLevel: 5 },
-      centerMagnet: { owned: false, level: 0, maxLevel: 3 },
-      profitMultiplier: { owned: false, level: 0, maxLevel: 3 },
-      safetyBoost: { owned: false, level: 0, maxLevel: 3 }
+      pokerFace: { owned: false, level: 0, maxLevel: 5 },
+      cardSharp: { owned: false, level: 0, maxLevel: 5 },
+      luckyDraw: { owned: false, level: 0, maxLevel: 3 },
+      payoutMaster: { owned: false, level: 0, maxLevel: 5 },
+      royalLuck: { owned: false, level: 0, maxLevel: 3 }
     };
-    let stats = { drops: 0, wins: 0, losses: 0, biggestWin: 0 };
-    let saveSlots = JSON.parse(localStorage.getItem('plinkoSaveSlots')) || [
+    let stats = { hands: 0, wins: 0, losses: 0, royalFlushes: 0 };
+    let saveSlots = JSON.parse(localStorage.getItem('pokerSaveSlots')) || [
       { name: 'Slot 1', data: null },
       { name: 'Slot 2', data: null },
       { name: 'Slot 3', data: null }
@@ -664,194 +680,300 @@
       return Math.floor(num).toString();
     }
 
-    function getMultiplier(base) {
-      let mult = base;
-      if (passives.multiplierBoost.owned) {
-        mult *= (1 + 0.10 * passives.multiplierBoost.level);
+    function createDeck() {
+      const deck = [];
+      for (let suit of suits) {
+        for (let value of values) {
+          deck.push({ value, suit });
+        }
       }
-      return mult;
+      return deck.sort(() => Math.random() - 0.5);
+    }
+
+    function getCardValue(card) {
+      if (card.value === 'A') return 14;
+      if (card.value === 'K') return 13;
+      if (card.value === 'Q') return 12;
+      if (card.value === 'J') return 11;
+      return parseInt(card.value);
+    }
+
+    function evaluateHand(cards) {
+      const values = cards.map(c => getCardValue(c)).sort((a, b) => b - a);
+      const suits = cards.map(c => c.suit);
+      
+      const isFlush = suits.every(s => s === suits[0]);
+      const isStraight = values[0] - values[4] === 4 && new Set(values).size === 5;
+      const isRoyalStraight = values.join(',') === '14,13,12,11,10';
+      
+      const valueCounts = {};
+      values.forEach(v => valueCounts[v] = (valueCounts[v] || 0) + 1);
+      const counts = Object.values(valueCounts).sort((a, b) => b - a);
+      
+      if (isFlush && isRoyalStraight) return { rank: 10, name: 'Royal Flush' };
+      if (isFlush && isStraight) return { rank: 9, name: 'Straight Flush' };
+      if (counts[0] === 4) return { rank: 8, name: 'Four of a Kind' };
+      if (counts[0] === 3 && counts[1] === 2) return { rank: 7, name: 'Full House' };
+      if (isFlush) return { rank: 6, name: 'Flush' };
+      if (isStraight) return { rank: 5, name: 'Straight' };
+      if (counts[0] === 3) return { rank: 4, name: 'Three of a Kind' };
+      if (counts[0] === 2 && counts[1] === 2) return { rank: 3, name: 'Two Pair' };
+      if (counts[0] === 2) return { rank: 2, name: 'Pair' };
+      return { rank: 1, name: 'High Card' };
+    }
+
+    function getBestHand(playerCards, communityCards) {
+      const allCards = [...playerCards, ...communityCards];
+      let bestHand = { rank: 0 };
+      
+      // Check all 5-card combinations
+      for (let i = 0; i < allCards.length; i++) {
+        for (let j = i + 1; j < allCards.length; j++) {
+          for (let k = j + 1; k < allCards.length; k++) {
+            for (let l = k + 1; l < allCards.length; l++) {
+              for (let m = l + 1; m < allCards.length; m++) {
+                const hand = evaluateHand([allCards[i], allCards[j], allCards[k], allCards[l], allCards[m]]);
+                if (hand.rank > bestHand.rank) bestHand = hand;
+              }
+            }
+          }
+        }
+      }
+      
+      return bestHand;
+    }
+
+    function getPayout(tableType) {
+      let payout = TABLE_TYPES[tableType].payout;
+      if (passives.payoutMaster.owned) {
+        payout *= (1 + 0.10 * passives.payoutMaster.level);
+      }
+      return payout;
     }
 
     function updateUI() {
       document.getElementById('money').textContent = formatMoney(money);
       document.getElementById('profit').textContent = formatMoney(Math.abs(totalProfit));
-      document.getElementById('drops').textContent = stats.drops;
+      document.getElementById('hands').textContent = stats.hands;
       document.getElementById('wins').textContent = stats.wins;
       document.getElementById('losses').textContent = stats.losses;
-      document.getElementById('biggestWin').textContent = formatMoney(stats.biggestWin);
+      document.getElementById('royalFlushes').textContent = stats.royalFlushes;
       
-      renderBoards();
+      renderTables();
       renderPassives();
       renderInventory();
       renderSaveSlots();
       renderShop();
     }
 
-    function renderBoards() {
-      const grid = document.getElementById('boardsGrid');
+    function renderTables() {
+      const grid = document.getElementById('tablesGrid');
       grid.innerHTML = '';
 
-      activeBoards.forEach((boardKey, index) => {
+      activeTables.forEach((tableKey, index) => {
         const div = document.createElement('div');
-        div.className = boardKey ? 'plinko-card' : 'plinko-card empty';
+        div.className = tableKey ? 'table-card' : 'table-card empty';
 
-        if (boardKey) {
-          const board = PLINKO_TYPES[boardKey];
+        if (tableKey) {
+          const table = TABLE_TYPES[tableKey];
+          const game = tableGames[index] || { state: 'ready' };
+          
           div.innerHTML = `
-            <div class="plinko-title">${board.emoji} ${board.name}</div>
-            <div class="plinko-stats">${board.description}</div>
-            <div class="plinko-board" id="board${index}">
-              <div class="slots-row" id="slots${index}"></div>
+            <div class="table-title">${table.emoji} ${table.name}</div>
+            <div class="table-stats">${table.description}</div>
+            <div class="game-area" id="game${index}">
+              <div class="community-cards">
+                <div class="community-label">🃏 Community Cards</div>
+                <div class="hand" id="community${index}"></div>
+              </div>
+              <div class="hand-section">
+                <div class="hand-label">🧍 Your Hand</div>
+                <div class="hand" id="phand${index}"></div>
+              </div>
+              <div class="hand-section">
+                <div class="hand-label">🤵 Dealer Hand</div>
+                <div class="hand" id="dhand${index}"></div>
+              </div>
             </div>
-            <div class="plinko-controls">
+            <div class="table-controls">
               <input type="number" id="bet${index}" placeholder="Bet" value="${betValues[index] ?? 10}" 
-                     oninput="betValues[${index}] = this.value" min="1" />
-              <button onclick="dropDisk(${index})">DROP</button>
+                     oninput="betValues[${index}] = this.value" min="1" 
+                     ${game.state !== 'ready' ? 'disabled' : ''} />
+              <button onclick="dealCards(${index})" ${game.state !== 'ready' ? 'disabled' : ''}>DEAL</button>
             </div>
-            <button class="remove-btn" onclick="removeBoard(${index})">REMOVE</button>
-            <div class="plinko-message" id="msg${index}"></div>
+            <div class="table-controls">
+              <button onclick="playHand(${index})" ${game.state !== 'playing' ? 'disabled' : ''}>PLAY</button>
+              <button onclick="foldHand(${index})" ${game.state !== 'playing' ? 'disabled' : ''}>FOLD</button>
+            </div>
+            <button class="remove-btn" onclick="removeTable(${index})">REMOVE</button>
+            <div class="table-message" id="msg${index}"></div>
           `;
 
           grid.appendChild(div);
           
-          setTimeout(() => {
-            createBoardPegs(index, boardKey);
-            createSlots(index, boardKey);
-          }, 100);
+          if (game.state !== 'ready') {
+            setTimeout(() => renderHand(index), 100);
+          }
         } else {
-          div.innerHTML = '<div style="opacity: 0.5;">EMPTY SLOT<br>Add board from inventory</div>';
+          div.innerHTML = '<div style="opacity: 0.5;">EMPTY SLOT<br>Add table from inventory</div>';
           grid.appendChild(div);
         }
       });
     }
 
-    function createBoardPegs(index, boardKey) {
-      const board = document.getElementById(`board${index}`);
-      if (!board) return;
-      
-      const rows = 6;
-      const cols = 9;
-      
-      for (let r = 0; r < rows; r++) {
-        for (let c = 0; c < cols; c++) {
-          if (r % 2 && c === cols - 1) continue;
-          const peg = document.createElement('div');
-          peg.className = 'peg';
-          peg.style.top = `${r * 40 + 20}px`;
-          peg.style.left = `${c * 35 + (r % 2 ? 17 : 0)}px`;
-          board.appendChild(peg);
-        }
-      }
+    function renderHand(index) {
+      const game = tableGames[index];
+      if (!game) return;
+
+      renderCards(`community${index}`, game.community, false);
+      renderCards(`phand${index}`, game.player, false);
+      renderCards(`dhand${index}`, game.dealer, !game.revealDealer);
     }
 
-    function createSlots(index, boardKey) {
-      const slotsContainer = document.getElementById(`slots${index}`);
-      if (!slotsContainer) return;
+    function renderCards(elementId, cards, hidden) {
+      const el = document.getElementById(elementId);
+      if (!el) return;
       
-      const board = PLINKO_TYPES[boardKey];
-      const colors = ['#f44336', '#ff9800', '#4caf50', '#2196f3', '#9c27b0', '#00bcd4', '#ff4081', '#8bc34a', '#ffeb3b'];
-      
-      board.multipliers.forEach((mult, i) => {
-        const slot = document.createElement('div');
-        slot.className = 'slot';
-        slot.textContent = mult + 'x';
-        slot.dataset.multiplier = mult;
-        slot.style.backgroundColor = colors[i % colors.length];
-        slotsContainer.appendChild(slot);
+      el.innerHTML = '';
+      cards.forEach((card, i) => {
+        const cardEl = document.createElement('div');
+        if (hidden && i > 0) {
+          cardEl.className = 'card hidden';
+          cardEl.textContent = '🂠';
+        } else {
+          const suitIndex = suits.indexOf(card.suit);
+          cardEl.className = `card ${suitNames[suitIndex]}`;
+          cardEl.innerHTML = `${card.value}<br>${card.suit}`;
+        }
+        el.appendChild(cardEl);
       });
     }
 
-    function dropDisk(index) {
-      const boardKey = activeBoards[index];
-      if (!boardKey) return;
+    function dealCards(index) {
+      const tableKey = activeTables[index];
+      if (!tableKey) return;
 
+      const table = TABLE_TYPES[tableKey];
       const bet = parseInt(document.getElementById(`bet${index}`).value) || 0;
-      if (bet <= 0 || bet > money) {
-        showMessage(index, "⛔ Invalid bet!", false);
+      const ante = Math.floor(bet * table.ante);
+      
+      if (ante <= 0 || ante > money) {
+        showMessage(index, "⛔ Invalid bet!", 'lose');
         return;
       }
 
-      money -= bet;
-      totalProfit -= bet;
-      stats.drops++;
+      money -= ante;
+      stats.hands++;
+      
+      const deck = createDeck();
+      
+      tableGames[index] = {
+        state: 'playing',
+        bet: ante,
+        deck: deck,
+        player: [deck.pop(), deck.pop()],
+        dealer: [deck.pop(), deck.pop()],
+        community: [deck.pop(), deck.pop(), deck.pop()],
+        revealDealer: false
+      };
+
       updateUI();
-
-      const board = document.getElementById(`board${index}`);
-      const disk = document.createElement('div');
-      disk.className = 'disk';
-      board.appendChild(disk);
-
-      let x = board.clientWidth / 2 - 7;
-      let y = 0;
-      const speedY = 2;
-
-      const interval = setInterval(() => {
-        y += speedY;
-        
-        const pegs = board.querySelectorAll('.peg');
-        pegs.forEach(peg => {
-          const pegX = peg.offsetLeft + peg.offsetWidth / 2;
-          const pegY = peg.offsetTop + peg.offsetHeight / 2;
-          if (Math.abs(x - pegX) < 10 && Math.abs(y - pegY) < 10) {
-            x += Math.random() > 0.5 ? 5 : -5;
-          }
-        });
-
-        disk.style.top = `${y}px`;
-        disk.style.left = `${x}px`;
-
-        if (y >= board.clientHeight - 40) {
-          clearInterval(interval);
-          
-          let multiplier = 0;
-          const slots = board.querySelectorAll('.slot');
-          slots.forEach(slot => {
-            const slotRect = slot.getBoundingClientRect();
-            const diskRect = disk.getBoundingClientRect();
-            if (diskRect.left + diskRect.width / 2 >= slotRect.left && 
-                diskRect.left + diskRect.width / 2 <= slotRect.right) {
-              multiplier = parseFloat(slot.dataset.multiplier);
-            }
-          });
-
-          multiplier = getMultiplier(multiplier);
-          const winnings = Math.floor(bet * multiplier);
-          money += winnings;
-          const profit = winnings - bet;
-          totalProfit += profit;
-
-          if (profit > 0) {
-            stats.wins++;
-            if (winnings > stats.biggestWin) stats.biggestWin = winnings;
-            showMessage(index, `🎉 Won $${formatMoney(winnings)}! (${multiplier.toFixed(1)}x)`, true);
-          } else {
-            stats.losses++;
-            showMessage(index, `Lost! (${multiplier.toFixed(1)}x)`, false);
-          }
-
-          disk.remove();
-          updateUI();
-        }
-      }, 20);
     }
 
-    function showMessage(index, msg, isWin) {
+    function playHand(index) {
+      const game = tableGames[index];
+      const tableKey = activeTables[index];
+      if (!game || game.state !== 'playing') return;
+
+      // Player decides to play - must match the ante
+      if (money < game.bet) {
+        showMessage(index, "⛔ Not enough money!", 'lose');
+        return;
+      }
+
+      money -= game.bet; // Match the bet
+      
+      // Reveal remaining community cards
+      game.community.push(game.deck.pop());
+      game.community.push(game.deck.pop());
+      game.revealDealer = true;
+
+      finishHand(index);
+    }
+
+    function foldHand(index) {
+      const game = tableGames[index];
+      if (!game || game.state !== 'playing') return;
+
+      game.state = 'done';
+      stats.losses++;
+      totalProfit -= game.bet;
+      
+      showMessage(index, `😓 Folded! Lost $${game.bet}`, 'lose');
+      
+      setTimeout(() => {
+        tableGames[index] = { state: 'ready' };
+        updateUI();
+      }, 2500);
+      
+      updateUI();
+    }
+
+    function finishHand(index) {
+      const game = tableGames[index];
+      const tableKey = activeTables[index];
+      const table = TABLE_TYPES[tableKey];
+      
+      game.state = 'done';
+
+      const playerHand = getBestHand(game.player, game.community);
+      const dealerHand = getBestHand(game.dealer, game.community);
+
+      renderHand(index);
+
+      let result = '';
+      let profit = 0;
+
+      if (playerHand.rank > dealerHand.rank) {
+        let payout = game.bet * 2 * getPayout(tableKey);
+        
+        if (playerHand.rank === 10 && table.royalBonus) {
+          payout *= 2;
+          stats.royalFlushes++;
+        }
+        
+        money += payout;
+        profit = payout - (game.bet * 2);
+        stats.wins++;
+        result = `🎉 ${playerHand.name}! Won $${formatMoney(payout)}`;
+        showMessage(index, result, 'win');
+      } else if (playerHand.rank < dealerHand.rank) {
+        profit = -(game.bet * 2);
+        stats.losses++;
+        result = `😢 ${dealerHand.name} beats ${playerHand.name}`;
+        showMessage(index, result, 'lose');
+      } else {
+        money += game.bet * 2; // Return both bets
+        result = `🤝 Tie - ${playerHand.name}`;
+        showMessage(index, result, 'tie');
+      }
+
+      totalProfit += profit;
+      
+      setTimeout(() => {
+        tableGames[index] = { state: 'ready' };
+        updateUI();
+      }, 4000);
+      
+      updateUI();
+    }
+
+    function showMessage(index, msg, type) {
       const msgEl = document.getElementById(`msg${index}`);
       if (msgEl) {
         msgEl.textContent = msg;
-        msgEl.className = 'plinko-message ' + (isWin ? 'msg-win' : 'msg-lose');
-        setTimeout(() => {
-          msgEl.textContent = '';
-        }, 3000);
+        msgEl.className = `table-message msg-${type}`;
       }
-    }
-
-    function dropAll() {
-      activeBoards.forEach((board, index) => {
-        if (board !== null) {
-          setTimeout(() => dropDisk(index), index * 200);
-        }
-      });
     }
 
     function renderPassives() {
@@ -859,11 +981,11 @@
       list.innerHTML = '';
 
       const passiveConfigs = {
-        multiplierBoost: { name: 'Multiplier Boost', emoji: '📈', effect: '+10% all multipliers per level' },
-        luckyBounce: { name: 'Lucky Bounce', emoji: '🍀', effect: 'Better peg bounces' },
-        centerMagnet: { name: 'Center Magnet', emoji: '🧲', effect: 'Pulls toward center' },
-        profitMultiplier: { name: 'Profit Booster', emoji: '💰', effect: '+20% profit tracking' },
-        safetyBoost: { name: 'Safety Boost', emoji: '🛡️', effect: 'Better low multipliers' }
+        pokerFace: { name: 'Poker Face', emoji: '😎', effect: '+10% better hands' },
+        cardSharp: { name: 'Card Sharp', emoji: '🃏', effect: 'See dealer card' },
+        luckyDraw: { name: 'Lucky Draw', emoji: '🍀', effect: 'Better community cards' },
+        payoutMaster: { name: 'Payout Master', emoji: '💰', effect: '+10% payout per level' },
+        royalLuck: { name: 'Royal Luck', emoji: '👑', effect: 'More royal flushes' }
       };
 
       let hasPassives = false;
@@ -898,24 +1020,24 @@
       Object.entries(inventory).forEach(([key, count]) => {
         if (count > 0) {
           hasItems = true;
-          const board = PLINKO_TYPES[key];
+          const table = TABLE_TYPES[key];
           const div = document.createElement('div');
           div.className = 'inventory-item';
           div.innerHTML = `
-            <div class="inventory-emoji">${board.emoji}</div>
+            <div class="inventory-emoji">${table.emoji}</div>
             <div class="inventory-info">
-              <div class="inventory-name">${board.name}</div>
-              <div>x${count}</div>
+              <div class="inventory-name">${table.name}</div>
+              <div>x${count} | ${table.payout}x payout</div>
             </div>
             <button class="use-btn" onclick="useFromInventory('${key}')" 
-                    ${activeBoards.filter(b => b === null).length === 0 ? 'disabled' : ''}>USE</button>
+                    ${activeTables.filter(t => t === null).length === 0 ? 'disabled' : ''}>USE</button>
           `;
           list.appendChild(div);
         }
       });
 
       if (!hasItems) {
-        list.innerHTML = '<div style="text-align:center;opacity:0.5;padding:20px;font-size:0.85em;">No boards in inventory</div>';
+        list.innerHTML = '<div style="text-align:center;opacity:0.5;padding:20px;font-size:0.85em;">No tables in inventory</div>';
       }
     }
 
@@ -942,19 +1064,19 @@
 
     function updateSlotName(index, name) {
       saveSlots[index].name = name || `Slot ${index + 1}`;
-      localStorage.setItem('plinkoSaveSlots', JSON.stringify(saveSlots));
+      localStorage.setItem('pokerSaveSlots', JSON.stringify(saveSlots));
     }
 
     function saveToSlot(index) {
       saveSlots[index].data = {
         money,
         totalProfit,
-        activeBoards: activeBoards.slice(),
+        activeTables: activeTables.slice(),
         inventory: {...inventory},
         passives: JSON.parse(JSON.stringify(passives)),
         stats: {...stats}
       };
-      localStorage.setItem('plinkoSaveSlots', JSON.stringify(saveSlots));
+      localStorage.setItem('pokerSaveSlots', JSON.stringify(saveSlots));
       alert(`Saved to ${saveSlots[index].name}!`);
       renderSaveSlots();
     }
@@ -968,10 +1090,11 @@
       
       money = data.money;
       totalProfit = data.totalProfit;
-      activeBoards = data.activeBoards.slice();
+      activeTables = data.activeTables.slice();
       inventory = {...data.inventory};
       passives = JSON.parse(JSON.stringify(data.passives));
       stats = {...data.stats};
+      tableGames = {};
       
       alert(`Loaded ${saveSlots[index].name}!`);
       updateUI();
@@ -981,23 +1104,23 @@
       const grid = document.getElementById('shopGrid');
       grid.innerHTML = '';
 
-      // Boards
-      const boardsTitle = document.createElement('div');
-      boardsTitle.className = 'shop-section-title';
-      boardsTitle.textContent = '🎯 PLINKO BOARDS 🎯';
-      grid.appendChild(boardsTitle);
+      // Tables
+      const tablesTitle = document.createElement('div');
+      tablesTitle.className = 'shop-section-title';
+      tablesTitle.textContent = '🃏 POKER TABLES 🎴';
+      grid.appendChild(tablesTitle);
 
-      Object.entries(PLINKO_TYPES).forEach(([key, board]) => {
+      Object.entries(TABLE_TYPES).forEach(([key, table]) => {
         const div = document.createElement('div');
         div.className = 'shop-item';
         div.innerHTML = `
-          <div class="shop-emoji">${board.emoji}</div>
+          <div class="shop-emoji">${table.emoji}</div>
           <div class="shop-info">
-            <div class="shop-name">${board.name}</div>
-            <div class="shop-stats">${board.description}</div>
-            <div class="shop-price">$${formatMoney(board.cost)}</div>
+            <div class="shop-name">${table.name}</div>
+            <div class="shop-stats">${table.description}</div>
+            <div class="shop-price">$${formatMoney(table.cost)}</div>
           </div>
-          <button class="buy-btn" onclick="buyBoard('${key}')" ${money < board.cost ? 'disabled' : ''}>BUY</button>
+          <button class="buy-btn" onclick="buyTable('${key}')" ${money < table.cost ? 'disabled' : ''}>BUY</button>
         `;
         grid.appendChild(div);
       });
@@ -1009,11 +1132,11 @@
       grid.appendChild(passivesTitle);
 
       const passiveShop = [
-        { key: 'multiplierBoost', name: 'Multiplier Boost', emoji: '📈', baseCost: 1000, costMultiplier: 2, effect: '+10% multipliers', maxLevel: 5 },
-        { key: 'luckyBounce', name: 'Lucky Bounce', emoji: '🍀', baseCost: 1200, costMultiplier: 2, effect: 'Better bounces', maxLevel: 5 },
-        { key: 'centerMagnet', name: 'Center Magnet', emoji: '🧲', baseCost: 1500, costMultiplier: 2, effect: 'Center pull', maxLevel: 3 },
-        { key: 'profitMultiplier', name: 'Profit Booster', emoji: '💰', baseCost: 2000, costMultiplier: 3, effect: '+20% profit', maxLevel: 3 },
-        { key: 'safetyBoost', name: 'Safety Boost', emoji: '🛡️', baseCost: 1800, costMultiplier: 2.5, effect: 'Better low mult', maxLevel: 3 }
+        { key: 'pokerFace', name: 'Poker Face', emoji: '😎', baseCost: 1200, costMultiplier: 2, effect: '+10% better hands', maxLevel: 5 },
+        { key: 'cardSharp', name: 'Card Sharp', emoji: '🃏', baseCost: 1500, costMultiplier: 2, effect: 'See dealer card', maxLevel: 5 },
+        { key: 'luckyDraw', name: 'Lucky Draw', emoji: '🍀', baseCost: 1800, costMultiplier: 2, effect: 'Better cards', maxLevel: 3 },
+        { key: 'payoutMaster', name: 'Payout Master', emoji: '💰', baseCost: 2500, costMultiplier: 3, effect: '+10% payout', maxLevel: 5 },
+        { key: 'royalLuck', name: 'Royal Luck', emoji: '👑', baseCost: 3000, costMultiplier: 2.5, effect: 'More royals', maxLevel: 3 }
       ];
 
       passiveShop.forEach(passive => {
@@ -1041,10 +1164,10 @@
       });
     }
 
-    function buyBoard(key) {
-      const board = PLINKO_TYPES[key];
-      if (money >= board.cost) {
-        money -= board.cost;
+    function buyTable(key) {
+      const table = TABLE_TYPES[key];
+      if (money >= table.cost) {
+        money -= table.cost;
         inventory[key] = (inventory[key] || 0) + 1;
         updateUI();
       }
@@ -1060,19 +1183,21 @@
     }
 
     function useFromInventory(key) {
-      const emptyIndex = activeBoards.findIndex(b => b === null);
+      const emptyIndex = activeTables.findIndex(t => t === null);
       if (emptyIndex !== -1 && inventory[key] > 0) {
-        activeBoards[emptyIndex] = key;
+        activeTables[emptyIndex] = key;
         inventory[key]--;
+        tableGames[emptyIndex] = { state: 'ready' };
         updateUI();
       }
     }
 
-    function removeBoard(index) {
-      const boardKey = activeBoards[index];
-      if (boardKey) {
-        inventory[boardKey] = (inventory[boardKey] || 0) + 1;
-        activeBoards[index] = null;
+    function removeTable(index) {
+      const tableKey = activeTables[index];
+      if (tableKey) {
+        inventory[tableKey] = (inventory[tableKey] || 0) + 1;
+        activeTables[index] = null;
+        delete tableGames[index];
         updateUI();
       }
     }
@@ -1081,25 +1206,23 @@
       if (confirm('Reset game? All progress will be lost!')) {
         money = 1000;
         totalProfit = 0;
-        activeBoards = [null, null, null, null];
+        activeTables = [null, null, null, null];
         inventory = {};
         betValues = {};
+        tableGames = {};
         passives = {
-          multiplierBoost: { owned: false, level: 0, maxLevel: 5 },
-          luckyBounce: { owned: false, level: 0, maxLevel: 5 },
-          centerMagnet: { owned: false, level: 0, maxLevel: 3 },
-          profitMultiplier: { owned: false, level: 0, maxLevel: 3 },
-          safetyBoost: { owned: false, level: 0, maxLevel: 3 }
+          pokerFace: { owned: false, level: 0, maxLevel: 5 },
+          cardSharp: { owned: false, level: 0, maxLevel: 5 },
+          luckyDraw: { owned: false, level: 0, maxLevel: 3 },
+          payoutMaster: { owned: false, level: 0, maxLevel: 5 },
+          royalLuck: { owned: false, level: 0, maxLevel: 3 }
         };
-        stats = { drops: 0, wins: 0, losses: 0, biggestWin: 0 };
+        stats = { hands: 0, wins: 0, losses: 0, royalFlushes: 0 };
         updateUI();
       }
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('dropAllBtn').onclick = dropAll;
-      updateUI();
-    });
+    updateUI();
   </script>
 </body>
 </html>
