@@ -1,1 +1,1181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Blackjack Casino Empire</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@800&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --purple-deep: #1a0d2e;
+    --purple-mid: #2d1b4e;
+    --purple-bright: #7b2cbf;
+    --blue-bright: #00b4d8;
+    --pink-neon: #f72585;
+    --gold-bright: #ffd700;
+    --white: #ffffff;
+  }
 
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    background: linear-gradient(125deg, #1a0d2e 0%, #2d1b4e 25%, #3e1f5c 50%, #2d1b4e 75%, #1a0d2e 100%);
+    background-size: 400% 400%;
+    animation: gradientFlow 20s ease infinite;
+    color: var(--white);
+    padding: 20px;
+    min-height: 100vh;
+  }
+
+  @keyframes gradientFlow {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  .orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.3;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .orb1 {
+    width: 500px;
+    height: 500px;
+    background: var(--purple-bright);
+    top: -250px;
+    left: -250px;
+    animation: float 25s ease-in-out infinite;
+  }
+
+  .orb2 {
+    width: 400px;
+    height: 400px;
+    background: var(--blue-bright);
+    bottom: -200px;
+    right: -200px;
+    animation: float 30s ease-in-out infinite reverse;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(100px, -100px) scale(1.1); }
+    66% { transform: translate(-100px, 100px) scale(0.9); }
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 1800px;
+    margin: 0 auto;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .main-title {
+    font-size: 2.5em;
+    background: linear-gradient(135deg, var(--gold-bright), var(--pink-neon), var(--blue-bright));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: titleGlow 3s ease-in-out infinite;
+    letter-spacing: 3px;
+    margin-bottom: 15px;
+  }
+
+  @keyframes titleGlow {
+    0%, 100% { filter: drop-shadow(0 0 20px rgba(255,215,0,0.8)); }
+    50% { filter: drop-shadow(0 0 40px rgba(247,37,133,0.8)); }
+  }
+
+  .stats-row {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+  }
+
+  .stat-display {
+    font-size: 1.5em;
+    padding: 10px 20px;
+    background: rgba(255,255,255,0.05);
+    border: 2px solid rgba(255,255,255,0.2);
+    border-radius: 12px;
+    color: var(--gold-bright);
+    text-shadow: 0 0 20px rgba(255,215,0,0.8);
+  }
+
+  .main-content {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 30px;
+  }
+
+  .tables-container {
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(255,255,255,0.1);
+    border-radius: 28px;
+    padding: 30px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  }
+
+  .tables-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .tables-title {
+    font-size: 1.5em;
+    background: linear-gradient(135deg, var(--white), var(--blue-bright));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .tables-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 25px;
+  }
+
+  .table-card {
+    background: rgba(255,255,255,0.05);
+    border: 2px solid rgba(255,255,255,0.15);
+    border-radius: 20px;
+    padding: 20px;
+    position: relative;
+  }
+
+  .table-card.empty {
+    opacity: 0.3;
+    border-style: dashed;
+    text-align: center;
+    padding: 60px 20px;
+  }
+
+  .table-title {
+    text-align: center;
+    font-size: 1em;
+    color: var(--gold-bright);
+    text-shadow: 0 0 10px var(--gold-bright);
+    margin-bottom: 5px;
+  }
+
+  .table-stats {
+    text-align: center;
+    font-size: 0.7em;
+    opacity: 0.8;
+    margin-bottom: 10px;
+  }
+
+  .game-area {
+    background: rgba(0,0,0,0.4);
+    border: 2px solid rgba(255,255,255,0.2);
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 15px;
+    min-height: 200px;
+  }
+
+  .hand-section {
+    margin: 10px 0;
+  }
+
+  .hand-label {
+    font-size: 0.85em;
+    color: var(--blue-bright);
+    margin-bottom: 5px;
+  }
+
+  .hand {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+  }
+
+  .card {
+    width: 40px;
+    height: 56px;
+    background: white;
+    color: black;
+    font-weight: bold;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+    font-size: 1em;
+  }
+
+  .card.hidden {
+    background: linear-gradient(135deg, #444, #222);
+    color: #666;
+  }
+
+  .table-controls {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 10px;
+  }
+
+  .table-controls input {
+    flex: 1;
+    padding: 6px;
+    font-size: 0.85em;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    background: rgba(255,255,255,0.1);
+    border: 2px solid var(--gold-bright);
+    border-radius: 8px;
+    color: var(--gold-bright);
+    text-align: center;
+  }
+
+  .table-controls button {
+    flex: 1;
+    padding: 6px;
+    font-size: 0.85em;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--purple-bright), var(--pink-neon));
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(123,44,191,0.4);
+    transition: all 0.3s ease;
+  }
+
+  .table-controls button:hover:not(:disabled) {
+    transform: scale(1.05);
+  }
+
+  .table-controls button:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  .remove-btn {
+    width: 100%;
+    padding: 6px;
+    font-size: 0.8em;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    background: rgba(255,0,0,0.3);
+    color: #ff4444;
+    border: 2px solid #ff4444;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  .table-message {
+    text-align: center;
+    font-size: 0.75em;
+    min-height: 30px;
+    margin-top: 5px;
+  }
+
+  .msg-win {
+    color: var(--gold-bright);
+    text-shadow: 0 0 10px var(--gold-bright);
+  }
+
+  .msg-lose {
+    color: #ff4444;
+  }
+
+  .msg-tie {
+    color: var(--blue-bright);
+  }
+
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .panel {
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(255,255,255,0.1);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  }
+
+  .panel-title {
+    font-size: 1.3em;
+    text-align: center;
+    margin-bottom: 15px;
+    background: linear-gradient(135deg, var(--blue-bright), var(--pink-neon));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .passives-list, .inventory-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 250px;
+    overflow-y: auto;
+  }
+
+  .passive-item, .inventory-item {
+    background: rgba(255,255,255,0.05);
+    border: 2px solid rgba(255,255,255,0.15);
+    border-radius: 12px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .passive-emoji, .inventory-emoji {
+    font-size: 1.8em;
+  }
+
+  .passive-info, .inventory-info {
+    flex: 1;
+    font-size: 0.8em;
+  }
+
+  .passive-name, .inventory-name {
+    color: var(--gold-bright);
+    margin-bottom: 3px;
+  }
+
+  .passive-effect {
+    opacity: 0.8;
+    font-size: 0.9em;
+  }
+
+  .passive-level {
+    color: var(--blue-bright);
+    font-size: 0.85em;
+  }
+
+  .use-btn {
+    padding: 6px 12px;
+    font-size: 0.8em;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    background: transparent;
+    color: var(--blue-bright);
+    border: 2px solid var(--blue-bright);
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 0 10px var(--blue-bright);
+  }
+
+  .use-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  .shop-panel, .saves-panel {
+    max-height: 500px;
+    overflow-y: auto;
+  }
+
+  .shop-section-title {
+    font-size: 1.1em;
+    text-align: center;
+    padding: 12px;
+    margin: 10px 0;
+    background: linear-gradient(135deg, var(--purple-bright), var(--pink-neon));
+    border-radius: 12px;
+  }
+
+  .shop-item {
+    background: rgba(255,255,255,0.05);
+    border: 2px solid rgba(255,255,255,0.15);
+    border-radius: 12px;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .shop-item.maxed {
+    opacity: 0.5;
+    border-color: var(--gold-bright);
+  }
+
+  .shop-emoji {
+    font-size: 2em;
+  }
+
+  .shop-info {
+    flex: 1;
+    font-size: 0.8em;
+  }
+
+  .shop-name {
+    color: var(--gold-bright);
+    margin-bottom: 3px;
+  }
+
+  .shop-stats {
+    opacity: 0.8;
+    font-size: 0.9em;
+  }
+
+  .shop-price {
+    color: var(--blue-bright);
+    margin-top: 3px;
+  }
+
+  .buy-btn {
+    padding: 8px 16px;
+    font-size: 0.85em;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--blue-bright), var(--purple-bright));
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0,180,216,0.4);
+  }
+
+  .buy-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  .save-slot {
+    background: rgba(255,255,255,0.05);
+    border: 2px solid rgba(255,255,255,0.15);
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 15px;
+  }
+
+  .save-slot input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    font-size: 0.9em;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    background: rgba(255,255,255,0.1);
+    border: 2px solid var(--blue-bright);
+    border-radius: 8px;
+    color: var(--white);
+    text-align: center;
+  }
+
+  .save-slot-buttons {
+    display: flex;
+    gap: 10px;
+  }
+
+  .save-slot-buttons button {
+    flex: 1;
+    padding: 8px;
+    font-size: 0.85em;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  .save-slot-buttons .save-btn {
+    background: linear-gradient(135deg, #4caf50, #2e7d32);
+  }
+
+  .save-slot-buttons .load-btn {
+    background: linear-gradient(135deg, #ff9800, #e65100);
+  }
+
+  .reset-btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 1em;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    background: rgba(255,0,0,0.3);
+    color: #ff4444;
+    border: 2px solid #ff4444;
+    border-radius: 12px;
+    cursor: pointer;
+    margin-top: 15px;
+  }
+
+  @media (max-width: 1400px) {
+    .main-content {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+
+  <div class="container">
+    <div class="header">
+      <div class="main-title">♠️ BLACKJACK CASINO EMPIRE ♠️</div>
+      <div class="stats-row">
+        <div class="stat-display">
+          💰 $<span id="money">1000</span>
+        </div>
+        <div class="stat-display">
+          📊 Profit: $<span id="profit">0</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="main-content">
+      <div class="tables-container">
+        <div class="tables-header">
+          <div class="tables-title">♣️ ACTIVE TABLES ♦️</div>
+        </div>
+        <div class="tables-grid" id="tablesGrid"></div>
+      </div>
+
+      <div class="sidebar">
+        <div class="panel">
+          <div class="panel-title">⚡ PASSIVES ⚡</div>
+          <div class="passives-list" id="passivesList"></div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-title">📊 STATS 📊</div>
+          <div style="font-size: 0.85em;">
+            <div style="margin-bottom: 8px;">Games: <span id="games" style="color: var(--gold-bright);">0</span></div>
+            <div style="margin-bottom: 8px;">Wins: <span id="wins" style="color: #00ff00;">0</span></div>
+            <div style="margin-bottom: 8px;">Losses: <span id="losses" style="color: #ff4444;">0</span></div>
+            <div style="margin-bottom: 8px;">Blackjacks: <span id="blackjacks" style="color: var(--pink-neon);">⭐ 0</span></div>
+          </div>
+          <button class="reset-btn" onclick="resetGame()">RESET GAME</button>
+        </div>
+
+        <div class="panel">
+          <div class="panel-title">🎒 INVENTORY 🎒</div>
+          <div class="inventory-list" id="inventoryList"></div>
+        </div>
+
+        <div class="panel saves-panel">
+          <div class="panel-title">💾 SAVE SLOTS 💾</div>
+          <div id="savesContainer"></div>
+        </div>
+
+        <div class="panel shop-panel">
+          <div class="panel-title">🏪 SHOP 🛒</div>
+          <div id="shopGrid"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const TABLE_TYPES = {
+      classic: {
+        name: "CLASSIC TABLE",
+        emoji: "♠️",
+        payout: 2,
+        dealerSoft17: true,
+        cost: 0,
+        description: "Standard blackjack, 2x payout"
+      },
+      highRoller: {
+        name: "HIGH ROLLER",
+        emoji: "💎",
+        payout: 2.5,
+        dealerSoft17: false,
+        cost: 800,
+        description: "Better payout, dealer stands on soft 17"
+      },
+      lucky: {
+        name: "LUCKY TABLE",
+        emoji: "🍀",
+        payout: 3,
+        dealerSoft17: true,
+        blackjackBonus: true,
+        cost: 1500,
+        description: "3x payout, blackjack bonus"
+      },
+      speed: {
+        name: "SPEED TABLE",
+        emoji: "⚡",
+        payout: 2.2,
+        dealerSoft17: false,
+        cost: 600,
+        description: "Fast play, 2.2x payout"
+      },
+      fortune: {
+        name: "FORTUNE TABLE",
+        emoji: "💰",
+        payout: 4,
+        dealerSoft17: false,
+        blackjackBonus: true,
+        cost: 3000,
+        description: "Legendary 4x payout"
+      }
+    };
+
+    let money = 1000;
+    let totalProfit = 0;
+    let activeTables = [null, null, null, null];
+    let inventory = {};
+    let betValues = {};
+    let tableGames = {}; // Stores game state per table
+    let passives = {
+      cardCounter: { owned: false, level: 0, maxLevel: 3 },
+      perfectPlay: { owned: false, level: 0, maxLevel: 5 },
+      dealerWeakness: { owned: false, level: 0, maxLevel: 5 },
+      luckyStreak: { owned: false, level: 0, maxLevel: 3 },
+      blackjackMaster: { owned: false, level: 0, maxLevel: 5 }
+    };
+    let stats = { games: 0, wins: 0, losses: 0, blackjacks: 0 };
+    let saveSlots = JSON.parse(localStorage.getItem('blackjackSaveSlots')) || [
+      { name: 'Slot 1', data: null },
+      { name: 'Slot 2', data: null },
+      { name: 'Slot 3', data: null }
+    ];
+
+    function formatMoney(num) {
+      if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+      if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+      return Math.floor(num).toString();
+    }
+
+    function card() {
+      const val = Math.floor(Math.random() * 13) + 1;
+      if (val === 1) return 11; // Ace
+      if (val > 10) return 10; // Face cards
+      return val;
+    }
+
+    function calculateTotal(hand) {
+      let total = hand.reduce((a, b) => a + b, 0);
+      let aces = hand.filter(c => c === 11).length;
+      
+      while (total > 21 && aces > 0) {
+        total -= 10;
+        aces--;
+      }
+      
+      return total;
+    }
+
+    function getPayout(tableType) {
+      let payout = TABLE_TYPES[tableType].payout;
+      if (passives.blackjackMaster.owned) {
+        payout *= (1 + 0.10 * passives.blackjackMaster.level);
+      }
+      return payout;
+    }
+
+    function updateUI() {
+      document.getElementById('money').textContent = formatMoney(money);
+      document.getElementById('profit').textContent = formatMoney(Math.abs(totalProfit));
+      document.getElementById('games').textContent = stats.games;
+      document.getElementById('wins').textContent = stats.wins;
+      document.getElementById('losses').textContent = stats.losses;
+      document.getElementById('blackjacks').textContent = stats.blackjacks;
+      
+      renderTables();
+      renderPassives();
+      renderInventory();
+      renderSaveSlots();
+      renderShop();
+    }
+
+    function renderTables() {
+      const grid = document.getElementById('tablesGrid');
+      grid.innerHTML = '';
+
+      activeTables.forEach((tableKey, index) => {
+        const div = document.createElement('div');
+        div.className = tableKey ? 'table-card' : 'table-card empty';
+
+        if (tableKey) {
+          const table = TABLE_TYPES[tableKey];
+          const game = tableGames[index] || { state: 'ready' };
+          
+          div.innerHTML = `
+            <div class="table-title">${table.emoji} ${table.name}</div>
+            <div class="table-stats">${table.description} | ${table.payout}x</div>
+            <div class="game-area" id="game${index}">
+              <div class="hand-section">
+                <div class="hand-label">🧍 Player (Total: <span id="ptotal${index}">0</span>)</div>
+                <div class="hand" id="phand${index}"></div>
+              </div>
+              <div class="hand-section">
+                <div class="hand-label">🤵 Dealer (Total: <span id="dtotal${index}">?</span>)</div>
+                <div class="hand" id="dhand${index}"></div>
+              </div>
+            </div>
+            <div class="table-controls">
+              <input type="number" id="bet${index}" placeholder="Bet" value="${betValues[index] ?? 10}" 
+                     oninput="betValues[${index}] = this.value" min="1" 
+                     ${game.state !== 'ready' ? 'disabled' : ''} />
+              <button onclick="startHand(${index})" ${game.state !== 'ready' ? 'disabled' : ''}>DEAL</button>
+            </div>
+            <div class="table-controls">
+              <button onclick="hit(${index})" ${game.state !== 'playing' ? 'disabled' : ''}>HIT</button>
+              <button onclick="stand(${index})" ${game.state !== 'playing' ? 'disabled' : ''}>STAND</button>
+            </div>
+            <button class="remove-btn" onclick="removeTable(${index})">REMOVE</button>
+            <div class="table-message" id="msg${index}"></div>
+          `;
+
+          grid.appendChild(div);
+          
+          if (game.state !== 'ready') {
+            setTimeout(() => renderHand(index), 100);
+          }
+        } else {
+          div.innerHTML = '<div style="opacity: 0.5;">EMPTY SLOT<br>Add table from inventory</div>';
+          grid.appendChild(div);
+        }
+      });
+    }
+
+    function renderHand(index) {
+      const game = tableGames[index];
+      if (!game) return;
+
+      const phandEl = document.getElementById(`phand${index}`);
+      const dhandEl = document.getElementById(`dhand${index}`);
+      const ptotalEl = document.getElementById(`ptotal${index}`);
+      const dtotalEl = document.getElementById(`dtotal${index}`);
+
+      if (phandEl) {
+        phandEl.innerHTML = '';
+        game.player.forEach(c => {
+          const cardEl = document.createElement('div');
+          cardEl.className = 'card';
+          cardEl.textContent = c;
+          phandEl.appendChild(cardEl);
+        });
+        ptotalEl.textContent = calculateTotal(game.player);
+      }
+
+      if (dhandEl) {
+        dhandEl.innerHTML = '';
+        game.dealer.forEach((c, i) => {
+          const cardEl = document.createElement('div');
+          cardEl.className = 'card';
+          if (game.revealDealer || i === 0) {
+            cardEl.textContent = c;
+          } else {
+            cardEl.className = 'card hidden';
+            cardEl.textContent = '🂠';
+          }
+          dhandEl.appendChild(cardEl);
+        });
+        
+        if (game.revealDealer) {
+          dtotalEl.textContent = calculateTotal(game.dealer);
+        } else {
+          dtotalEl.textContent = game.dealer[0];
+        }
+      }
+    }
+
+    function startHand(index) {
+      const tableKey = activeTables[index];
+      if (!tableKey) return;
+
+      const bet = parseInt(document.getElementById(`bet${index}`).value) || 0;
+      if (bet <= 0 || bet > money) {
+        showMessage(index, "⛔ Invalid bet!", 'lose');
+        return;
+      }
+
+      money -= bet;
+      stats.games++;
+      
+      tableGames[index] = {
+        state: 'playing',
+        bet: bet,
+        player: [card(), card()],
+        dealer: [card(), card()],
+        revealDealer: false
+      };
+
+      const playerTotal = calculateTotal(tableGames[index].player);
+      if (playerTotal === 21) {
+        // Blackjack!
+        endHand(index, 'blackjack');
+      } else {
+        updateUI();
+      }
+    }
+
+    function hit(index) {
+      const game = tableGames[index];
+      if (!game || game.state !== 'playing') return;
+
+      game.player.push(card());
+      const playerTotal = calculateTotal(game.player);
+      
+      renderHand(index);
+
+      if (playerTotal > 21) {
+        endHand(index, 'bust');
+      } else if (playerTotal === 21) {
+        stand(index);
+      }
+    }
+
+    function stand(index) {
+      const game = tableGames[index];
+      if (!game || game.state !== 'playing') return;
+
+      game.revealDealer = true;
+      const tableType = activeTables[index];
+      const dealerStandsOn17 = !TABLE_TYPES[tableType].dealerSoft17;
+
+      // Dealer draws
+      while (calculateTotal(game.dealer) < 17) {
+        game.dealer.push(card());
+      }
+
+      renderHand(index);
+      endHand(index, 'stand');
+    }
+
+    function endHand(index, outcome) {
+      const game = tableGames[index];
+      const tableKey = activeTables[index];
+      const table = TABLE_TYPES[tableKey];
+      
+      game.state = 'done';
+      game.revealDealer = true;
+
+      const playerTotal = calculateTotal(game.player);
+      const dealerTotal = calculateTotal(game.dealer);
+
+      let result = '';
+      let profit = 0;
+
+      if (outcome === 'blackjack') {
+        const bjPayout = table.blackjackBonus ? 2.5 : 2;
+        const winnings = Math.floor(game.bet * getPayout(tableKey) * bjPayout);
+        money += winnings;
+        profit = winnings - game.bet;
+        stats.wins++;
+        stats.blackjacks++;
+        result = `⭐ BLACKJACK! Won $${formatMoney(winnings)}`;
+        showMessage(index, result, 'win');
+      } else if (outcome === 'bust') {
+        profit = -game.bet;
+        stats.losses++;
+        result = `💥 BUST! Lost $${game.bet}`;
+        showMessage(index, result, 'lose');
+      } else {
+        if (playerTotal > 21) {
+          profit = -game.bet;
+          stats.losses++;
+          result = `💥 Bust! Lost $${game.bet}`;
+          showMessage(index, result, 'lose');
+        } else if (dealerTotal > 21 || playerTotal > dealerTotal) {
+          const winnings = Math.floor(game.bet * getPayout(tableKey));
+          money += winnings;
+          profit = winnings - game.bet;
+          stats.wins++;
+          result = `🎉 Won $${formatMoney(winnings)}!`;
+          showMessage(index, result, 'win');
+        } else if (playerTotal < dealerTotal) {
+          profit = -game.bet;
+          stats.losses++;
+          result = `😢 Lost $${game.bet}`;
+          showMessage(index, result, 'lose');
+        } else {
+          money += game.bet;
+          result = `🤝 Push`;
+          showMessage(index, result, 'tie');
+        }
+      }
+
+      totalProfit += profit;
+      
+      // Reset for next hand
+      setTimeout(() => {
+        tableGames[index] = { state: 'ready' };
+        updateUI();
+      }, 3000);
+      
+      updateUI();
+    }
+
+    function showMessage(index, msg, type) {
+      const msgEl = document.getElementById(`msg${index}`);
+      if (msgEl) {
+        msgEl.textContent = msg;
+        msgEl.className = `table-message msg-${type}`;
+      }
+    }
+
+    function renderPassives() {
+      const list = document.getElementById('passivesList');
+      list.innerHTML = '';
+
+      const passiveConfigs = {
+        cardCounter: { name: 'Card Counter', emoji: '🃏', effect: 'Shows card hints' },
+        perfectPlay: { name: 'Perfect Play', emoji: '💡', effect: '+10% win chance per level' },
+        dealerWeakness: { name: 'Dealer Weakness', emoji: '🎯', effect: 'Dealer more likely to bust' },
+        luckyStreak: { name: 'Lucky Streak', emoji: '🔥', effect: 'Bonus on winning streaks' },
+        blackjackMaster: { name: 'Blackjack Master', emoji: '⭐', effect: '+10% payout per level' }
+      };
+
+      let hasPassives = false;
+      Object.entries(passives).forEach(([key, passive]) => {
+        if (passive.owned) {
+          hasPassives = true;
+          const config = passiveConfigs[key];
+          const div = document.createElement('div');
+          div.className = 'passive-item';
+          div.innerHTML = `
+            <div class="passive-emoji">${config.emoji}</div>
+            <div class="passive-info">
+              <div class="passive-name">${config.name}</div>
+              <div class="passive-effect">${config.effect}</div>
+              ${passive.maxLevel > 1 ? `<div class="passive-level">Level ${passive.level}/${passive.maxLevel}</div>` : ''}
+            </div>
+          `;
+          list.appendChild(div);
+        }
+      });
+
+      if (!hasPassives) {
+        list.innerHTML = '<div style="text-align: center; opacity: 0.5; padding: 20px; font-size: 0.85em;">No passives yet!</div>';
+      }
+    }
+
+    function renderInventory() {
+      const list = document.getElementById('inventoryList');
+      list.innerHTML = '';
+
+      let hasItems = false;
+      Object.entries(inventory).forEach(([key, count]) => {
+        if (count > 0) {
+          hasItems = true;
+          const table = TABLE_TYPES[key];
+          const div = document.createElement('div');
+          div.className = 'inventory-item';
+          div.innerHTML = `
+            <div class="inventory-emoji">${table.emoji}</div>
+            <div class="inventory-info">
+              <div class="inventory-name">${table.name}</div>
+              <div>x${count} | ${table.payout}x payout</div>
+            </div>
+            <button class="use-btn" onclick="useFromInventory('${key}')" 
+                    ${activeTables.filter(t => t === null).length === 0 ? 'disabled' : ''}>USE</button>
+          `;
+          list.appendChild(div);
+        }
+      });
+
+      if (!hasItems) {
+        list.innerHTML = '<div style="text-align:center;opacity:0.5;padding:20px;font-size:0.85em;">No tables in inventory</div>';
+      }
+    }
+
+    function renderSaveSlots() {
+      const container = document.getElementById('savesContainer');
+      container.innerHTML = '';
+
+      saveSlots.forEach((slot, i) => {
+        const div = document.createElement('div');
+        div.className = 'save-slot';
+        div.innerHTML = `
+          <input type="text" value="${slot.name}" onchange="updateSlotName(${i}, this.value)" />
+          <div style="font-size: 0.8em; margin-bottom: 10px; opacity: 0.8;">
+            ${slot.data ? `💾 Saved: $${formatMoney(slot.data.money)}` : '📂 Empty'}
+          </div>
+          <div class="save-slot-buttons">
+            <button class="save-btn" onclick="saveToSlot(${i})">SAVE</button>
+            <button class="load-btn" onclick="loadFromSlot(${i})" ${!slot.data ? 'disabled' : ''}>LOAD</button>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function updateSlotName(index, name) {
+      saveSlots[index].name = name || `Slot ${index + 1}`;
+      localStorage.setItem('blackjackSaveSlots', JSON.stringify(saveSlots));
+    }
+
+    function saveToSlot(index) {
+      saveSlots[index].data = {
+        money,
+        totalProfit,
+        activeTables: activeTables.slice(),
+        inventory: {...inventory},
+        passives: JSON.parse(JSON.stringify(passives)),
+        stats: {...stats}
+      };
+      localStorage.setItem('blackjackSaveSlots', JSON.stringify(saveSlots));
+      alert(`Saved to ${saveSlots[index].name}!`);
+      renderSaveSlots();
+    }
+
+    function loadFromSlot(index) {
+      const data = saveSlots[index].data;
+      if (!data) {
+        alert('Empty slot!');
+        return;
+      }
+      
+      money = data.money;
+      totalProfit = data.totalProfit;
+      activeTables = data.activeTables.slice();
+      inventory = {...data.inventory};
+      passives = JSON.parse(JSON.stringify(data.passives));
+      stats = {...data.stats};
+      tableGames = {};
+      
+      alert(`Loaded ${saveSlots[index].name}!`);
+      updateUI();
+    }
+
+    function renderShop() {
+      const grid = document.getElementById('shopGrid');
+      grid.innerHTML = '';
+
+      // Tables
+      const tablesTitle = document.createElement('div');
+      tablesTitle.className = 'shop-section-title';
+      tablesTitle.textContent = '♠️ BLACKJACK TABLES ♣️';
+      grid.appendChild(tablesTitle);
+
+      Object.entries(TABLE_TYPES).forEach(([key, table]) => {
+        const div = document.createElement('div');
+        div.className = 'shop-item';
+        div.innerHTML = `
+          <div class="shop-emoji">${table.emoji}</div>
+          <div class="shop-info">
+            <div class="shop-name">${table.name}</div>
+            <div class="shop-stats">${table.description}</div>
+            <div class="shop-price">$${formatMoney(table.cost)}</div>
+          </div>
+          <button class="buy-btn" onclick="buyTable('${key}')" ${money < table.cost ? 'disabled' : ''}>BUY</button>
+        `;
+        grid.appendChild(div);
+      });
+
+      // Passives
+      const passivesTitle = document.createElement('div');
+      passivesTitle.className = 'shop-section-title';
+      passivesTitle.textContent = '⚡ PASSIVES ⚡';
+      grid.appendChild(passivesTitle);
+
+      const passiveShop = [
+        { key: 'cardCounter', name: 'Card Counter', emoji: '🃏', baseCost: 1000, costMultiplier: 2, effect: 'Shows hints', maxLevel: 3 },
+        { key: 'perfectPlay', name: 'Perfect Play', emoji: '💡', baseCost: 1500, costMultiplier: 2, effect: '+10% win chance', maxLevel: 5 },
+        { key: 'dealerWeakness', name: 'Dealer Weakness', emoji: '🎯', baseCost: 1800, costMultiplier: 2.5, effect: 'Dealer busts more', maxLevel: 5 },
+        { key: 'luckyStreak', name: 'Lucky Streak', emoji: '🔥', baseCost: 2000, costMultiplier: 2, effect: 'Streak bonuses', maxLevel: 3 },
+        { key: 'blackjackMaster', name: 'Blackjack Master', emoji: '⭐', baseCost: 2500, costMultiplier: 3, effect: '+10% payout', maxLevel: 5 }
+      ];
+
+      passiveShop.forEach(passive => {
+        const current = passives[passive.key];
+        const currentLevel = current.level || 0;
+        const canUpgrade = currentLevel < passive.maxLevel;
+        const cost = Math.floor(passive.baseCost * Math.pow(passive.costMultiplier, currentLevel));
+        
+        const div = document.createElement('div');
+        div.className = `shop-item ${!canUpgrade ? 'maxed' : ''}`;
+        div.innerHTML = `
+          <div class="shop-emoji">${passive.emoji}</div>
+          <div class="shop-info">
+            <div class="shop-name">${passive.name}</div>
+            <div class="shop-stats">${passive.effect}</div>
+            ${passive.maxLevel > 1 ? `<div class="shop-stats">Level: ${currentLevel}/${passive.maxLevel}</div>` : ''}
+            ${canUpgrade ? `<div class="shop-price">$${formatMoney(cost)}</div>` : '<div class="shop-price">MAX</div>'}
+          </div>
+          ${canUpgrade ? `
+            <button class="buy-btn" onclick="buyPassive('${passive.key}', ${cost})" 
+                    ${money < cost ? 'disabled' : ''}>${current.owned ? 'UPGRADE' : 'BUY'}</button>
+          ` : '<button class="buy-btn" disabled>MAXED</button>'}
+        `;
+        grid.appendChild(div);
+      });
+    }
+
+    function buyTable(key) {
+      const table = TABLE_TYPES[key];
+      if (money >= table.cost) {
+        money -= table.cost;
+        inventory[key] = (inventory[key] || 0) + 1;
+        updateUI();
+      }
+    }
+
+    function buyPassive(passiveKey, cost) {
+      if (money >= cost) {
+        money -= cost;
+        passives[passiveKey].owned = true;
+        passives[passiveKey].level = (passives[passiveKey].level || 0) + 1;
+        updateUI();
+      }
+    }
+
+    function useFromInventory(key) {
+      const emptyIndex = activeTables.findIndex(t => t === null);
+      if (emptyIndex !== -1 && inventory[key] > 0) {
+        activeTables[emptyIndex] = key;
+        inventory[key]--;
+        tableGames[emptyIndex] = { state: 'ready' };
+        updateUI();
+      }
+    }
+
+    function removeTable(index) {
+      const tableKey = activeTables[index];
+      if (tableKey) {
+        inventory[tableKey] = (inventory[tableKey] || 0) + 1;
+        activeTables[index] = null;
+        delete tableGames[index];
+        updateUI();
+      }
+    }
+
+    function resetGame() {
+      if (confirm('Reset game? All progress will be lost!')) {
+        money = 1000;
+        totalProfit = 0;
+        activeTables = [null, null, null, null];
+        inventory = {};
+        betValues = {};
+        tableGames = {};
+        passives = {
+          cardCounter: { owned: false, level: 0, maxLevel: 3 },
+          perfectPlay: { owned: false, level: 0, maxLevel: 5 },
+          dealerWeakness: { owned: false, level: 0, maxLevel: 5 },
+          luckyStreak: { owned: false, level: 0, maxLevel: 3 },
+          blackjackMaster: { owned: false, level: 0, maxLevel: 5 }
+        };
+        stats = { games: 0, wins: 0, losses: 0, blackjacks: 0 };
+        updateUI();
+      }
+    }
+
+    updateUI();
+  </script>
+</body>
+</html>
