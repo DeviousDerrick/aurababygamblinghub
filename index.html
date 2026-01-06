@@ -4,16 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ultimate Casino Hub</title>
-
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;800&display=swap"
-      rel="stylesheet"
-    />
-
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;800&display=swap" rel="stylesheet"/>
     <style>
-      /* =========================
-         CSS VARIABLES
-      ========================= */
       :root {
         --purple-deep: #1a0d2e;
         --purple-mid: #2d1b4e;
@@ -24,48 +16,29 @@
         --white: #ffffff;
       }
 
-      /* =========================
-         GLOBAL RESET
-      ========================= */
       * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
       }
 
-      /* =========================
-         BODY
-      ========================= */
       body {
         font-family: "Poppins", sans-serif;
-        background: linear-gradient(
-          125deg,
-          #1a0d2e 0%,
-          #2d1b4e 25%,
-          #3e1f5c 50%,
-          #2d1b4e 75%,
-          #1a0d2e 100%
-        );
+        background: linear-gradient(125deg, #1a0d2e 0%, #2d1b4e 25%, #3e1f5c 50%, #2d1b4e 75%, #1a0d2e 100%);
         background-size: 400% 400%;
         animation: gradientFlow 20s ease infinite;
         color: var(--white);
         min-height: 100vh;
         overflow-x: hidden;
+        position: relative;
       }
 
       @keyframes gradientFlow {
-        0%,
-        100% {
-          background-position: 0% 50%;
-        }
-        50% {
-          background-position: 100% 50%;
-        }
+        0%, 100% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
       }
 
-      /* =========================
-         BACKGROUND ORBS
-      ========================= */
+      /* Background Orbs */
       .orb {
         position: fixed;
         border-radius: 50%;
@@ -103,129 +76,381 @@
       }
 
       @keyframes float {
-        0%,
-        100% {
-          transform: translate(0, 0) scale(1);
-        }
-        33% {
-          transform: translate(100px, -100px) scale(1.1);
-        }
-        66% {
-          transform: translate(-100px, 100px) scale(0.9);
-        }
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        33% { transform: translate(100px, -100px) scale(1.1); }
+        66% { transform: translate(-100px, 100px) scale(0.9); }
       }
 
-      /* =========================
-         HUB
-      ========================= */
+      /* Baby Images */
+      .baby-decoration {
+        position: fixed;
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 4px solid var(--gold-bright);
+        box-shadow: 0 0 40px var(--gold-bright);
+        z-index: 0;
+        animation: floatBaby 20s ease-in-out infinite;
+      }
+
+      .poor-baby {
+        top: 10%;
+        left: 5%;
+        animation-delay: 0s;
+      }
+
+      .rich-baby {
+        bottom: 10%;
+        right: 5%;
+        animation-delay: 10s;
+      }
+
+      @keyframes floatBaby {
+        0%, 100% { transform: translateY(0) rotate(0deg); }
+        25% { transform: translateY(-20px) rotate(5deg); }
+        50% { transform: translateY(0) rotate(0deg); }
+        75% { transform: translateY(20px) rotate(-5deg); }
+      }
+
+      /* Hub Container */
       .hub-container {
         position: relative;
         z-index: 1;
-        max-width: 1400px;
+        max-width: 1600px;
         margin: 0 auto;
         padding: 40px 20px;
       }
 
       .hub-header {
         text-align: center;
-        margin-bottom: 50px;
+        margin-bottom: 60px;
+        animation: slideDown 1s ease;
+      }
+
+      @keyframes slideDown {
+        from { opacity: 0; transform: translateY(-50px); }
+        to { opacity: 1; transform: translateY(0); }
       }
 
       .hub-title {
-        font-size: 4em;
+        font-size: 4.5em;
         font-weight: 800;
-        background: linear-gradient(
-          135deg,
-          var(--gold-bright),
-          var(--pink-neon),
-          var(--gold-bright)
-        );
+        background: linear-gradient(135deg, var(--gold-bright), var(--pink-neon), var(--blue-bright), var(--gold-bright));
+        background-size: 300% 300%;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        animation: titleGlow 3s ease-in-out infinite;
-        letter-spacing: 3px;
+        animation: titleGlow 3s ease-in-out infinite, titleShift 8s ease infinite;
+        letter-spacing: 4px;
+        text-shadow: 0 0 60px rgba(255, 215, 0, 0.6);
+        position: relative;
       }
 
       @keyframes titleGlow {
-        0%,
-        100% {
-          filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.8));
-        }
-        50% {
-          filter: drop-shadow(0 0 40px rgba(247, 37, 133, 0.8));
-        }
+        0%, 100% { filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.8)); }
+        50% { filter: drop-shadow(0 0 60px rgba(247, 37, 133, 1)); }
       }
 
-      /* =========================
-         GAME GRID (3x3)
-      ========================= */
+      @keyframes titleShift {
+        0%, 100% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+      }
+
+      .hub-subtitle {
+        font-size: 1.3em;
+        margin-top: 15px;
+        color: var(--blue-bright);
+        text-shadow: 0 0 20px var(--blue-bright);
+        animation: pulse 2s ease-in-out infinite;
+      }
+
+      @keyframes pulse {
+        0%, 100% { opacity: 0.8; }
+        50% { opacity: 1; }
+      }
+
+      /* Games Grid */
       .games-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        gap: 30px;
+        gap: 40px;
         margin-top: 40px;
+      }
+
+      .game-link {
+        text-decoration: none;
+        color: inherit;
       }
 
       .game-card {
         background: rgba(255, 255, 255, 0.05);
         backdrop-filter: blur(20px);
+        border: 2px solid rgba(255, 255, 255, 0.1);
         border-radius: 24px;
-        padding: 30px;
+        padding: 40px 30px;
         text-align: center;
-        transition: all 0.4s ease;
+        transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
       }
 
+      /* Particle Container */
+      .particles {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        overflow: hidden;
+      }
+
+      .particle {
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        background: var(--gold-bright);
+        border-radius: 50%;
+        opacity: 0;
+        animation: particleFloat 2s ease-out forwards;
+      }
+
+      @keyframes particleFloat {
+        0% {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(-100px) scale(0);
+        }
+      }
+
+      /* Glow Ring */
+      .glow-ring {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        border: 3px solid var(--gold-bright);
+        opacity: 0;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+      }
+
+      .game-card:hover .glow-ring {
+        animation: ringExpand 0.8s ease-out;
+      }
+
+      @keyframes ringExpand {
+        0% {
+          width: 0;
+          height: 0;
+          opacity: 1;
+        }
+        100% {
+          width: 400px;
+          height: 400px;
+          opacity: 0;
+        }
+      }
+
+      /* Card Hover Effects */
       .game-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        transform: translateY(-20px) scale(1.05);
+        border-color: var(--gold-bright);
+        box-shadow: 
+          0 0 40px var(--gold-bright),
+          0 0 80px var(--pink-neon),
+          0 20px 60px rgba(0, 0, 0, 0.5);
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      .game-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.3), transparent);
+        transition: left 0.5s;
+      }
+
+      .game-card:hover::before {
+        left: 100%;
+      }
+
+      .game-card::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        background: radial-gradient(circle, var(--pink-neon), transparent);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        opacity: 0;
+        transition: all 0.6s ease;
+      }
+
+      .game-card:hover::after {
+        width: 500px;
+        height: 500px;
+        opacity: 0.2;
       }
 
       .game-icon {
-        font-size: 5em;
+        font-size: 5.5em;
         margin-bottom: 20px;
+        filter: drop-shadow(0 0 20px var(--gold-bright));
+        transition: all 0.5s ease;
+        position: relative;
+        z-index: 2;
+      }
+
+      .game-card:hover .game-icon {
+        transform: scale(1.2) rotate(360deg);
+        filter: drop-shadow(0 0 40px var(--pink-neon));
       }
 
       .game-name {
         font-size: 2em;
         font-weight: 800;
-        background: linear-gradient(
-          135deg,
-          var(--blue-bright),
-          var(--pink-neon)
-        );
+        background: linear-gradient(135deg, var(--blue-bright), var(--pink-neon));
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        margin-bottom: 10px;
+        margin-bottom: 15px;
+        transition: all 0.3s ease;
+        position: relative;
+        z-index: 2;
+      }
+
+      .game-card:hover .game-name {
+        background: linear-gradient(135deg, var(--gold-bright), var(--pink-neon), var(--blue-bright));
+        background-size: 200% 200%;
+        animation: textShimmer 1s ease infinite;
+        transform: scale(1.1);
+      }
+
+      @keyframes textShimmer {
+        0%, 100% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
       }
 
       .game-desc {
-        font-size: 0.9em;
+        font-size: 0.95em;
         color: rgba(255, 255, 255, 0.7);
         font-weight: 600;
+        transition: all 0.3s ease;
+        position: relative;
+        z-index: 2;
       }
 
-      a.game-link {
-        text-decoration: none;
-        color: inherit;
+      .game-card:hover .game-desc {
+        color: rgba(255, 255, 255, 1);
+        text-shadow: 0 0 10px var(--blue-bright);
       }
 
-      /* =========================
-         RESPONSIVE
-      ========================= */
-      @media (max-width: 1024px) {
-        .games-grid {
-          grid-template-columns: repeat(2, 1fr);
+      /* Play Button */
+      .play-button {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 12px 30px;
+        background: linear-gradient(135deg, var(--purple-bright), var(--pink-neon));
+        border-radius: 30px;
+        font-weight: 800;
+        font-size: 1em;
+        transition: all 0.3s ease;
+        opacity: 0;
+        transform: translateY(20px);
+        position: relative;
+        z-index: 2;
+        box-shadow: 0 4px 15px rgba(247, 37, 133, 0.4);
+      }
+
+      .game-card:hover .play-button {
+        opacity: 1;
+        transform: translateY(0);
+        box-shadow: 0 8px 25px rgba(247, 37, 133, 0.8);
+      }
+
+      .play-button:hover {
+        transform: scale(1.1);
+        background: linear-gradient(135deg, var(--pink-neon), var(--gold-bright));
+      }
+
+      /* Coming Soon Card */
+      .coming-soon {
+        opacity: 0.6;
+        cursor: default;
+      }
+
+      .coming-soon:hover {
+        transform: translateY(-5px) scale(1.02);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+      }
+
+      /* Sparkle Effect */
+      .sparkle {
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        background: var(--gold-bright);
+        border-radius: 50%;
+        pointer-events: none;
+        animation: sparkleAnim 1s ease-out forwards;
+      }
+
+      @keyframes sparkleAnim {
+        0% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        100% {
+          opacity: 0;
+          transform: scale(0) translateY(-50px);
         }
       }
 
-      @media (max-width: 600px) {
+      /* Responsive */
+      @media (max-width: 1200px) {
+        .games-grid {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 30px;
+        }
+
+        .hub-title {
+          font-size: 3.5em;
+        }
+      }
+
+      @media (max-width: 768px) {
         .games-grid {
           grid-template-columns: 1fr;
+          gap: 25px;
         }
 
         .hub-title {
           font-size: 2.5em;
+        }
+
+        .baby-decoration {
+          width: 100px;
+          height: 100px;
+        }
+
+        .game-icon {
+          font-size: 4em;
+        }
+
+        .game-name {
+          font-size: 1.5em;
         }
       }
     </style>
@@ -237,60 +462,168 @@
     <div class="orb orb2"></div>
     <div class="orb orb3"></div>
 
+    <!-- Baby Decorations -->
+    <img src="https://i.ibb.co/Nn9v6ZBw/poorbaby.jpg" alt="Poor Baby" class="baby-decoration poor-baby">
+    <img src="https://i.ibb.co/DDSNbypf/richbaby.jpg" alt="Rich Baby" class="baby-decoration rich-baby">
+
     <!-- Hub -->
     <div class="hub-container">
       <div class="hub-header">
-        <h1 class="hub-title">🎰 ULTIMATE CASINO 🎰</h1>
+        <h1 class="hub-title">🎰 ULTIMATE CASINO EMPIRE 🎰</h1>
+        <p class="hub-subtitle">✨ From Broke to Billionaire ✨</p>
       </div>
 
       <div class="games-grid">
         <a href="slotmachine.html" class="game-link">
-          <div class="game-card">
+          <div class="game-card" onmouseenter="createParticles(event)" onmousemove="createSparkles(event)">
+            <div class="particles"></div>
+            <div class="glow-ring"></div>
             <div class="game-icon">🎰</div>
-            <div class="game-name">Lucky 7 Slots</div>
-            <div class="game-desc">Match three symbols to win big!</div>
+            <div class="game-name">Slot Machine Empire</div>
+            <div class="game-desc">Spin multiple machines, upgrade passives, build your empire!</div>
+            <div class="play-button">PLAY NOW ➜</div>
           </div>
         </a>
 
         <a href="blackjack.html" class="game-link">
-          <div class="game-card">
-            <div class="game-icon">🃏</div>
-            <div class="game-name">Blackjack</div>
-            <div class="game-desc">Beat the dealer, get 21!</div>
+          <div class="game-card" onmouseenter="createParticles(event)" onmousemove="createSparkles(event)">
+            <div class="particles"></div>
+            <div class="glow-ring"></div>
+            <div class="game-icon">♠️</div>
+            <div class="game-name">Blackjack Empire</div>
+            <div class="game-desc">Multiple tables, different payouts, master the 21!</div>
+            <div class="play-button">PLAY NOW ➜</div>
           </div>
         </a>
 
         <a href="roulette.html" class="game-link">
-          <div class="game-card">
+          <div class="game-card" onmouseenter="createParticles(event)" onmousemove="createSparkles(event)">
+            <div class="particles"></div>
+            <div class="glow-ring"></div>
             <div class="game-icon">🎡</div>
-            <div class="game-name">Roulette</div>
-            <div class="game-desc">Spin the wheel, pick your color!</div>
+            <div class="game-name">Roulette Empire</div>
+            <div class="game-desc">Spin multiple wheels, bet on colors, feel the rush!</div>
+            <div class="play-button">PLAY NOW ➜</div>
           </div>
         </a>
 
         <a href="ridethebus.html" class="game-link">
-          <div class="game-card">
+          <div class="game-card" onmouseenter="createParticles(event)" onmousemove="createSparkles(event)">
+            <div class="particles"></div>
+            <div class="glow-ring"></div>
             <div class="game-icon">🚌</div>
-            <div class="game-name">Ride the Bus</div>
-            <div class="game-desc">Four challenges, double or nothing!</div>
+            <div class="game-name">Ride the Bus Empire</div>
+            <div class="game-desc">4 stages, different buses, ultimate card challenge!</div>
+            <div class="play-button">PLAY NOW ➜</div>
           </div>
         </a>
 
         <a href="poker.html" class="game-link">
-          <div class="game-card">
-            <div class="game-icon">🎴</div>
-            <div class="game-name">Poker</div>
-            <div class="game-desc">You get cards, you try to make the best card combo, and if your cards are better than the others at the end, you win.</div>
+          <div class="game-card" onmouseenter="createParticles(event)" onmousemove="createSparkles(event)">
+            <div class="particles"></div>
+            <div class="glow-ring"></div>
+            <div class="game-icon">🃏</div>
+            <div class="game-name">Poker Empire</div>
+            <div class="game-desc">Texas Hold'em, multiple tables, chase the royal flush!</div>
+            <div class="play-button">PLAY NOW ➜</div>
           </div>
         </a>
 
-        <!-- Example future slot -->
-        <div class="game-card">
-          <div class="game-icon">❓</div>
-          <div class="game-name">Coming Soon</div>
-          <div class="game-desc">More games on the way!</div>
+        <a href="plinko.html" class="game-link">
+          <div class="game-card" onmouseenter="createParticles(event)" onmousemove="createSparkles(event)">
+            <div class="particles"></div>
+            <div class="glow-ring"></div>
+            <div class="game-icon">🎲</div>
+            <div class="game-name">Plinko Empire</div>
+            <div class="game-desc">Drop disks, hit multipliers, watch the chaos!</div>
+            <div class="play-button">PLAY NOW ➜</div>
+          </div>
+        </a>
+
+        <div class="game-card coming-soon">
+          <div class="game-icon">🎪</div>
+          <div class="game-name">Carnival Empire</div>
+          <div class="game-desc">Ring toss, balloon pop, prize wheel - Coming Soon!</div>
+        </div>
+
+        <div class="game-card coming-soon">
+          <div class="game-icon">🎯</div>
+          <div class="game-name">Dart Empire</div>
+          <div class="game-desc">Hit the bullseye, win big prizes - Coming Soon!</div>
+        </div>
+
+        <div class="game-card coming-soon">
+          <div class="game-icon">🎲</div>
+          <div class="game-name">Dice Empire</div>
+          <div class="game-desc">Roll the dice, bet on numbers - Coming Soon!</div>
         </div>
       </div>
     </div>
+
+    <script>
+      // Create particles on hover
+      function createParticles(event) {
+        const card = event.currentTarget;
+        const particlesContainer = card.querySelector('.particles');
+        
+        // Create 20 particles
+        for (let i = 0; i < 20; i++) {
+          setTimeout(() => {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            
+            // Random position
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            
+            // Random color
+            const colors = ['#ffd700', '#f72585', '#00b4d8', '#7b2cbf'];
+            particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+            
+            // Random delay
+            particle.style.animationDelay = Math.random() * 0.5 + 's';
+            
+            particlesContainer.appendChild(particle);
+            
+            // Remove after animation
+            setTimeout(() => particle.remove(), 2000);
+          }, i * 50);
+        }
+      }
+
+      // Create sparkles on mouse move
+      function createSparkles(event) {
+        if (Math.random() > 0.9) { // Only 10% of the time
+          const card = event.currentTarget;
+          const rect = card.getBoundingClientRect();
+          const x = event.clientX - rect.left;
+          const y = event.clientY - rect.top;
+          
+          const sparkle = document.createElement('div');
+          sparkle.className = 'sparkle';
+          sparkle.style.left = x + 'px';
+          sparkle.style.top = y + 'px';
+          
+          card.appendChild(sparkle);
+          
+          setTimeout(() => sparkle.remove(), 1000);
+        }
+      }
+
+      // Add random sparkles to cards periodically
+      setInterval(() => {
+        const cards = document.querySelectorAll('.game-card:not(.coming-soon)');
+        cards.forEach(card => {
+          if (Math.random() > 0.7) {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            sparkle.style.left = Math.random() * 100 + '%';
+            sparkle.style.top = Math.random() * 100 + '%';
+            card.appendChild(sparkle);
+            setTimeout(() => sparkle.remove(), 1000);
+          }
+        });
+      }, 2000);
+    </script>
   </body>
 </html>
