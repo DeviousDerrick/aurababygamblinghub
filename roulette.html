@@ -1,1 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Roulette Casino Empire</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@800&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --neon-blue: #0ff;
+    --neon-pink: #f0f;
+    --neon-green: #0f0;
+    --neon-yellow: #ff0;
+    --dark-bg: #0b0b0b;
+    --card-bg: #1a1a1a;
+  }
 
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #0b0b0b 0%, #1a0a1a 50%, #0a1a1a 100%);
+    background-size: 400% 400%;
+    animation: bgShift 15s ease infinite;
+    color: white;
+    padding: 20px;
+    min-height: 100vh;
+  }
+
+  @keyframes bgShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  .container {
+    max-width: 1600px;
+    margin: 0 auto;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .main-title {
+    font-size: 2.5em;
+    background: linear-gradient(135deg, var(--neon-yellow), var(--neon-pink), var(--neon-blue));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: titleGlow 3s ease-in-out infinite;
+    margin-bottom: 15px;
+  }
+
+  @keyframes titleGlow {
+    0%, 100% { filter: drop-shadow(0 0 20px rgba(255,255,0,0.8)); }
+    50% { filter: drop-shadow(0 0 40px rgba(255,0,255,0.8)); }
+  }
+
+  .stats-row {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+  }
+
+  .stat-display {
+    font-size: 1.5em;
+    padding: 10px 20px;
+    background: rgba(0,255,255,0.1);
+    border: 2px solid var(--neon-blue);
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0,255,255,0.3);
+  }
+
+  .main-content {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 30px;
+  }
+
+  .wheels-container {
+    background: rgba(0,255,255,0.05);
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(0,255,255,0.2);
+    border-radius: 28px;
+    padding: 30px;
+    box-shadow: 0 0 30px rgba(0,255,255,0.2);
+  }
+
+  .wheels-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .wheels-title {
+    font-size: 1.5em;
+    color: var(--neon-blue);
+    text-shadow: 0 0 10px var(--neon-blue);
+  }
+
+  .spin-all-btn {
+    padding: 10px 20px;
+    font-size: 1em;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    background: transparent;
+    color: var(--neon-blue);
+    border: 2px solid var(--neon-blue);
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 0 15px var(--neon-blue);
+    transition: all 0.3s ease;
+  }
+
+  .spin-all-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px var(--neon-blue);
+  }
+
+  .wheels-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 30px;
+  }
+
+  .wheel-card {
+    background: rgba(0,255,255,0.05);
+    border: 2px solid rgba(0,255,255,0.2);
+    border-radius: 20px;
+    padding: 20px;
+    position: relative;
+  }
+
+  .wheel-card.empty {
+    opacity: 0.3;
+    border-style: dashed;
+    text-align: center;
+    padding: 60px 20px;
+  }
+
+  .wheel-title {
+    text-align: center;
+    font-size: 1.1em;
+    color: var(--neon-yellow);
+    text-shadow: 0 0 10px var(--neon-yellow);
+    margin-bottom: 10px;
+  }
+
+  .wheel-stats {
+    text-align: center;
+    font-size: 0.8em;
+    opacity: 0.8;
+    margin-bottom: 15px;
+  }
+
+  .roulette-wheel {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: conic-gradient(
+      green 0deg 10deg,
+      red 10deg 50deg,
+      black 50deg 90deg,
+      red 90deg 130deg,
+      black 130deg 170deg,
+      red 170deg 210deg,
+      black 210deg 250deg,
+      red 250deg 290deg,
+      black 290deg 330deg,
+      red 330deg 360deg
+    );
+    border: 8px solid #222;
+    box-shadow: 0 0 30px var(--neon-blue), inset 0 0 40px var(--neon-blue);
+    margin: 0 auto 15px;
+    position: relative;
+    transition: transform 4s cubic-bezier(0.33, 1, 0.68, 1);
+  }
+
+  .roulette-wheel::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    box-shadow: 0 0 15px var(--neon-blue);
+    z-index: 10;
+  }
+
+  .wheel-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .wheel-controls input {
+    flex: 1;
+    padding: 8px;
+    font-size: 0.9em;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    background: rgba(0,255,255,0.1);
+    border: 2px solid var(--neon-blue);
+    border-radius: 8px;
+    color: var(--neon-blue);
+    text-align: center;
+  }
+
+  .wheel-controls button {
+    flex: 1;
+    padding: 8px;
+    font-size: 0.9em;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    background: transparent;
+    color: var(--neon-blue);
+    border: 2px solid var(--neon-blue);
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 0 10px var(--neon-blue);
+    transition: all 0.3s ease;
+  }
+
+  .wheel-controls button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px var(--neon-blue);
+  }
+
+  .remove-btn {
+    width: 100%;
+    padding: 6px;
+    font-size: 0.8em;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    background: rgba(255,0,0,0.2);
+    color: #ff4444;
+    border: 2px solid #ff4444;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .remove-btn:hover {
+    background: rgba(255,0,0,0.4);
+  }
+
+  .wheel-message {
+    text-align: center;
+    font-size: 0.85em;
+    min-height: 40px;
+    margin-top: 10px;
+  }
+
+  .msg-win {
+    color: var(--neon-green);
+    text-shadow: 0 0 10px var(--neon-green);
+  }
+
+  .msg-lose {
+    color: #ff4444;
+    text-shadow: 0 0 10px #ff4444;
+  }
+
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .panel {
+    background: rgba(0,255,255,0.05);
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(0,255,255,0.2);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 0 30px rgba(0,255,255,0.2);
+  }
+
+  .panel-title {
+    font-size: 1.3em;
+    text-align: center;
+    margin-bottom: 15px;
+    color: var(--neon-pink);
+    text-shadow: 0 0 10px var(--neon-pink);
+  }
+
+  .passives-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+
+  .passive-item {
+    background: rgba(0,255,255,0.05);
+    border: 2px solid rgba(0,255,255,0.2);
+    border-radius: 12px;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .passive-item.active {
+    border-color: var(--neon-green);
+    box-shadow: 0 0 15px rgba(0,255,0,0.3);
+  }
+
+  .passive-emoji {
+    font-size: 2em;
+  }
+
+  .passive-info {
+    flex: 1;
+    font-size: 0.85em;
+  }
+
+  .passive-name {
+    color: var(--neon-yellow);
+    margin-bottom: 3px;
+  }
+
+  .passive-effect {
+    opacity: 0.8;
+    font-size: 0.9em;
+  }
+
+  .passive-level {
+    color: var(--neon-blue);
+    font-size: 0.85em;
+  }
+
+  .toggle-passive-btn {
+    padding: 6px 12px;
+    font-size: 0.8em;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    background: transparent;
+    color: var(--neon-pink);
+    border: 2px solid var(--neon-pink);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .toggle-passive-btn.active {
+    color: var(--neon-green);
+    border-color: var(--neon-green);
+    box-shadow: 0 0 15px var(--neon-green);
+  }
+
+  .inventory-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 250px;
+    overflow-y: auto;
+  }
+
+  .inventory-item {
+    background: rgba(0,255,255,0.05);
+    border: 2px solid rgba(0,255,255,0.2);
+    border-radius: 12px;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .inventory-emoji {
+    font-size: 2em;
+  }
+
+  .inventory-info {
+    flex: 1;
+    font-size: 0.85em;
+  }
+
+  .inventory-name {
+    color: var(--neon-yellow);
+    margin-bottom: 3px;
+  }
+
+  .use-btn {
+    padding: 6px 12px;
+    font-size: 0.8em;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    background: transparent;
+    color: var(--neon-blue);
+    border: 2px solid var(--neon-blue);
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 0 10px var(--neon-blue);
+  }
+
+  .use-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  .shop-panel {
+    max-height: 500px;
+    overflow-y: auto;
+  }
+
+  .shop-section-title {
+    font-size: 1.2em;
+    text-align: center;
+    padding: 15px;
+    margin: 10px 0;
+    background: linear-gradient(135deg, rgba(0,255,255,0.2), rgba(255,0,255,0.2));
+    border-radius: 12px;
+    border: 2px solid var(--neon-pink);
+    box-shadow: 0 0 20px var(--neon-pink);
+  }
+
+  .shop-item {
+    background: rgba(0,255,255,0.05);
+    border: 2px solid rgba(0,255,255,0.2);
+    border-radius: 12px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+
+  .shop-item.maxed {
+    opacity: 0.5;
+    border-color: var(--neon-yellow);
+  }
+
+  .shop-emoji {
+    font-size: 2.5em;
+  }
+
+  .shop-info {
+    flex: 1;
+    font-size: 0.85em;
+  }
+
+  .shop-name {
+    color: var(--neon-yellow);
+    margin-bottom: 5px;
+  }
+
+  .shop-stats {
+    opacity: 0.8;
+    font-size: 0.9em;
+  }
+
+  .shop-price {
+    color: var(--neon-blue);
+    margin-top: 5px;
+  }
+
+  .buy-btn {
+    padding: 8px 16px;
+    font-size: 0.9em;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    background: transparent;
+    color: var(--neon-blue);
+    border: 2px solid var(--neon-blue);
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 0 15px var(--neon-blue);
+  }
+
+  .buy-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  .reset-btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 1em;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    background: transparent;
+    color: #ff4444;
+    border: 2px solid #ff4444;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 0 15px #ff4444;
+    margin-top: 15px;
+  }
+
+  @media (max-width: 1200px) {
+    .main-content {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="main-title">🎰 ROULETTE CASINO EMPIRE 🎰</div>
+    <div class="stats-row">
+      <div class="stat-display">
+        💰 $<span id="money">1000</span>
+      </div>
+      <div class="stat-display">
+        📊 Profit: $<span id="profit">0</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-content">
+    <div class="wheels-container">
+      <div class="wheels-header">
+        <div class="wheels-title">🎡 ACTIVE WHEELS 🎡</div>
+        <button class="spin-all-btn" id="spinAllBtn">SPIN ALL</button>
+      </div>
+      <div class="wheels-grid" id="wheelsGrid"></div>
+    </div>
+
+    <div class="sidebar">
+      <div class="panel">
+        <div class="panel-title">⚡ PASSIVES ⚡</div>
+        <div class="passives-list" id="passivesList"></div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">📊 STATS 📊</div>
+        <div style="font-size: 0.9em;">
+          <div style="margin-bottom: 8px;">Spins: <span id="spins" style="color: var(--neon-yellow);">0</span></div>
+          <div style="margin-bottom: 8px;">Wins: <span id="wins" style="color: var(--neon-green);">0</span></div>
+          <div style="margin-bottom: 8px;">Losses: <span id="losses" style="color: #ff4444;">0</span></div>
+          <div style="margin-bottom: 8px;">Win Streak: <span id="streak" style="color: var(--neon-pink);">0</span> 🔥</div>
+        </div>
+        <button class="reset-btn" id="resetBtn">RESET GAME</button>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">🎒 INVENTORY 🎒</div>
+        <div class="inventory-list" id="inventoryList"></div>
+      </div>
+
+      <div class="panel shop-panel">
+        <div class="panel-title">🏪 SHOP 🛒</div>
+        <div id="shopGrid"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const WHEEL_TYPES = {
+    classic: {
+      name: "CLASSIC WHEEL",
+      emoji: "🎡",
+      numberPayout: 35,
+      colorPayout: 2,
+      greenPayout: 35,
+      cost: 500,
+      description: "Standard roulette, reliable"
+    },
+    highRoller: {
+      name: "HIGH ROLLER",
+      emoji: "💎",
+      numberPayout: 30,
+      colorPayout: 3,
+      greenPayout: 40,
+      cost: 1000,
+      description: "Better color payouts"
+    },
+    lucky: {
+      name: "LUCKY WHEEL",
+      emoji: "🍀",
+      numberPayout: 45,
+      colorPayout: 1.5,
+      greenPayout: 50,
+      cost: 1500,
+      description: "Massive number wins"
+    },
+    speed: {
+      name: "SPEED WHEEL",
+      emoji: "⚡",
+      numberPayout: 25,
+      colorPayout: 2.5,
+      greenPayout: 30,
+      cost: 800,
+      description: "Fast spins, decent pay"
+    },
+    fortune: {
+      name: "FORTUNE WHEEL",
+      emoji: "💰",
+      numberPayout: 60,
+      colorPayout: 1.8,
+      greenPayout: 70,
+      cost: 2500,
+      description: "Legendary payouts"
+    }
+  };
+
+  const redNumbers = [1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36];
+  const blackNumbers = [2,4,6,8,10,11,13,15,17,20,22,24,26,28,29,31,33,35];
+
+  let money = 1000;
+  let totalProfit = 0;
+  let activeWheels = [null, null, null, null];
+  let inventory = {};
+  let betValues = {};
+  let choiceValues = {};
+  let passives = {
+    luckyNumbers: { owned: false, level: 0, maxLevel: 5 },
+    colorBoost: { owned: false, level: 0, maxLevel: 5 },
+    spinMaster: { owned: false, level: 0, maxLevel: 3 },
+    profitMultiplier: { owned: false, level: 0, maxLevel: 3 },
+    autoSpinner: { owned: false, active: false, interval: null },
+    winStreak: { owned: false }
+  };
+  let winStreakCount = 0;
+  let stats = { spins: 0, wins: 0, losses: 0 };
+
+  function formatMoney(num) {
+    if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+    if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+    return Math.floor(num).toString();
+  }
+
+  function getColor(number) {
+    if (number === 0) return 'green';
+    if (redNumbers.includes(number)) return 'red';
+    return 'black';
+  }
+
+  function getNumberPayout(base) {
+    let payout = base;
+    if (passives.luckyNumbers.owned) {
+      payout *= (1 + 0.15 * passives.luckyNumbers.level);
+    }
+    return payout;
+  }
+
+  function getColorPayout(base) {
+    let payout = base;
+    if (passives.colorBoost.owned) {
+      payout *= (1 + 0.10 * passives.colorBoost.level);
+    }
+    return payout;
+  }
+
+  function applyWinStreak(payout) {
+    if (passives.winStreak.owned && winStreakCount >= 3) {
+      payout *= 2;
+      winStreakCount = 0;
+    }
+    return payout;
+  }
+
+  function updateUI() {
+    document.getElementById('money').textContent = formatMoney(money);
+    document.getElementById('profit').textContent = formatMoney(Math.abs(totalProfit));
+    document.getElementById('spins').textContent = stats.spins;
+    document.getElementById('wins').textContent = stats.wins;
+    document.getElementById('losses').textContent = stats.losses;
+    document.getElementById('streak').textContent = winStreakCount;
+    
+    renderWheels();
+    renderPassives();
+    renderInventory();
+    renderShop();
+  }
+
+  function renderWheels() {
+    const grid = document.getElementById('wheelsGrid');
+    grid.innerHTML = '';
+
+    activeWheels.forEach((wheelKey, index) => {
+      const div = document.createElement('div');
+      div.className = wheelKey ? 'wheel-card' : 'wheel-card empty';
+
+      if (wheelKey) {
+        const wheel = WHEEL_TYPES[wheelKey];
+        div.innerHTML = `
+          <div class="wheel-title">${wheel.emoji} ${wheel.name}</div>
+          <div class="wheel-stats">
+            Number: ${Math.floor(getNumberPayout(wheel.numberPayout))}x | 
+            Color: ${getColorPayout(wheel.colorPayout).toFixed(1)}x | 
+            Green: ${wheel.greenPayout}x
+          </div>
+          <div class="roulette-wheel" id="wheel${index}"></div>
+          <div class="wheel-controls">
+            <input type="number" id="bet${index}" placeholder="Bet" value="${betValues[index] ?? 10}" 
+                   oninput="betValues[${index}] = this.value" min="1" />
+            <input type="text" id="choice${index}" placeholder="# / Color" value="${choiceValues[index] ?? 'red'}" 
+                   oninput="choiceValues[${index}] = this.value" />
+          </div>
+          <div class="wheel-controls">
+            <button onclick="spinWheel(${index})">SPIN</button>
+          </div>
+          <button class="remove-btn" onclick="removeWheel(${index})">REMOVE</button>
+          <div class="wheel-message" id="msg${index}"></div>
+        `;
+      } else {
+        div.innerHTML = '<div style="opacity: 0.5;">EMPTY SLOT<br>Add wheel from inventory</div>';
+      }
+
+      grid.appendChild(div);
+    });
+  }
+
+  function renderPassives() {
+    const list = document.getElementById('passivesList');
+    list.innerHTML = '';
+
+    const passiveConfigs = {
+      luckyNumbers: { name: 'Lucky Numbers', emoji: '🎯', effect: '+15% number payout per level' },
+      colorBoost: { name: 'Color Boost', emoji: '🎨', effect: '+10% color payout per level' },
+      spinMaster: { name: 'Spin Master', emoji: '⚡', effect: 'Faster animations per level' },
+      profitMultiplier: { name: 'Profit Booster', emoji: '📈', effect: '+20% profit tracking per level' },
+      autoSpinner: { name: 'Auto Spinner', emoji: '🔄', effect: 'Auto-spin all wheels every 15s' },
+      winStreak: { name: 'Win Streak', emoji: '🔥', effect: '3 wins = next win 2x' }
+    };
+
+    let hasPassives = false;
+    Object.entries(passives).forEach(([key, passive]) => {
+      if (passive.owned) {
+        hasPassives = true;
+        const config = passiveConfigs[key];
+        const div = document.createElement('div');
+        div.className = `passive-item ${passive.active ? 'active' : ''}`;
+        div.innerHTML = `
+          <div class="passive-emoji">${config.emoji}</div>
+          <div class="passive-info">
+            <div class="passive-name">${config.name}</div>
+            <div class="passive-effect">${config.effect}</div>
+            ${passive.maxLevel > 1 ? `<div class="passive-level">Level ${passive.level}/${passive.maxLevel}</div>` : ''}
+          </div>
+          ${key === 'autoSpinner' ? `
+            <button class="toggle-passive-btn ${passive.active ? 'active' : ''}" 
+                    onclick="toggleAutoSpinner()">
+              ${passive.active ? 'ON' : 'OFF'}
+            </button>
+          ` : ''}
+        `;
+        list.appendChild(div);
+      }
+    });
+
+    if (!hasPassives) {
+      list.innerHTML = '<div style="text-align: center; opacity: 0.5; padding: 20px;">No passives yet!</div>';
+    }
+  }
+
+  function renderInventory() {
+    const list = document.getElementById('inventoryList');
+    list.innerHTML = '';
+
+    let hasItems = false;
+    Object.entries(inventory).forEach(([key, count]) => {
+      if (count > 0) {
+        hasItems = true;
+        const wheel = WHEEL_TYPES[key];
+        const div = document.createElement('div');
+        div.className = 'inventory-item';
+        div.innerHTML = `
+          <div class="inventory-emoji">${wheel.emoji}</div>
+          <div class="inventory-info">
+            <div class="inventory-name">${wheel.name}</div>
+            <div>x${count} | ${wheel.numberPayout}x number</div>
+          </div>
+          <button class="use-btn" onclick="useFromInventory('${key}')" 
+                  ${activeWheels.filter(w => w === null).length === 0 ? 'disabled' : ''}>USE</button>
+        `;
+        list.appendChild(div);
+      }
+    });
+
+    if (!hasItems) {
+      list.innerHTML = '<div style="text-align:center;opacity:0.5;padding:20px;">No wheels in inventory</div>';
+    }
+  }
+
+  function renderShop() {
+    const grid = document.getElementById('shopGrid');
+    grid.innerHTML = '';
+
+    // Wheels Section
+    const wheelsTitle = document.createElement('div');
+    wheelsTitle.className = 'shop-section-title';
+    wheelsTitle.textContent = '🎡 ROULETTE WHEELS 🎡';
+    grid.appendChild(wheelsTitle);
+
+    Object.entries(WHEEL_TYPES).forEach(([key, wheel]) => {
+      const div = document.createElement('div');
+      div.className = 'shop-item';
+      div.innerHTML = `
+        <div class="shop-emoji">${wheel.emoji}</div>
+        <div class="shop-info">
+          <div class="shop-name">${wheel.name}</div>
+          <div class="shop-stats">${wheel.description}</div>
+          <div class="shop-stats">Number: ${wheel.numberPayout}x | Color: ${wheel.colorPayout}x</div>
+          <div class="shop-price">$${formatMoney(wheel.cost)}</div>
+        </div>
+        <button class="buy-btn" onclick="buyWheel('${key}')" ${money < wheel.cost ? 'disabled' : ''}>BUY</button>
+      `;
+      grid.appendChild(div);
+    });
+
+    // Passives Section
+    const passivesTitle = document.createElement('div');
+    passivesTitle.className = 'shop-section-title';
+    passivesTitle.textContent = '⚡ PASSIVES ⚡';
+    grid.appendChild(passivesTitle);
+
+    const passiveShop = [
+      { key: 'luckyNumbers', name: 'Lucky Numbers', emoji: '🎯', baseCost: 1200, costMultiplier: 2, effect: '+15% number payout', maxLevel: 5 },
+      { key: 'colorBoost', name: 'Color Boost', emoji: '🎨', baseCost: 1000, costMultiplier: 2, effect: '+10% color payout', maxLevel: 5 },
+      { key: 'spinMaster', name: 'Spin Master', emoji: '⚡', baseCost: 800, costMultiplier: 2, effect: 'Faster spins', maxLevel: 3 },
+      { key: 'profitMultiplier', name: 'Profit Booster', emoji: '📈', baseCost: 2000, costMultiplier: 3, effect: '+20% profit tracking', maxLevel: 3 },
+      { key: 'autoSpinner', name: 'Auto Spinner', emoji: '🔄', baseCost: 3500, costMultiplier: 1, effect: 'Auto-spin every 15s', maxLevel: 1 },
+      { key: 'winStreak', name: 'Win Streak', emoji: '🔥', baseCost: 5000, costMultiplier: 1, effect: '3 wins = 2x next win', maxLevel: 1 }
+    ];
+
+    passiveShop.forEach(passive => {
+      const current = passives[passive.key];
+      const currentLevel = current.level || 0;
+      const canUpgrade = currentLevel < passive.maxLevel;
+      const cost = Math.floor(passive.baseCost * Math.pow(passive.costMultiplier, currentLevel));
+      
+      const div = document.createElement('div');
+      div.className = `shop-item ${!canUpgrade ? 'maxed' : ''}`;
+      div.innerHTML = `
+        <div class="shop-emoji">${passive.emoji}</div>
+        <div class="shop-info">
+          <div class="shop-name">${passive.name}</div>
+          <div class="shop-stats">${passive.effect}</div>
+          ${passive.maxLevel > 1 ? `<div class="shop-stats">Level: ${currentLevel}/${passive.maxLevel}</div>` : ''}
+          ${canUpgrade ? `<div class="shop-price">$${formatMoney(cost)}</div>` : '<div class="shop-price">MAX</div>'}
+        </div>
+        ${canUpgrade ? `
+          <button class="buy-btn" onclick="buyPassive('${passive.key}', ${cost})" 
+                  ${money < cost ? 'disabled' : ''}>${current.owned ? 'UPGRADE' : 'BUY'}</button>
+        ` : '<button class="buy-btn" disabled>MAXED</button>'}
+      `;
+      grid.appendChild(div);
+    });
+  }
+
+  function buyWheel(key) {
+    const wheel = WHEEL_TYPES[key];
+    if (money >= wheel.cost) {
+      money -= wheel.cost;
+      inventory[key] = (inventory[key] || 0) + 1;
+      updateUI();
+    }
+  }
+
+  function buyPassive(passiveKey, cost) {
+    if (money >= cost) {
+      money -= cost;
+      passives[passiveKey].owned = true;
+      passives[passiveKey].level = (passives[passiveKey].level || 0) + 1;
+      updateUI();
+    }
+  }
+
+  function useFromInventory(key) {
+    const emptyIndex = activeWheels.findIndex(w => w === null);
+    if (emptyIndex !== -1 && inventory[key] > 0) {
+      activeWheels[emptyIndex] = key;
+      inventory[key]--;
+      updateUI();
+    }
+  }
+
+  function removeWheel(index) {
+    const wheelKey = activeWheels[index];
+    if (wheelKey) {
+      inventory[wheelKey] = (inventory[wheelKey] || 0) + 1;
+      activeWheels[index] = null;
+      updateUI();
+    }
+  }
+
+  function spinWheel(index) {
+    const wheelKey = activeWheels[index];
+    if (!wheelKey) return;
+
+    const wheel = WHEEL_TYPES[wheelKey];
+    const bet = parseInt(document.getElementById(`bet${index}`).value) || 0;
+    const choice = document.getElementById(`choice${index}`).value.trim().toLowerCase();
+
+    if (bet <= 0 || bet > money) {
+      showMessage(index, "⛔ Invalid bet!", false);
+      return;
+    }
+
+    money -= bet;
+    totalProfit -= bet;
+    stats.spins++;
+    updateUI();
+
+    const wheelEl = document.getElementById(`wheel${index}`);
+    const rotation = 360 * 5 + Math.floor(Math.random() * 360);
+    wheelEl.style.transform = `rotate(${rotation}deg)`;
+
+    const spinResult = Math.floor(Math.random() * 37);
+    const color = getColor(spinResult);
+
+    setTimeout(() => {
+      let win = false;
+      let payout = 0;
+
+      if (!isNaN(parseInt(choice)) && parseInt(choice) === spinResult) {
+        win = true;
+        payout = bet * getNumberPayout(wheel.numberPayout);
+      } else if (['red', 'black', 'green'].includes(choice)) {
+        if (choice === color) {
+          win = true;
+          const basePayout = color === 'green' ? wheel.greenPayout : wheel.colorPayout;
+          payout = bet * getColorPayout(basePayout);
+        }
+      }
+
+      if (win) {
+        payout = applyWinStreak(payout);
+        money += payout;
+        totalProfit += payout * (passives.profitMultiplier.owned ? (1 + 0.20 * passives.profitMultiplier.level) : 1);
+        stats.wins++;
+        winStreakCount++;
+        showMessage(index, `🎉 Won $${formatMoney(payout)}! (${spinResult} ${color.toUpperCase()})`, true);
+      } else {
+        stats.losses++;
+        winStreakCount = 0;
+        showMessage(index, `😢 Lost! (${spinResult} ${color.toUpperCase()})`, false);
+      }
+
+      updateUI();
+    }, 4000);
+  }
+
+  function showMessage(index, msg, isWin) {
+    const msgEl = document.getElementById(`msg${index}`);
+    msgEl.textContent = msg;
+    msgEl.className = 'wheel-message ' + (isWin ? 'msg-win' : 'msg-lose');
+    setTimeout(() => {
+      msgEl.textContent = '';
+    }, 5000);
+  }
+
+  function spinAll() {
+    activeWheels.forEach((wheel, index) => {
+      if (wheel !== null) {
+        setTimeout(() => spinWheel(index), index * 500);
+      }
+    });
+  }
+
+  function toggleAutoSpinner() {
+    if (!passives.autoSpinner.owned) return;
+    
+    passives.autoSpinner.active = !passives.autoSpinner.active;
+    
+    if (passives.autoSpinner.active) {
+      passives.autoSpinner.interval = setInterval(() => {
+        spinAll();
+      }, 15000);
+    } else {
+      if (passives.autoSpinner.interval) {
+        clearInterval(passives.autoSpinner.interval);
+      }
+    }
+    
+    updateUI();
+  }
+
+  function resetGame() {
+    if (confirm('Reset game? All progress will be lost!')) {
+      money = 1000;
+      totalProfit = 0;
+      activeWheels = [null, null, null, null];
+      inventory = {};
+      betValues = {};
+      choiceValues = {};
+      passives = {
+        luckyNumbers: { owned: false, level: 0, maxLevel: 5 },
+        colorBoost: { owned: false, level: 0, maxLevel: 5 },
+        spinMaster: { owned: false, level: 0, maxLevel: 3 },
+        profitMultiplier: { owned: false, level: 0, maxLevel: 3 },
+        autoSpinner: { owned: false, active: false, interval: null },
+        winStreak: { owned: false }
+      };
+      winStreakCount = 0;
+      stats = { spins: 0, wins: 0, losses: 0 };
+      if (passives.autoSpinner.interval) clearInterval(passives.autoSpinner.interval);
+      updateUI();
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('spinAllBtn').onclick = spinAll;
+    document.getElementById('resetBtn').onclick = resetGame;
+    updateUI();
+  });
+</script>
+</body>
+</html>
