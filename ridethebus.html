@@ -1,1 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ride the Bus Empire</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@800&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --purple-deep: #1a0d2e;
+      --purple-mid: #2d1b4e;
+      --purple-bright: #7b2cbf;
+      --blue-bright: #00b4d8;
+      --pink-neon: #f72585;
+      --gold-bright: #ffd700;
+      --white: #ffffff;
+    }
 
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 800;
+      background: linear-gradient(125deg, #1a0d2e 0%, #2d1b4e 25%, #3e1f5c 50%, #2d1b4e 75%, #1a0d2e 100%);
+      background-size: 400% 400%;
+      animation: gradientFlow 20s ease infinite;
+      color: var(--white);
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    @keyframes gradientFlow {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.3;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .orb1 {
+      width: 500px;
+      height: 500px;
+      background: var(--purple-bright);
+      top: -250px;
+      left: -250px;
+      animation: float 25s ease-in-out infinite;
+    }
+
+    .orb2 {
+      width: 400px;
+      height: 400px;
+      background: var(--blue-bright);
+      bottom: -200px;
+      right: -200px;
+      animation: float 30s ease-in-out infinite reverse;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(100px, -100px) scale(1.1); }
+      66% { transform: translate(-100px, 100px) scale(0.9); }
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 1600px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .main-title {
+      font-size: 2.5em;
+      background: linear-gradient(135deg, var(--gold-bright), var(--pink-neon), var(--blue-bright));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: titleGlow 3s ease-in-out infinite;
+      letter-spacing: 3px;
+      margin-bottom: 15px;
+    }
+
+    @keyframes titleGlow {
+      0%, 100% { filter: drop-shadow(0 0 20px rgba(255,215,0,0.8)); }
+      50% { filter: drop-shadow(0 0 40px rgba(247,37,133,0.8)); }
+    }
+
+    .stats-row {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+
+    .stat-display {
+      font-size: 1.5em;
+      padding: 10px 20px;
+      background: rgba(255,255,255,0.05);
+      border: 2px solid rgba(255,255,255,0.2);
+      border-radius: 12px;
+      color: var(--gold-bright);
+      text-shadow: 0 0 20px rgba(255,215,0,0.8);
+    }
+
+    .main-content {
+      display: grid;
+      grid-template-columns: 1fr 400px;
+      gap: 30px;
+    }
+
+    .game-container {
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(20px);
+      border: 2px solid rgba(255,255,255,0.1);
+      border-radius: 28px;
+      padding: 30px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    }
+
+    .game-header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .game-title {
+      font-size: 1.5em;
+      background: linear-gradient(135deg, var(--white), var(--blue-bright));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 15px;
+    }
+
+    .bus-selector {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .bus-selector select {
+      padding: 10px 20px;
+      font-size: 1em;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 800;
+      background: rgba(255,255,255,0.1);
+      border: 2px solid var(--blue-bright);
+      border-radius: 12px;
+      color: var(--white);
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(0,180,216,0.3);
+    }
+
+    .wager-input {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .wager-input input {
+      padding: 10px 20px;
+      font-size: 1em;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 800;
+      background: rgba(255,255,255,0.1);
+      border: 2px solid var(--gold-bright);
+      border-radius: 12px;
+      color: var(--gold-bright);
+      text-align: center;
+      width: 200px;
+      box-shadow: 0 0 15px rgba(255,215,0,0.3);
+    }
+
+    .stage-display {
+      text-align: center;
+      font-size: 1.3em;
+      color: var(--pink-neon);
+      text-shadow: 0 0 10px var(--pink-neon);
+      margin-bottom: 20px;
+    }
+
+    .card-display {
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    .card-display img {
+      height: 180px;
+      box-shadow: 0 0 30px rgba(255,255,255,0.5);
+      border-radius: 10px;
+      margin: 10px;
+      transition: transform 0.3s ease;
+    }
+
+    .card-display img:hover {
+      transform: scale(1.05);
+    }
+
+    .card-info {
+      font-size: 1.1em;
+      margin: 10px 0;
+      color: var(--blue-bright);
+    }
+
+    .choices {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin: 20px 0;
+    }
+
+    .choices button {
+      padding: 12px 24px;
+      font-size: 1em;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--purple-bright), var(--pink-neon));
+      color: var(--white);
+      border: 2px solid rgba(255,255,255,0.3);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 15px rgba(123,44,191,0.4);
+    }
+
+    .choices button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px rgba(247,37,133,0.6);
+    }
+
+    .start-btn {
+      width: 100%;
+      padding: 15px;
+      font-size: 1.2em;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--gold-bright), #ff8c00);
+      color: var(--purple-deep);
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 20px rgba(255,215,0,0.6);
+      margin-top: 20px;
+    }
+
+    .start-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 30px rgba(255,215,0,0.8);
+    }
+
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .panel {
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(20px);
+      border: 2px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    }
+
+    .panel-title {
+      font-size: 1.3em;
+      text-align: center;
+      margin-bottom: 15px;
+      background: linear-gradient(135deg, var(--blue-bright), var(--pink-neon));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .passives-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-height: 250px;
+      overflow-y: auto;
+    }
+
+    .passive-item {
+      background: rgba(255,255,255,0.05);
+      border: 2px solid rgba(255,255,255,0.15);
+      border-radius: 12px;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .passive-emoji {
+      font-size: 1.8em;
+    }
+
+    .passive-info {
+      flex: 1;
+      font-size: 0.8em;
+    }
+
+    .passive-name {
+      color: var(--gold-bright);
+      margin-bottom: 3px;
+    }
+
+    .passive-effect {
+      opacity: 0.8;
+      font-size: 0.9em;
+    }
+
+    .passive-level {
+      color: var(--blue-bright);
+      font-size: 0.85em;
+    }
+
+    .history-list {
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .history-item {
+      background: rgba(255,255,255,0.05);
+      border: 2px solid rgba(255,255,255,0.15);
+      border-radius: 12px;
+      padding: 10px;
+      margin-bottom: 10px;
+      font-size: 0.85em;
+    }
+
+    .history-win {
+      border-color: var(--gold-bright);
+    }
+
+    .history-loss {
+      border-color: #ff4444;
+    }
+
+    .shop-panel {
+      max-height: 500px;
+      overflow-y: auto;
+    }
+
+    .shop-section-title {
+      font-size: 1.1em;
+      text-align: center;
+      padding: 12px;
+      margin: 10px 0;
+      background: linear-gradient(135deg, var(--purple-bright), var(--pink-neon));
+      border-radius: 12px;
+    }
+
+    .shop-item {
+      background: rgba(255,255,255,0.05);
+      border: 2px solid rgba(255,255,255,0.15);
+      border-radius: 12px;
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .shop-item.maxed {
+      opacity: 0.5;
+      border-color: var(--gold-bright);
+    }
+
+    .shop-emoji {
+      font-size: 2em;
+    }
+
+    .shop-info {
+      flex: 1;
+      font-size: 0.8em;
+    }
+
+    .shop-name {
+      color: var(--gold-bright);
+      margin-bottom: 3px;
+    }
+
+    .shop-stats {
+      opacity: 0.8;
+      font-size: 0.9em;
+    }
+
+    .shop-price {
+      color: var(--blue-bright);
+      margin-top: 3px;
+    }
+
+    .buy-btn {
+      padding: 8px 16px;
+      font-size: 0.85em;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--blue-bright), var(--purple-bright));
+      color: var(--white);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(0,180,216,0.4);
+    }
+
+    .buy-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    .reset-btn {
+      width: 100%;
+      padding: 12px;
+      font-size: 1em;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 800;
+      background: rgba(255,0,0,0.3);
+      color: #ff4444;
+      border: 2px solid #ff4444;
+      border-radius: 12px;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+
+    @media (max-width: 1200px) {
+      .main-content {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+
+  <div class="container">
+    <div class="header">
+      <div class="main-title">🚌 RIDE THE BUS EMPIRE 🚌</div>
+      <div class="stats-row">
+        <div class="stat-display">
+          💰 $<span id="money">1000</span>
+        </div>
+        <div class="stat-display">
+          🏆 Best Run: $<span id="bestRun">0</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="main-content">
+      <div class="game-container">
+        <div class="game-header">
+          <div class="game-title">🎴 ACTIVE GAME 🎴</div>
+        </div>
+
+        <div class="bus-selector">
+          <label style="display: block; margin-bottom: 10px; color: var(--blue-bright);">Select Bus Type:</label>
+          <select id="busType">
+            <option value="">-- No Bus Selected --</option>
+          </select>
+        </div>
+
+        <div class="wager-input">
+          <label style="display: block; margin-bottom: 10px; color: var(--gold-bright);">Enter Wager:</label>
+          <input type="number" id="wagerInput" min="1" value="10" />
+        </div>
+
+        <div class="stage-display" id="stageDisplay">Select a bus and click Start Game</div>
+
+        <div class="card-display">
+          <div class="card-info" id="cardInfo"></div>
+          <div id="cardImages"></div>
+        </div>
+
+        <div class="choices" id="choices"></div>
+
+        <button class="start-btn" id="startBtn" onclick="startGame()">START GAME</button>
+      </div>
+
+      <div class="sidebar">
+        <div class="panel">
+          <div class="panel-title">⚡ PASSIVES ⚡</div>
+          <div class="passives-list" id="passivesList"></div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-title">📊 STATS 📊</div>
+          <div style="font-size: 0.85em;">
+            <div style="margin-bottom: 8px;">Games Played: <span id="gamesPlayed" style="color: var(--gold-bright);">0</span></div>
+            <div style="margin-bottom: 8px;">Wins: <span id="gamesWon" style="color: #00ff00;">0</span></div>
+            <div style="margin-bottom: 8px;">Losses: <span id="gamesLost" style="color: #ff4444;">0</span></div>
+            <div style="margin-bottom: 8px;">Current Streak: <span id="winStreak" style="color: var(--pink-neon);">0</span> 🔥</div>
+          </div>
+          <button class="reset-btn" onclick="resetGame()">RESET GAME</button>
+        </div>
+
+        <div class="panel">
+          <div class="panel-title">📜 RUN HISTORY 📜</div>
+          <div class="history-list" id="historyList"></div>
+        </div>
+
+        <div class="panel shop-panel">
+          <div class="panel-title">🏪 SHOP 🛒</div>
+          <div id="shopGrid"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const BUS_TYPES = {
+      classic: {
+        name: "CLASSIC BUS",
+        emoji: "🚌",
+        multiplier: 2,
+        cost: 0,
+        description: "Standard game, 2x payout"
+      },
+      express: {
+        name: "EXPRESS BUS",
+        emoji: "🚄",
+        multiplier: 3,
+        cost: 500,
+        description: "Higher risk, 3x payout"
+      },
+      lucky: {
+        name: "LUCKY BUS",
+        emoji: "🍀",
+        multiplier: 2.5,
+        cost: 800,
+        description: "Better hints, 2.5x payout"
+      },
+      double: {
+        name: "DOUBLE DECKER",
+        emoji: "🎰",
+        multiplier: 4,
+        cost: 1500,
+        description: "High risk, 4x payout"
+      },
+      fortune: {
+        name: "FORTUNE BUS",
+        emoji: "💎",
+        multiplier: 6,
+        cost: 3000,
+        description: "Legendary, 6x payout"
+      }
+    };
+
+    const suits = ['Hearts', 'Diamonds', 'Clubs', 'Spades'];
+    const values = [2, 3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K', 'A'];
+    
+    let money = 1000;
+    let ownedBuses = { classic: true };
+    let deck = [];
+    let previousCards = [];
+    let stage = 0;
+    let wager = 10;
+    let currentBusType = '';
+    let gameActive = false;
+    let passives = {
+      cardCounter: { owned: false, level: 0, maxLevel: 3 },
+      luckyStreak: { owned: false, level: 0, maxLevel: 5 },
+      safetyNet: { owned: false },
+      multiplierMaster: { owned: false, level: 0, maxLevel: 5 },
+      secondChance: { owned: false },
+      perfectVision: { owned: false, level: 0, maxLevel: 3 }
+    };
+    let stats = {
+      gamesPlayed: 0,
+      gamesWon: 0,
+      gamesLost: 0,
+      bestRun: 0,
+      winStreak: 0
+    };
+    let runHistory = [];
+    let usedSafetyNet = false;
+    let usedSecondChance = false;
+
+    function formatMoney(num) {
+      if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+      if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+      return Math.floor(num).toString();
+    }
+
+    function createDeck() {
+      deck = [];
+      for (let suit of suits) {
+        for (let value of values) {
+          deck.push({ value, suit });
+        }
+      }
+      deck = deck.sort(() => 0.5 - Math.random());
+    }
+
+    function cardValue(card) {
+      if (typeof card.value === 'number') return card.value;
+      return { J: 11, Q: 12, K: 13, A: 14 }[card.value];
+    }
+
+    function getCardImageUrl(card) {
+      const valueMap = { J: 'J', Q: 'Q', K: 'K', A: 'A' };
+      const suitMap = { 'Spades': 'S', 'Hearts': 'H', 'Diamonds': 'D', 'Clubs': 'C' };
+      const valueCode = typeof card.value === 'number' ? card.value : valueMap[card.value];
+      const suitCode = suitMap[card.suit];
+      return `https://deckofcardsapi.com/static/img/${valueCode}${suitCode}.png`;
+    }
+
+    function getMultiplier() {
+      let mult = BUS_TYPES[currentBusType].multiplier;
+      if (passives.multiplierMaster.owned) {
+        mult *= (1 + 0.15 * passives.multiplierMaster.level);
+      }
+      if (passives.luckyStreak.owned && stats.winStreak >= 3) {
+        mult *= (1 + 0.10 * stats.winStreak);
+      }
+      return mult;
+    }
+
+    function updateUI() {
+      document.getElementById('money').textContent = formatMoney(money);
+      document.getElementById('bestRun').textContent = formatMoney(stats.bestRun);
+      document.getElementById('gamesPlayed').textContent = stats.gamesPlayed;
+      document.getElementById('gamesWon').textContent = stats.gamesWon;
+      document.getElementById('gamesLost').textContent = stats.gamesLost;
+      document.getElementById('winStreak').textContent = stats.winStreak;
+      
+      renderBusSelector();
+      renderPassives();
+      renderHistory();
+      renderShop();
+    }
+
+    function renderBusSelector() {
+      const select = document.getElementById('busType');
+      select.innerHTML = '<option value="">-- No Bus Selected --</option>';
+      
+      Object.entries(BUS_TYPES).forEach(([key, bus]) => {
+        if (ownedBuses[key]) {
+          const option = document.createElement('option');
+          option.value = key;
+          option.textContent = `${bus.emoji} ${bus.name} (${bus.multiplier}x)`;
+          select.appendChild(option);
+        }
+      });
+    }
+
+    function renderPassives() {
+      const list = document.getElementById('passivesList');
+      list.innerHTML = '';
+
+      const passiveConfigs = {
+        cardCounter: { name: 'Card Counter', emoji: '🃏', effect: 'Shows card hints' },
+        luckyStreak: { name: 'Lucky Streak', emoji: '🔥', effect: '+10% mult per 3 wins' },
+        safetyNet: { name: 'Safety Net', emoji: '🛡️', effect: '1 free mistake per game' },
+        multiplierMaster: { name: 'Multiplier Master', emoji: '📈', effect: '+15% payout per level' },
+        secondChance: { name: 'Second Chance', emoji: '♻️', effect: 'Retry 1 stage per game' },
+        perfectVision: { name: 'Perfect Vision', emoji: '👁️', effect: 'See probabilities' }
+      };
+
+      let hasPassives = false;
+      Object.entries(passives).forEach(([key, passive]) => {
+        if (passive.owned) {
+          hasPassives = true;
+          const config = passiveConfigs[key];
+          const div = document.createElement('div');
+          div.className = 'passive-item';
+          div.innerHTML = `
+            <div class="passive-emoji">${config.emoji}</div>
+            <div class="passive-info">
+              <div class="passive-name">${config.name}</div>
+              <div class="passive-effect">${config.effect}</div>
+              ${passive.maxLevel > 1 ? `<div class="passive-level">Level ${passive.level}/${passive.maxLevel}</div>` : ''}
+            </div>
+          `;
+          list.appendChild(div);
+        }
+      });
+
+      if (!hasPassives) {
+        list.innerHTML = '<div style="text-align: center; opacity: 0.5; padding: 20px; font-size: 0.85em;">No passives yet!</div>';
+      }
+    }
+
+    function renderHistory() {
+      const list = document.getElementById('historyList');
+      list.innerHTML = '';
+
+      if (runHistory.length === 0) {
+        list.innerHTML = '<div style="text-align: center; opacity: 0.5; padding: 20px; font-size: 0.85em;">No runs yet!</div>';
+        return;
+      }
+
+      runHistory.slice(-10).reverse().forEach(run => {
+        const div = document.createElement('div');
+        div.className = `history-item ${run.won ? 'history-win' : 'history-loss'}`;
+        div.innerHTML = `
+          <div><strong>${run.busName}</strong></div>
+          <div>Wager: $${run.wager} | ${run.won ? 'Won' : 'Lost'}: $${formatMoney(Math.abs(run.profit))}</div>
+          <div style="opacity: 0.8; font-size: 0.9em;">Stage: ${run.stage}/4</div>
+        `;
+        list.appendChild(div);
+      });
+    }
+
+    function renderShop() {
+      const grid = document.getElementById('shopGrid');
+      grid.innerHTML = '';
+
+      // Buses
+      const busesTitle = document.createElement('div');
+      busesTitle.className = 'shop-section-title';
+      busesTitle.textContent = '🚌 BUS TYPES 🚌';
+      grid.appendChild(busesTitle);
+
+      Object.entries(BUS_TYPES).forEach(([key, bus]) => {
+        if (!ownedBuses[key]) {
+          const div = document.createElement('div');
+          div.className = 'shop-item';
+          div.innerHTML = `
+            <div class="shop-emoji">${bus.emoji}</div>
+            <div class="shop-info">
+              <div class="shop-name">${bus.name}</div>
+              <div class="shop-stats">${bus.description}</div>
+              <div class="shop-price">$${formatMoney(bus.cost)}</div>
+            </div>
+            <button class="buy-btn" onclick="buyBus('${key}')" ${money < bus.cost ? 'disabled' : ''}>BUY</button>
+          `;
+          grid.appendChild(div);
+        }
+      });
+
+      // Passives
+      const passivesTitle = document.createElement('div');
+      passivesTitle.className = 'shop-section-title';
+      passivesTitle.textContent = '⚡ PASSIVES ⚡';
+      grid.appendChild(passivesTitle);
+
+      const passiveShop = [
+        { key: 'cardCounter', name: 'Card Counter', emoji: '🃏', baseCost: 800, costMultiplier: 2, effect: 'Shows hints', maxLevel: 3 },
+        { key: 'luckyStreak', name: 'Lucky Streak', emoji: '🔥', baseCost: 1200, costMultiplier: 2, effect: '+10% per 3 wins', maxLevel: 5 },
+        { key: 'safetyNet', name: 'Safety Net', emoji: '🛡️', baseCost: 1500, costMultiplier: 1, effect: '1 free mistake', maxLevel: 1 },
+        { key: 'multiplierMaster', name: 'Multiplier Master', emoji: '📈', baseCost: 2000, costMultiplier: 2.5, effect: '+15% payout', maxLevel: 5 },
+        { key: 'secondChance', name: 'Second Chance', emoji: '♻️', baseCost: 2500, costMultiplier: 1, effect: 'Retry 1 stage', maxLevel: 1 },
+        { key: 'perfectVision', name: 'Perfect Vision', emoji: '👁️', baseCost: 3000, costMultiplier: 2, effect: 'See odds', maxLevel: 3 }
+      ];
+
+      passiveShop.forEach(passive => {
+        const current = passives[passive.key];
+        const currentLevel = current.level || 0;
+        const canUpgrade = currentLevel < passive.maxLevel;
+        const cost = Math.floor(passive.baseCost * Math.pow(passive.costMultiplier, currentLevel));
+        
+        const div = document.createElement('div');
+        div.className = `shop-item ${!canUpgrade ? 'maxed' : ''}`;
+        div.innerHTML = `
+          <div class="shop-emoji">${passive.emoji}</div>
+          <div class="shop-info">
+            <div class="shop-name">${passive.name}</div>
+            <div class="shop-stats">${passive.effect}</div>
+            ${passive.maxLevel > 1 ? `<div class="shop-stats">Level: ${currentLevel}/${passive.maxLevel}</div>` : ''}
+            ${canUpgrade ? `<div class="shop-price">$${formatMoney(cost)}</div>` : '<div class="shop-price">MAX</div>'}
+          </div>
+          ${canUpgrade ? `
+            <button class="buy-btn" onclick="buyPassive('${passive.key}', ${cost})" 
+                    ${money < cost ? 'disabled' : ''}>${current.owned ? 'UPGRADE' : 'BUY'}</button>
+          ` : '<button class="buy-btn" disabled>MAXED</button>'}
+        `;
+        grid.appendChild(div);
+      });
+    }
+
+    function buyBus(key) {
+      const bus = BUS_TYPES[key];
+      if (money >= bus.cost) {
+        money -= bus.cost;
+        ownedBuses[key] = true;
+        updateUI();
+      }
+    }
+
+    function buyPassive(passiveKey, cost) {
+      if (money >= cost) {
+        money -= cost;
+        passives[passiveKey].owned = true;
+        passives[passiveKey].level = (passives[passiveKey].level || 0) + 1;
+        updateUI();
+      }
+    }
+
+    function startGame() {
+      currentBusType = document.getElementById('busType').value;
+      if (!currentBusType) {
+        alert('Please select a bus type!');
+        return;
+      }
+
+      wager = parseInt(document.getElementById('wagerInput').value) || 10;
+      if (wager < 1) {
+        alert('Wager must be at least $1!');
+        return;
+      }
+      if (wager > money) {
+        alert(`You cannot wager more than $${formatMoney(money)}!`);
+        return;
+      }
+
+      createDeck();
+      previousCards = [];
+      stage = 0;
+      gameActive = true;
+      usedSafetyNet = false;
+      usedSecondChance = false;
+      stats.gamesPlayed++;
+      
+      document.getElementById('startBtn').style.display = 'none';
+      nextStage();
+    }
+
+    function nextStage() {
+      const stageTexts = ["Red or Black?", "Higher or Lower?", "In or Out?", "Guess the Suit"];
+      document.getElementById('stageDisplay').textContent = `Stage ${stage + 1}/4: ${stageTexts[stage]}`;
+      document.getElementById('cardInfo').textContent = previousCards.length
+        ? `Previous: ${formatCard(previousCards[previousCards.length - 1])}` : '';
+      document.getElementById('cardImages').innerHTML = '';
+      
+      showChoices();
+    }
+
+    function showChoices() {
+      const choiceDiv = document.getElementById('choices');
+      choiceDiv.innerHTML = '';
+      let choices = [];
+
+      switch (stage) {
+        case 0: choices = ['Red', 'Black']; break;
+        case 1: choices = ['Higher', 'Lower']; break;
+        case 2: choices = ['In', 'Out']; break;
+        case 3: choices = suits; break;
+      }
+
+      for (let choice of choices) {
+        const btn = document.createElement("button");
+        btn.textContent = choice;
+        btn.onclick = () => makeGuess(choice);
+        choiceDiv.appendChild(btn);
+      }
+    }
+
+    function makeGuess(choice) {
+      const card = deck.pop();
+      previousCards.push(card);
+      
+      document.getElementById('cardInfo').textContent = `Drew: ${formatCard(card)}`;
+      document.getElementById('cardImages').innerHTML = `<img src="${getCardImageUrl(card)}" alt="Card">`;
+
+      let correct = false;
+      switch (stage) {
+        case 0:
+          correct = (choice === 'Red' && ['Hearts', 'Diamonds'].includes(card.suit)) ||
+                    (choice === 'Black' && ['Clubs', 'Spades'].includes(card.suit));
+          break;
+        case 1:
+          let prev1 = cardValue(previousCards[previousCards.length - 2]);
+          correct = choice === 'Higher' ? cardValue(card) > prev1 : cardValue(card) < prev1;
+          break;
+        case 2:
+          let first = cardValue(previousCards[previousCards.length - 3]);
+          let second = cardValue(previousCards[previousCards.length - 2]);
+          let min = Math.min(first, second);
+          let max = Math.max(first, second);
+          let val = cardValue(card);
+          correct = choice === 'In' ? val > min && val < max : val < min || val > max;
+          break;
+        case 3:
+          correct = card.suit === choice;
+          break;
+      }
+
+      if (correct) {
+        stage++;
+        if (stage < 4) {
+          setTimeout(() => nextStage(), 800);
+        } else {
+          endGame(true);
+        }
+      } else {
+        if (passives.safetyNet.owned && !usedSafetyNet) {
+          usedSafetyNet = true;
+          alert('🛡️ Safety Net activated! Continue playing.');
+          setTimeout(() => nextStage(), 800);
+        } else {
+          endGame(false);
+        }
+      }
+    }
+
+    function endGame(won) {
+      gameActive = false;
+      const multiplier = getMultiplier();
+      let profit = 0;
+
+      if (won) {
+        profit = wager * multiplier;
+        money += profit;
+        stats.gamesWon++;
+        stats.winStreak++;
+        document.getElementById('stageDisplay').textContent = `🎉 YOU WON! +$${formatMoney(profit)}`;
+      } else {
+        profit = -wager;
+        money += profit;
+        stats.gamesLost++;
+        stats.winStreak = 0;
+        document.getElementById('stageDisplay').textContent = `😢 YOU LOST! -$${wager}`;
+      }
+
+      if (money > stats.bestRun) {
+        stats.bestRun = money;
+      }
+
+      runHistory.push({
+        busName: BUS_TYPES[currentBusType].name,
+        wager: wager,
+        won: won,
+        profit: profit,
+        stage: stage
+      });
+
+      document.getElementById('choices').innerHTML = '';
+      document.getElementById('startBtn').style.display = 'block';
+      
+      updateUI();
+    }
+
+    function formatCard(card) {
+      return `${card.value} of ${card.suit}`;
+    }
+
+    function resetGame() {
+      if (confirm('Reset game? All progress will be lost!')) {
+        money = 1000;
+        ownedBuses = { classic: true };
+        passives = {
+          cardCounter: { owned: false, level: 0, maxLevel: 3 },
+          luckyStreak: { owned: false, level: 0, maxLevel: 5 },
+          safetyNet: { owned: false },
+          multiplierMaster: { owned: false, level: 0, maxLevel: 5 },
+          secondChance: { owned: false },
+          perfectVision: { owned: false, level: 0, maxLevel: 3 }
+        };
+        stats = { gamesPlayed: 0, gamesWon: 0, gamesLost: 0, bestRun: 0, winStreak: 0 };
+        runHistory = [];
+        gameActive = false;
+        document.getElementById('startBtn').style.display = 'block';
+        document.getElementById('stageDisplay').textContent = 'Select a bus and click Start Game';
+        document.getElementById('cardInfo').textContent = '';
+        document.getElementById('cardImages').innerHTML = '';
+        document.getElementById('choices').innerHTML = '';
+        updateUI();
+      }
+    }
+
+    updateUI();
+  </script>
+</body>
+</html>
