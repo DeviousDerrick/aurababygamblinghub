@@ -24,93 +24,38 @@
 
       body {
         font-family: "Poppins", sans-serif;
-        background: linear-gradient(125deg, #1a0d2e 0%, #2d1b4e 25%, #3e1f5c 50%, #2d1b4e 75%, #1a0d2e 100%);
-        background-size: 400% 400%;
-        animation: gradientFlow 20s ease infinite;
+        background: var(--purple-deep);
         color: var(--white);
         min-height: 100vh;
         overflow-x: hidden;
         position: relative;
       }
 
-      @keyframes gradientFlow {
-        0%, 100% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-      }
-
-      /* Background Orbs */
-      .orb {
-        position: fixed;
-        border-radius: 50%;
-        filter: blur(80px);
-        opacity: 0.3;
-        pointer-events: none;
-        z-index: 0;
-      }
-
-      .orb1 {
-        width: 500px;
-        height: 500px;
-        background: var(--purple-bright);
-        top: -250px;
-        left: -250px;
-        animation: float 25s ease-in-out infinite;
-      }
-
-      .orb2 {
-        width: 400px;
-        height: 400px;
-        background: var(--blue-bright);
-        bottom: -200px;
-        right: -200px;
-        animation: float 30s ease-in-out infinite reverse;
-      }
-
-      .orb3 {
-        width: 350px;
-        height: 350px;
-        background: var(--pink-neon);
-        top: 50%;
-        left: 50%;
-        animation: float 35s ease-in-out infinite;
-      }
-
-      @keyframes float {
-        0%, 100% { transform: translate(0, 0) scale(1); }
-        33% { transform: translate(100px, -100px) scale(1.1); }
-        66% { transform: translate(-100px, 100px) scale(0.9); }
-      }
-
       /* Baby Images */
       .baby-decoration {
         position: fixed;
-        width: 150px;
-        height: 150px;
-        border-radius: 50%;
-        object-fit: cover;
-        border: 4px solid var(--gold-bright);
-        box-shadow: 0 0 40px var(--gold-bright);
-        z-index: 0;
-        animation: floatBaby 20s ease-in-out infinite;
+        width: 180px;
+        height: 180px;
+        object-fit: contain;
+        z-index: 10;
+        transition: all 0.5s ease;
+        cursor: pointer;
+        filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.5));
       }
 
       .poor-baby {
-        top: 10%;
-        left: 5%;
-        animation-delay: 0s;
+        top: 20px;
+        left: 20px;
       }
 
       .rich-baby {
-        bottom: 10%;
-        right: 5%;
-        animation-delay: 10s;
+        top: 20px;
+        right: 20px;
       }
 
-      @keyframes floatBaby {
-        0%, 100% { transform: translateY(0) rotate(0deg); }
-        25% { transform: translateY(-20px) rotate(5deg); }
-        50% { transform: translateY(0) rotate(0deg); }
-        75% { transform: translateY(20px) rotate(-5deg); }
+      .baby-decoration:hover {
+        transform: scale(1.15) rotate(5deg);
+        filter: drop-shadow(0 20px 50px rgba(255, 215, 0, 0.8));
       }
 
       /* Hub Container */
@@ -261,28 +206,45 @@
 
       /* Card Hover Effects */
       .game-card:hover {
-        transform: translateY(-20px) scale(1.05);
+        transform: translateY(-25px) scale(1.08) rotateY(5deg);
         border-color: var(--gold-bright);
         box-shadow: 
-          0 0 40px var(--gold-bright),
-          0 0 80px var(--pink-neon),
-          0 20px 60px rgba(0, 0, 0, 0.5);
-        background: rgba(255, 255, 255, 0.1);
+          0 0 60px var(--gold-bright),
+          0 0 100px var(--pink-neon),
+          0 30px 80px rgba(0, 0, 0, 0.6),
+          inset 0 0 60px rgba(255, 215, 0, 0.2);
+        background: rgba(255, 255, 255, 0.15);
       }
 
       .game-card::before {
         content: '';
         position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.3), transparent);
-        transition: left 0.5s;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        background: linear-gradient(45deg, 
+          var(--pink-neon), 
+          var(--blue-bright), 
+          var(--gold-bright), 
+          var(--purple-bright),
+          var(--pink-neon));
+        background-size: 400% 400%;
+        border-radius: 24px;
+        z-index: -1;
+        opacity: 0;
+        animation: borderRotate 3s linear infinite;
+        transition: opacity 0.3s ease;
+      }
+
+      @keyframes borderRotate {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
       }
 
       .game-card:hover::before {
-        left: 100%;
+        opacity: 1;
       }
 
       .game-card::after {
@@ -309,14 +271,23 @@
         font-size: 5.5em;
         margin-bottom: 20px;
         filter: drop-shadow(0 0 20px var(--gold-bright));
-        transition: all 0.5s ease;
+        transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         position: relative;
         z-index: 2;
       }
 
       .game-card:hover .game-icon {
-        transform: scale(1.2) rotate(360deg);
-        filter: drop-shadow(0 0 40px var(--pink-neon));
+        transform: scale(1.3) rotate(360deg) translateY(-10px);
+        filter: 
+          drop-shadow(0 0 50px var(--pink-neon))
+          drop-shadow(0 0 80px var(--gold-bright))
+          drop-shadow(0 10px 30px rgba(0, 0, 0, 0.5));
+        animation: iconBounce 0.6s ease infinite;
+      }
+
+      @keyframes iconBounce {
+        0%, 100% { transform: scale(1.3) rotate(360deg) translateY(-10px); }
+        50% { transform: scale(1.35) rotate(360deg) translateY(-15px); }
       }
 
       .game-name {
@@ -457,14 +428,9 @@
   </head>
 
   <body>
-    <!-- Background Orbs -->
-    <div class="orb orb1"></div>
-    <div class="orb orb2"></div>
-    <div class="orb orb3"></div>
-
     <!-- Baby Decorations -->
-    <img src="https://i.ibb.co/Nn9v6ZBw/poorbaby.jpg" alt="Poor Baby" class="baby-decoration poor-baby">
-    <img src="https://i.ibb.co/DDSNbypf/richbaby.jpg" alt="Rich Baby" class="baby-decoration rich-baby">
+    <img src="https://i.ibb.co/Nn9v6ZBw/poorbaby.jpg" alt="Be Poor?" class="baby-decoration poor-baby" title="BE POOR?">
+    <img src="https://i.ibb.co/DDSNbypf/richbaby.jpg" alt="Be Rich?" class="baby-decoration rich-baby" title="BE RICH?">
 
     <!-- Hub -->
     <div class="hub-container">
@@ -485,7 +451,7 @@
           </div>
         </a>
 
-        <a href="blackjack.html" class="game-link">
+        <a href="Blackjack.html" class="game-link">
           <div class="game-card" onmouseenter="createParticles(event)" onmousemove="createSparkles(event)">
             <div class="particles"></div>
             <div class="glow-ring"></div>
@@ -529,13 +495,24 @@
           </div>
         </a>
 
-        <a href="plinko.html" class="game-link">
+        <a href="crash.html" class="game-link">
+          <div class="game-card" onmouseenter="createParticles(event)" onmousemove="createSparkles(event)">
+            <div class="particles"></div>
+            <div class="glow-ring"></div>
+            <div class="game-icon">🚀</div>
+            <div class="game-name">Crash Empire</div>
+            <div class="game-desc">Rocket to the moon! Cash out before the crash!</div>
+            <div class="play-button">PLAY NOW ➜</div>
+          </div>
+        </a>
+
+        <a href="dice.html" class="game-link">
           <div class="game-card" onmouseenter="createParticles(event)" onmousemove="createSparkles(event)">
             <div class="particles"></div>
             <div class="glow-ring"></div>
             <div class="game-icon">🎲</div>
-            <div class="game-name">Plinko Empire</div>
-            <div class="game-desc">Drop disks, hit multipliers, watch the chaos!</div>
+            <div class="game-name">Dice Empire</div>
+            <div class="game-desc">Roll the dice, predict the numbers, win massive!</div>
             <div class="play-button">PLAY NOW ➜</div>
           </div>
         </a>
@@ -543,19 +520,25 @@
         <div class="game-card coming-soon">
           <div class="game-icon">🎪</div>
           <div class="game-name">Carnival Empire</div>
-          <div class="game-desc">Ring toss, balloon pop, prize wheel - Coming Soon!</div>
+          <div class="game-desc">Coming Soon!</div>
         </div>
 
         <div class="game-card coming-soon">
           <div class="game-icon">🎯</div>
           <div class="game-name">Dart Empire</div>
-          <div class="game-desc">Hit the bullseye, win big prizes - Coming Soon!</div>
+          <div class="game-desc">Coming Soon!</div>
         </div>
 
         <div class="game-card coming-soon">
-          <div class="game-icon">🎲</div>
-          <div class="game-name">Dice Empire</div>
-          <div class="game-desc">Roll the dice, bet on numbers - Coming Soon!</div>
+          <div class="game-icon">🎰</div>
+          <div class="game-name">Keno Empire</div>
+          <div class="game-desc">Coming Soon!</div>
+        </div>
+
+        <div class="game-card coming-soon">
+          <div class="game-icon">🎳</div>
+          <div class="game-name">Bowling Bets Empire</div>
+          <div class="game-desc">Coming Soon!</div>
         </div>
       </div>
     </div>
